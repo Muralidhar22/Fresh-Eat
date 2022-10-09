@@ -1,0 +1,16 @@
+.heading {
+    display: inline-block;
+    position: relative;
+    border: 1em solid;
+    border-image-slice: 1;
+    border-width: 5px;
+    border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+    padding: .15em;
+    color: #050554;
+}
+
+.timer {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #743ad5;
+}
