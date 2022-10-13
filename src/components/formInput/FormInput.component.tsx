@@ -11,18 +11,21 @@ type FormInputPropsType = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => any
     required: boolean
     name?: string
-    'aria-invalid'?: boolean
+    ariaInvalid?: boolean
+    ariaDescribedBy?: string
+    onFocus?: () => any
+    onBlur?: () => any
 }
 
-const FormInput = ({ label, ...otherProps }: FormInputPropsType) => {
+const FormInput = ({ label, value, ariaInvalid, ariaDescribedBy, ...otherProps }: FormInputPropsType) => {
     return (
         <div className={styles.group}>
 
-            <input className={styles.formInput} {...otherProps} />
+            <input aria-invalid={ariaInvalid} aria-describedby={ariaDescribedBy} className={styles.formInput} {...otherProps} />
             {label && (
                 <label
                     htmlFor={otherProps.id}
-                    className={`${otherProps.value?.length ? styles.shrink : ''
+                    className={`${value?.length ? styles.shrink : ''
                         } ${styles.formInputLabel}`}
                 >
                     {label}

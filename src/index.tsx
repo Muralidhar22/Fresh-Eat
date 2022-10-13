@@ -2,17 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+
 import App from './App';
 import { TimerProvider } from './contexts/timer.context';
+import { UserProvider } from './contexts/user.context';
+
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <TimerProvider >
-      <App />
-    </TimerProvider>
+    <UserProvider >
+      <ToastContainer />
+      <TimerProvider >
+        <App />
+      </TimerProvider>
+    </UserProvider>
   </React.StrictMode>
 );
 

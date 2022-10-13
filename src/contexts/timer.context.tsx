@@ -13,10 +13,6 @@ const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
-const onExpire = () => {
-    console.log("Expired")
-}
-
 export const TimerContext = createContext<TimerContextType | null>(null);
 
 export const TimerProvider = ({ children }: TimerProviderPropsType) => {
@@ -29,7 +25,6 @@ export const TimerProvider = ({ children }: TimerProviderPropsType) => {
 
         // break condition
         if (time! <= 0) {
-            onExpire && onExpire();
             clearTimeout(timerId);
         }
 
