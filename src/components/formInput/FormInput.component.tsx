@@ -10,6 +10,7 @@ type FormInputPropsType = {
     autoComplete?: string,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => any
     required: boolean
+    disabled?: boolean
     name?: string
     ariaInvalid?: boolean
     ariaDescribedBy?: string

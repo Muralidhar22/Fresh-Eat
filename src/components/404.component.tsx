@@ -1,5 +1,3 @@
-import { ReactComponent as PageNotFoundSVG } from "../assets/404.svg";
-
 const style = {
     display: "flex",
     alignItems: "center",
@@ -9,7 +7,7 @@ const style = {
 const PageNotFound = () => {
     return (
         <div style={style}>
-            <PageNotFoundSVG />
+            <img src="/assets/404.svg" alt="404 Not found" />
         </div>
     )
 }

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FormInput from "../formInput/FormInput.component";
-import { EMAIL_REGEX, USER_REGEX, PWD_REGEX } from "../../utils/regex";
 import { showToastInfoMessage, showToastSuccessMessage, showToastErrorMessage } from "../../utils/toastMessage";
 import signUpFormValidation from "../../utils/signUpFormValidation";
 
@@ -39,7 +38,8 @@ const SignUp = () => {
     const [formValidValue, setFormValidValue] = useState({} as FormValidValueType)
     const [formInputFocus, setFormInputFocus] = useState({} as FormInputFocusType)
     const navigate = useNavigate();
-    let allValidValues = formValidValue?.email && formValidValue?.firstName && formValidValue.lastName && formValidValue.password && formValidValue.confirmPassword;
+
+    let allValidValues = Object.entries(formValidValue).reduce((prev, curr) => prev && curr[1], true)
 
     const handleInputFocus = (changedProperty: keyof FormInputFocusType, isFocus: boolean) => {
         setFormInputFocus({ ...formInputFocus, [changedProperty]: isFocus });

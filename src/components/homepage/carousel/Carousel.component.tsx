@@ -3,16 +3,6 @@ import { Link } from "react-router-dom";
 
 import styles from "./Carousel.styles.module.css";
 
-import slideOneDesktop from "../../../assets/carousel1_1920x720.jpg";
-import slideOneTablet from "../../../assets/carousel1_1083x1222.jpg";
-import slideOneMobile from "../../../assets/carousel1_767x1175.jpg";
-import slideTwoDesktop from "../../../assets/carousel2_1920x720.jpg";
-import slideTwoTablet from "../../../assets/carousel2_1083x1222.jpg";
-import slideTwoMobile from "../../../assets/carousel2_767x1175.jpg";
-import slideThreeDesktop from "../../../assets/carousel3_1920x720.jpg";
-import slideThreeTablet from "../../../assets/carousel3_1083x1222.jpg";
-import slideThreeMobile from "../../../assets/carousel3_767x1175.jpg";
-
 type SlidesType = {
     _id: number,
     desktop: any,
@@ -36,9 +26,9 @@ type SlidesType = {
 const slides: SlidesType[] = [
     {
         _id: 1,
-        desktop: slideOneDesktop,
-        tablet: slideOneTablet,
-        mobile: slideOneMobile,
+        desktop: "/assets/carousel-images/carousel1_1920x720.jpg",
+        tablet: "/assets/carousel-images/carousel1_1083x1222.jpg",
+        mobile: "/assets/carousel-images/carousel1_767x1175.jpg",
         alt: "Cover art from games that are part of the Xbox & Bethesda Anniversary Collection including Microsoft Flight Simulator, Forza Horizon 5, Age of Empires IV, Fallout, and Dishonored®",
         theme: "dark",
         actionItem: {
@@ -55,9 +45,9 @@ const slides: SlidesType[] = [
     },
     {
         _id: 2,
-        desktop: slideTwoDesktop,
-        tablet: slideTwoTablet,
-        mobile: slideTwoMobile,
+        desktop: "/assets/carousel-images/carousel2_1920x720.jpg",
+        tablet: "/assets/carousel-images/carousel2_1083x1222.jpg",
+        mobile: "/assets/carousel-images/carousel2_767x1175.jpg",
         alt: "Valheim, two characters in dark woods sitting by a large campfire.",
         theme: "dark",
         actionItem: {
@@ -73,9 +63,9 @@ const slides: SlidesType[] = [
     },
     {
         _id: 3,
-        desktop: slideThreeDesktop,
-        tablet: slideThreeTablet,
-        mobile: slideThreeMobile,
+        desktop: "/assets/carousel-images/carousel3_1920x720.jpg",
+        tablet: "/assets/carousel-images/carousel3_1083x1222.jpg",
+        mobile: "/assets/carousel-images/carousel3_767x1175.jpg",
         alt: "Sojourn, Junker Queen, and Kiriko pose confidently among the clouds.",
         theme: "light",
         actionItem: {
