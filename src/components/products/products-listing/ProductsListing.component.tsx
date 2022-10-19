@@ -16,9 +16,7 @@ const ProductsListing = () => {
 
     const sortedProducts = getSortedProducts(products, filtersState.sortBy)
     const filteredProducts = getFilteredProducts(sortedProducts, filtersState)
-    console.log(
-        "fjhj kgkjgh"
-    )
+
     return (
         <div className={styles.ProductsListContainer}>
             {

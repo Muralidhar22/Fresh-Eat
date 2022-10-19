@@ -10,6 +10,7 @@ import { ProductProvider } from './contexts/products.context';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { FilterContext, FilterProvider } from 'contexts/filter.context';
+import { WishlistProvider } from 'contexts/wishlist.context';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,10 +21,12 @@ root.render(
     <FilterProvider>
       <ProductProvider>
         <UserProvider >
-          <ToastContainer />
-          <TimerProvider >
-            <App />
-          </TimerProvider>
+          <WishlistProvider>
+            <ToastContainer />
+            <TimerProvider >
+              <App />
+            </TimerProvider>
+          </WishlistProvider>
         </UserProvider>
       </ProductProvider>
     </FilterProvider>

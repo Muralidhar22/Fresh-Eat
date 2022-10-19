@@ -217,7 +217,7 @@ const ProductFilter = () => {
                             <CheckboxInput
                                 name="platform"
                                 label="PC"
-                                checked={filtersState.platform.includes("PC")}
+                                checked={filtersState.platforms.includes("PC")}
                                 onChange={(e) => {
                                     dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.PLATFORM_FILTER, e.target.value))
                                 }}
@@ -227,7 +227,7 @@ const ProductFilter = () => {
                             <CheckboxInput
                                 name="platform"
                                 label="PlayStation (PS)"
-                                checked={filtersState.platform.includes("PS")}
+                                checked={filtersState.platforms.includes("PS")}
                                 onChange={(e) => {
                                     dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.PLATFORM_FILTER, e.target.value))
                                 }}
