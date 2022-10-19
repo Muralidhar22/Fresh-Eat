@@ -3,23 +3,29 @@ import { FaRegHeart, FaShoppingCart } from "react-icons/fa";
 import { useContext } from "react";
 
 import { UserContext } from "../../contexts/user.context";
-import Header from "../homepage/Header.component";
-import styles from "./Nav.module.css";
-
+import HeaderDealsTag from "../homepage/HeaderDealsTag.component";
+import styles from "./Nav.styles.module.css";
+import { UserContextValueType } from "../../contexts/user.context";
 
 const Nav = () => {
     let location = useLocation();
-    const { signedIn, userSignoutHandler } = useContext(UserContext);
+    const { userSignoutHandler, accessToken } = useContext(UserContext) || {} as Partial<UserContextValueType>;
 
     return (
         <>
-            {location.pathname === '/' && <Header />}
-            <nav>
-                <Link to="/">Game <span className="logo-x">X</span></Link>
+            <header>
+                {location.pathname === '/' && <HeaderDealsTag />}
+            </header>
+            <nav className={styles.nav}>
+                <h1>
+                    <Link to="/">Game <span className="logo-x">X</span></Link>
+                </h1>
+
+
                 {location.pathname === '/shop' && <input type="search" placeholder="Search games, consoles & more" />}
-                <Link to="/shop">Shop</Link>
+                <Link to="/products">Shop</Link>
                 {
-                    signedIn ?
+                    accessToken ?
                         <button onClick={userSignoutHandler}>Logout</button>
                         : (
                             <Link to="/signin">

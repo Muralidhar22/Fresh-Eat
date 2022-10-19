@@ -1,0 +1,450 @@
+[
+    {
+        "name": "Last of Us 2",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/last-of-us-2.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/vhII1qlcZ4E?modestbranding=1"
+            }
+        ],
+        "price": 3000,
+        "discountPrice": 2600,
+        "discount": 10,
+        "esrbRating": "Mature",
+        "platform": [
+            "PS"
+        ],
+        "brand": "Sony",
+        "genre": [
+            "Action",
+            "Adventure"
+        ],
+        "ratings": 4.9,
+        "inStock": true
+    },
+    {
+        "name": "Uncharted 4: A Thief's End",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/uncharted-4.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/y1Rx-Bbht5E?modestbranding=1"
+            }
+        ],
+        "price": 3100,
+        "discountPrice": 2500,
+        "discount": 12,
+        "esrbRating": "Teen",
+        "platform": [
+            "PS"
+        ],
+        "brand": "EA",
+        "genre": [
+            "Action",
+            "Adventure"
+        ],
+        "ratings": 4.0,
+        "inStock": true
+    },
+    {
+        "name": "Dead Space 3",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/dead-space-3.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/u5f5tOmMkLk?modestbranding=1"
+            }
+        ],
+        "price": 2500,
+        "discountPrice": 2000,
+        "discount": 7,
+        "esrbRating": "Mature",
+        "platform": [
+            "PS",
+            "PC"
+        ],
+        "brand": "Ubisoft",
+        "genre": [
+            "Horror"
+        ],
+        "ratings": 4.2,
+        "inStock": true
+    },
+    {
+        "name": "Guardians of the Galaxy",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/goftg.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/VdMiY9MEeMk?modestbranding=1"
+            }
+        ],
+        "price": 3600,
+        "discountPrice": 2800,
+        "discount": 9,
+        "esrbRating": "Everyone",
+        "platform": [
+            "PS"
+        ],
+        "brand": "Sony",
+        "genre": [
+            "Action"
+        ],
+        "ratings": 3.9,
+        "inStock": true
+    },
+    {
+        "name": "InFamous Second Son",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/infamous-SS.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/tHSeyPl--Fw?modestbranding=1"
+            }
+        ],
+        "price": 2900,
+        "discountPrice": 2500,
+        "discount": 6,
+        "esrbRating": "Teen",
+        "platform": [
+            "PS",
+            "PC"
+        ],
+        "brand": "EA",
+        "genre": [
+            "Action",
+            "Adventure"
+        ],
+        "ratings": 4.1,
+        "inStock": true
+    },
+    {
+        "name": "Last of Us 1",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/last-of-us-1.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/R2Ebc_OFeug?modestbranding=1"
+            }
+        ],
+        "price": 4000,
+        "discountPrice": 3100,
+        "discount": 9,
+        "esrbRating": "Mature",
+        "platform": [
+            "PS"
+        ],
+        "brand": "Sony",
+        "genre": [
+            "Action",
+            "Adventure"
+        ],
+        "ratings": 5.0,
+        "inStock": true
+    },
+    {
+        "name": "Spider Man",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/spider-man.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/q4GdJVvdxss?modestbranding=1"
+            }
+        ],
+        "price": 2500,
+        "discountPrice": 2100,
+        "discount": 7,
+        "esrbRating": "Everyone",
+        "platform": [
+            "PS",
+            "PC"
+        ],
+        "brand": "EA",
+        "genre": [
+            "Action"
+        ],
+        "ratings": 3.7,
+        "inStock": true
+    },
+    {
+        "name": "Resident Evil 8: Village",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/re-8-village.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/QKocYiRHYlI?modestbranding=1"
+            }
+        ],
+        "price": 3800,
+        "discountPrice": 3200,
+        "discount": 7,
+        "esrbRating": "Mature",
+        "platform": [
+            "PS",
+            "PC"
+        ],
+        "brand": "Ubisoft",
+        "genre": [
+            "Action",
+            "Horror"
+        ],
+        "ratings": 4.1,
+        "inStock": false
+    },
+    {
+        "name": "The Walking Dead S1",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/the-walking-dead-s1.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/RtkkHAmgYWs?modestbranding=1"
+            }
+        ],
+        "price": 5000,
+        "discountPrice": 4500,
+        "discount": 5,
+        "esrbRating": "Teen",
+        "platform": [
+            "PS",
+            "PC"
+        ],
+        "brand": "Ubisoft",
+        "genre": [
+            "Action",
+            "Adventure",
+            "RP"
+        ],
+        "ratings": 5.0,
+        "inStock": true
+    },
+    {
+        "name": "The Last Guardian",
+        "category": "game",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/the-last-guardian.webp"
+            },
+            {
+                "type": "video",
+                "source": "https://www.youtube.com/embed/4cDuKShhQOA?modestbranding=1"
+            }
+        ],
+        "price": 3800,
+        "discountPrice": 3200,
+        "discount": 8,
+        "esrbRating": "Everyone",
+        "platform": [
+            "PS",
+            "PC"
+        ],
+        "brand": "EA",
+        "genre": [
+            "Adventure"
+        ],
+        "ratings": 3.2,
+        "inStock": true
+    },
+    {
+        "name": "Ant Esports 510 AIR Mid Tower Gaming Cabinet",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/pc-cabinet.jpg"
+            }
+        ],
+        "price": 20000,
+        "discountPrice": 18000,
+        "discount": 10,
+        "brand": "Ant",
+        "ratings": 4.7,
+        "inStock": true
+    },
+    {
+        "name": "Vg240 23.8 Inch LCD Fhd Gaming PC",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/gaming-pc.jpg"
+            }
+        ],
+        "price": 14000,
+        "discountPrice": 12699,
+        "discount": 14,
+        "brand": "Acer",
+        "ratings": 4.1,
+        "inStock": true
+    },
+    {
+        "name": "Green Soul Monster Ultimate Ergonomic, LeatherFabric",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/gaming-chair.jpg"
+            }
+        ],
+        "price": 15000,
+        "discountPrice": 14900,
+        "discount": 1,
+        "brand": "GreenSoul",
+        "ratings": 3.9,
+        "inStock": true
+    },
+    {
+        "name": "DualSense Wireless Controller | PS5",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/ps5-controller.jpg"
+            }
+        ],
+        "price": 13440,
+        "discountPrice": 10099,
+        "discount": 3,
+        "brand": "Sony",
+        "ratings": 3.1,
+        "inStock": true
+    },
+    {
+        "name": "Refurbished PS5 console",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/ps5-console.webp"
+            }
+        ],
+        "price": 15000,
+        "discountPrice": 14900,
+        "discount": 1,
+        "brand": "Sony",
+        "ratings": 2.9,
+        "inStock": true
+    },
+    {
+        "name": "Ergonomic Gaming Desk 44.5''",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/gaming-desk.jpg"
+            }
+        ],
+        "price": 15000,
+        "discountPrice": 13999,
+        "discount": 12,
+        "brand": "Eureka",
+        "ratings": 3.8,
+        "inStock": true,
+        "fastDelivery": true
+    },
+    {
+        "name": "Razer Wired Gaming Mouse",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/gaming-mouse.jpg"
+            }
+        ],
+        "price": 10000,
+        "discountPrice": 9500,
+        "discount": 6,
+        "brand": "Razer",
+        "ratings": 3.3,
+        "inStock": true,
+        "fastDelivery": true
+    },
+    {
+        "name": "Redclutch Shadow Blade Mechanical Keyboard",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/gaming-keyboard.jpg"
+            }
+        ],
+        "price": 3500,
+        "discountPrice": 3300,
+        "discount": 4,
+        "brand": "Redclutch",
+        "ratings": 4.7,
+        "inStock": true,
+        "fastDelivery": true
+    },
+    {
+        "name": "Qbik 65 watts M20 Bluetooth Speaker",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/speakers.jpg"
+            }
+        ],
+        "price": 12000,
+        "discountPrice": 10500,
+        "discount": 16,
+        "brand": "Qbik",
+        "ratings": 4.3,
+        "inStock": true,
+        "fastDelivery": true
+    },
+    {
+        "name": "Sony Playstation Gaming Wireless Over Ear Headset",
+        "category": "accessories",
+        "media": [
+            {
+                "type": "image",
+                "source": "/assets/product-images/sony-headphones.jpg"
+            }
+        ],
+        "price": 8000,
+        "discountPrice": 7100,
+        "discount": 9,
+        "brand": "Sony",
+        "ratings": 3.6,
+        "inStock": true,
+        "fastDelivery": true
+    }
+]

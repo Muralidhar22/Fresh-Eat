@@ -10,6 +10,7 @@ import SignIn from './components/signin-form/SignIn.component';
 import SignUp from './components/signup-form/SignUp.component';
 import Faq from './components/faq/Faq.component';
 import Feedback from './routes/feedback/Feedback.component';
+import ProductPage from './routes/product-page/ProductPage.component';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Nav />}>
           <Route index element={<HomePage />} />
-          <Route path="shop" element={<ShopPage />} />
+          <Route path="products" element={<ShopPage />} />
+          <Route path="products/:productId" element={<ProductPage />} />
           <Route path="cart" element={<CartPage />} />
           <Route path="wishlist" element={<WishlistPage />} />
           <Route path="orders" element />

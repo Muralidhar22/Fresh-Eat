@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import FormInput from "../formInput/FormInput.component";
 import { showToastInfoMessage, showToastSuccessMessage, showToastErrorMessage } from "../../utils/toastMessage";
 import signUpFormValidation from "../../utils/signUpFormValidation";
+import FormValuesType from "../../types/FormValuesType";
+import { SIGNUP_API } from "../../constants/urls";
 
 import { FaCheck, FaTimes, FaInfoCircle } from "react-icons/fa";
 
-import FormValuesType from "../../types/FormValuesType";
 
 const INITIAL_STATE = {
     firstName: '',
@@ -77,7 +78,7 @@ const SignUp = () => {
             password: HTMLInputElement
         };
 
-        const response = await fetch(`${process.env.REACT_APP_DEV_BACKEND_URL}/register`, {
+        const response = await fetch(SIGNUP_API, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

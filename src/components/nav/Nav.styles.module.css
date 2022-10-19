@@ -1,0 +1,8 @@
+.nav {
+    position: sticky;
+    z-index: 99;
+    background-color: white;
+    top: 0;
+    display: flex;
+    height: var(--nav-height);
+}

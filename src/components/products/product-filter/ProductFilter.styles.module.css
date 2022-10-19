@@ -1,0 +1,19 @@
+.ProductFilter {
+    position: sticky;
+    width: 18rem;
+    top: var(--nav-height);
+    overflow-y: auto;
+    /* z-index: 99; */
+    height: calc(100vh - var(--nav-height));
+    overscroll-behavior: none;
+}
+
+.FilterHeader {
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 2.5rem;
+    background-color: white;
+}

@@ -9,12 +9,12 @@ const HomepageBody = () => {
 
     return (
         <div>
-            <h1 className={`text-uppercase ${styles.heading}`}>gamer deals</h1>
+            <span className={`text-uppercase ${styles.heading}`}>gamer deals</span>
 
             <span className={`text-uppercase ${styles.timer}`}>ends in&nbsp;{value?.timer}</span>
-            <h2 className="text-uppercase">
+            <span className="text-uppercase">
                 deals of the day
-            </h2>
+            </span>
         </div>
     )
 }

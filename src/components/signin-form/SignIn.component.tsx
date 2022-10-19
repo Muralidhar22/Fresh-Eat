@@ -5,6 +5,8 @@ import FormInput from "../formInput/FormInput.component";
 import { EMAIL_REGEX } from "../../utils/regex";
 import { showToastErrorMessage, showToastSuccessMessage } from '../../utils/toastMessage';
 import { UserContext } from "../../contexts/user.context";
+import { SIGNIN_API } from "../../constants/urls";
+import { UserContextValueType } from "../../contexts/user.context";
 
 import styles from "./SignIn.styles.module.css";
 
@@ -26,7 +28,7 @@ const INITIAL_STATE = {
 const SignIn = () => {
     const [formState, setFormState] = useState<SignInFormValuesType>(INITIAL_STATE);
     const [formValidValue, setFormValidValue] = useState({} as FormValidValueType);
-    const { setSignedIn, setAccessToken } = useContext(UserContext);
+    const { setAccessToken } = useContext(UserContext) || {} as Partial<UserContextValueType>;
     let allValidValues = formValidValue?.email;
     const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ const SignIn = () => {
             password: HTMLInputElement
         };
 
-        const response = await fetch(`${process.env.REACT_APP_DEV_BACKEND_URL}/auth`, {
+        const response = await fetch(SIGNIN_API, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -49,14 +51,13 @@ const SignIn = () => {
             })
         })
         const result = await response.json();
-
+        console.log(response, result)
         if (response.status === (401 || 400)) {
             showToastErrorMessage(result.message)
         }
         else if (response.status === 200) {
             showToastSuccessMessage(result.message)
-            setSignedIn(true)
-            setAccessToken(result.accessToken)
+            setAccessToken && setAccessToken(result.accessToken)
             setTimeout(() => {
                 navigate('/')
             }, 1000)

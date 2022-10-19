@@ -44,6 +44,10 @@ select {
   }
 }
 
+:root {
+  --nav-height: 3.5rem;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -51,6 +55,7 @@ a {
 
 body {
   font-family: 'Barlow', sans-serif;
+  line-height: 1.5;
 }
 
 /* utilities */
@@ -88,4 +93,14 @@ body {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+p,
+li,
+h1,
+h2,
+h3,
+h4 {
+  /* Help prevent overflow of long words/names/URLs */
+  overflow-wrap: break-word;
 }

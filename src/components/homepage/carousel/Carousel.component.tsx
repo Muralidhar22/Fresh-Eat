@@ -132,7 +132,7 @@ const Carousel = () => {
 
     return (
         <section className={styles.carouselContainer} role="tabpanel" tabIndex={-1}>
-            <ol className={styles.slideshowContainer}>
+            <ul className={styles.slideshowContainer}>
                 {
                     slides.map((slide, idx) => (
                         <li key={idx}
@@ -147,16 +147,16 @@ const Carousel = () => {
                         </li>
                     ))
                 }
-            </ol>
+            </ul>
             {!slideMoving &&
                 slides.map((slideContent) => (
                     slideContent._id === currentSlide && (
                         <div key={slideContent.actionItem.content.heading} data-theme={slideContent.theme} className={`${styles.actionItem}
                                          ${slideContent.actionItem.pos.desktop === "left" ? styles.actionItemPosLeft : ''}
                                          ${slideContent.actionItem.pos.desktop === "right" ? styles.actionItemPosRight : ''}`}>
-                            <h1>
+                            <b>
                                 {slideContent.actionItem.content.heading}
-                            </h1>
+                            </b>
                             <p>{slideContent.actionItem.content.para}</p>
                             {slideContent.actionItem.content.tag && <span>{slideContent.actionItem.content.tag}</span>}
                             <Link to="/shop" className={`text-uppercase cursor-pointer ${styles.actionLink}`}>{slideContent.actionItem.content.actionButtonText}</Link>
