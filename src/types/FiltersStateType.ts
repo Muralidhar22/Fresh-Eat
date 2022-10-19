@@ -1,13 +1,14 @@
 type FiltersStateType = {
-    price: number
-    inStock: boolean
-    fastDelivery: boolean
-    brand: string[]
-    category: string[]
-    platform: string[]
-    esrbRating: string[]
-    rating: number
-    sortBy: "ascending" | "descending" | string
+    priceRange: number
+    inStock: boolean | null
+    fastDelivery: boolean | null
+    brands: string[]
+    categories: string[]
+    platforms: string[]
+    esrbRatings: string[]
+    rating: number | null
+    sortBy: "ascending" | "descending" | null
+    search: string | null
 }
 
 export default FiltersStateType;

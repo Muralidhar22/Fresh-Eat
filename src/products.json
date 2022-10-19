@@ -25,7 +25,8 @@
             "Adventure"
         ],
         "ratings": 4.9,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": true
     },
     {
         "name": "Uncharted 4: A Thief's End",
@@ -53,7 +54,8 @@
             "Adventure"
         ],
         "ratings": 4.0,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": true
     },
     {
         "name": "Dead Space 3",
@@ -81,7 +83,8 @@
             "Horror"
         ],
         "ratings": 4.2,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": true
     },
     {
         "name": "Guardians of the Galaxy",
@@ -108,7 +111,8 @@
             "Action"
         ],
         "ratings": 3.9,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": false
     },
     {
         "name": "InFamous Second Son",
@@ -137,7 +141,8 @@
             "Adventure"
         ],
         "ratings": 4.1,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": false
     },
     {
         "name": "Last of Us 1",
@@ -165,7 +170,8 @@
             "Adventure"
         ],
         "ratings": 5.0,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": false
     },
     {
         "name": "Spider Man",
@@ -193,7 +199,8 @@
             "Action"
         ],
         "ratings": 3.7,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": true
     },
     {
         "name": "Resident Evil 8: Village",
@@ -222,7 +229,8 @@
             "Horror"
         ],
         "ratings": 4.1,
-        "inStock": false
+        "inStock": false,
+        "fastDelivery": true
     },
     {
         "name": "The Walking Dead S1",
@@ -234,7 +242,7 @@
             },
             {
                 "type": "video",
-                "source": "https://www.youtube.com/embed/RtkkHAmgYWs?modestbranding=1"
+                "source": "https://www.youtube.com/embed/N40uY51s5Z0?modestbranding=1"
             }
         ],
         "price": 5000,
@@ -252,7 +260,8 @@
             "RP"
         ],
         "ratings": 5.0,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": true
     },
     {
         "name": "The Last Guardian",
@@ -280,7 +289,8 @@
             "Adventure"
         ],
         "ratings": 3.2,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": false
     },
     {
         "name": "Ant Esports 510 AIR Mid Tower Gaming Cabinet",
@@ -296,7 +306,8 @@
         "discount": 10,
         "brand": "Ant",
         "ratings": 4.7,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": false
     },
     {
         "name": "Vg240 23.8 Inch LCD Fhd Gaming PC",
@@ -312,7 +323,8 @@
         "discount": 14,
         "brand": "Acer",
         "ratings": 4.1,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": true
     },
     {
         "name": "Green Soul Monster Ultimate Ergonomic, LeatherFabric",
@@ -328,7 +340,8 @@
         "discount": 1,
         "brand": "GreenSoul",
         "ratings": 3.9,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": true
     },
     {
         "name": "DualSense Wireless Controller | PS5",
@@ -344,7 +357,8 @@
         "discount": 3,
         "brand": "Sony",
         "ratings": 3.1,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": false
     },
     {
         "name": "Refurbished PS5 console",
@@ -360,7 +374,8 @@
         "discount": 1,
         "brand": "Sony",
         "ratings": 2.9,
-        "inStock": true
+        "inStock": true,
+        "fastDelivery": true
     },
     {
         "name": "Ergonomic Gaming Desk 44.5''",

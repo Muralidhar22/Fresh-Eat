@@ -1,33 +1,31 @@
-import { createContext, SetStateAction, useState } from "react";
+import { createContext, SetStateAction, useReducer } from "react";
 
-import useSetState from "../hooks/useSetState";
 import { ProviderPropsType } from "../types/ProviderPropsType";
-import FiltersStateType from "../types/FiltersStateType";
-
+import FiltersStateType from "types/FiltersStateType";
+import productFilterReducer from "reducers/product-filter/productFilter.reducer";
 
 type FilterContextValueType = {
     filtersState: FiltersStateType
-    setFiltersState: React.Dispatch<SetStateAction<FiltersStateType>>
-    getFiltersState: any
+    dispatch: React.Dispatch<any>
     INITIAL_FILTERS_STATE: FiltersStateType
 }
 
 const INITIAL_FILTERS_STATE = {
-    price: 20000,
-    inStock: false,
-    fastDelivery: false,
-    brand: [] as string[],
-    category: [] as string[],
-    platform: [] as string[],
-    esrbRating: [] as string[],
-    rating: 0,
-    sortBy: "",
+    priceRange: 20000,
+    inStock: null,
+    fastDelivery: null,
+    brands: [] as string[],
+    categories: [] as string[],
+    platforms: [] as string[],
+    esrbRatings: [] as string[],
+    rating: null,
+    sortBy: null,
+    search: null,
 }
 
 const INITAL_CONTEXT_VALUE = {
     filtersState: INITIAL_FILTERS_STATE,
-    setFiltersState: () => { },
-    getFiltersState: () => { },
+    dispatch: () => { },
     INITIAL_FILTERS_STATE
 }
 
@@ -35,12 +33,11 @@ const INITAL_CONTEXT_VALUE = {
 export const FilterContext = createContext<FilterContextValueType>(INITAL_CONTEXT_VALUE)
 
 export const FilterProvider = ({ children }: ProviderPropsType) => {
-    const [filtersState, setFiltersState, getFiltersState] = useSetState(INITIAL_FILTERS_STATE)
+    const [filtersState, dispatch] = useReducer(productFilterReducer, INITIAL_FILTERS_STATE)
 
     const value = {
         filtersState,
-        setFiltersState,
-        getFiltersState,
+        dispatch,
         INITIAL_FILTERS_STATE
     }
     return <FilterContext.Provider value={value}>{children}</FilterContext.Provider>

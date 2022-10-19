@@ -5,11 +5,20 @@ import { ProductContext } from "../../../contexts/products.context";
 import ProductType from "../../../types/ProductType";
 import AddToCart from "../../add-to-cart/AddToCart.component";
 import AddToWishlist from "../../add-to-wishlist/AddToWishlist.component";
+import { getFilteredProducts, getSortedProducts } from "utils/filterProducts"
 
 import styles from "./ProductsListing.styles.module.css";
+import { FilterContext } from "contexts/filter.context";
 
 const ProductsListing = () => {
-    const { filteredProducts } = useContext(ProductContext)
+    const { products } = useContext(ProductContext)
+    const { filtersState } = useContext(FilterContext)
+
+    const sortedProducts = getSortedProducts(products, filtersState.sortBy)
+    const filteredProducts = getFilteredProducts(sortedProducts, filtersState)
+    console.log(
+        "fjhj kgkjgh"
+    )
     return (
         <div className={styles.ProductsListContainer}>
             {

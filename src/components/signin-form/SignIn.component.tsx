@@ -6,7 +6,7 @@ import { EMAIL_REGEX } from "../../utils/regex";
 import { showToastErrorMessage, showToastSuccessMessage } from '../../utils/toastMessage';
 import { UserContext } from "../../contexts/user.context";
 import { SIGNIN_API } from "../../constants/urls";
-import { UserContextValueType } from "../../contexts/user.context";
+import { UserContextValueType } from "contexts/user.context";
 
 import styles from "./SignIn.styles.module.css";
 
