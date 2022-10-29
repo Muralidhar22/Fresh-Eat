@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ProductContext } from "../../../contexts/products.context";
 import ProductType from "../../../types/ProductType";
 import AddToCart from "../../add-to-cart/AddToCart.component";
-import AddToWishlist from "../../add-to-wishlist/AddToWishlist.component";
+import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import { getFilteredProducts, getSortedProducts } from "utils/filterProducts"
 
 import styles from "./ProductsListing.styles.module.css";
@@ -27,7 +27,7 @@ const ProductsListing = () => {
                         </Link>
                         <h3>{product.brand}
                             <span className="cursor-pointer">
-                                <AddToWishlist
+                                <WishlistButton
                                     wishlistElementType="icon"
                                     productId={product._id}
                                 />

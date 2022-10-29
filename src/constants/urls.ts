@@ -4,3 +4,5 @@ export const SIGNUP_API = `${process.env.REACT_APP_BACKEND_URL}/register`;
 export const WISHLIST_API = `${process.env.REACT_APP_BACKEND_URL}/wishlist`;
 export const CART_API = `${process.env.REACT_APP_BACKEND_URL}/cart`;
 export const ORDERS_API = `${process.env.REACT_APP_BACKEND_URL}/orders`;
+export const REFRESH_API = `${process.env.REACT_APP_BACKEND_URL}/refresh`;
+export const LOGOUT_API = `${process.env.REACT_APP_BACKEND_URL}/logout`;

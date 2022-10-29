@@ -1,3 +1,4 @@
+import { LOGOUT_API } from "constants/urls";
 import React, { useState, createContext } from "react";
 import usePersist from "../hooks/usePersist";
 import { ProviderPropsType } from "../types/ProviderPropsType";
@@ -15,6 +16,11 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
     const [accessToken, setAccessToken, clearToken] = usePersist()
 
     const userSignoutHandler = () => {
+        setAccessToken(null)
+        fetch(LOGOUT_API, {
+            method: 'GET',
+            credentials: 'include'
+        })
         clearToken()
     }
     const userSigninHandler = (newAccessToken: string) => {

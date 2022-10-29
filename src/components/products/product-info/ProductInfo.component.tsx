@@ -1,6 +1,6 @@
 import ProductType from "../../../types/ProductType";
 import AddToCart from "../../add-to-cart/AddToCart.component";
-import AddToWishlist from "../../add-to-wishlist/AddToWishlist.component";
+import WishlistButton from "components/wishlist-button/WishlistButton.component";
 
 type ProductInfoPropsType = {
     product: ProductType
@@ -32,7 +32,7 @@ const ProductInfo = ({ product }: ProductInfoPropsType) => {
             <AddToCart
                 productId={product._id}
             />
-            <AddToWishlist
+            <WishlistButton
                 wishlistElementType="button"
                 productId={product._id}
             />

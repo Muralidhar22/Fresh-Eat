@@ -1,9 +1,7 @@
-export type WishlistItemsType = {
-    productId: any
-}
-
-export type WishlistType = {
+type WishlistType = {
     _id: any
     userId: string
-    items: WishlistItemsType[]
+    items: string[]
 }
+
+export default WishlistType;

@@ -149,9 +149,9 @@ const Carousel = () => {
                 }
             </ul>
             {!slideMoving &&
-                slides.map((slideContent) => (
+                slides.map((slideContent, idx) => (
                     slideContent._id === currentSlide && (
-                        <div key={slideContent.actionItem.content.heading} data-theme={slideContent.theme} className={`${styles.actionItem}
+                        <div key={idx} data-theme={slideContent.theme} className={`${styles.actionItem}
                                          ${slideContent.actionItem.pos.desktop === "left" ? styles.actionItemPosLeft : ''}
                                          ${slideContent.actionItem.pos.desktop === "right" ? styles.actionItemPosRight : ''}`}>
                             <b>

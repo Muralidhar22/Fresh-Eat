@@ -42,6 +42,7 @@ const SignIn = () => {
 
         const response = await fetch(SIGNIN_API, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -51,7 +52,6 @@ const SignIn = () => {
             })
         })
         const result = await response.json();
-        console.log(response, result)
         if (response.status === (401 || 400)) {
             showToastErrorMessage(result.message)
         }
