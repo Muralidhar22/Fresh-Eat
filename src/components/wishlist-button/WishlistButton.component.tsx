@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { WishlistContext } from "contexts/wishlist.context";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
@@ -9,11 +9,7 @@ type WishlistButtonPropsType = {
 
 const WishlistButton = ({ wishlistElementType, productId }: WishlistButtonPropsType) => {
     const { wishlist, addToWishlist, removeFromWishlist } = useContext(WishlistContext)
-    let isItemWishlist;
-
-    useEffect(() => {
-        isItemWishlist = wishlist.length > 0 && wishlist.includes(productId)
-    }, [wishlist])
+    const isItemWishlist = wishlist.length > 0 && wishlist.includes(productId)
 
     if (wishlistElementType === "icon") {
         return (

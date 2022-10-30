@@ -28,7 +28,7 @@ const INITIAL_STATE = {
 const SignIn = () => {
     const [formState, setFormState] = useState<SignInFormValuesType>(INITIAL_STATE);
     const [formValidValue, setFormValidValue] = useState({} as FormValidValueType);
-    const { setAccessToken } = useContext(UserContext) || {} as Partial<UserContextValueType>;
+    const { setAccessToken } = useContext(UserContext)
     let allValidValues = formValidValue?.email;
     const navigate = useNavigate();
 

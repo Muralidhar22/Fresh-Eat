@@ -5,11 +5,10 @@ import { useContext } from "react";
 import { UserContext } from "../../contexts/user.context";
 import HeaderDealsTag from "../homepage/HeaderDealsTag.component";
 import styles from "./Nav.styles.module.css";
-import { UserContextValueType } from "../../contexts/user.context";
 
 const Nav = () => {
     let location = useLocation();
-    const { userSignoutHandler, accessToken } = useContext(UserContext) || {} as Partial<UserContextValueType>;
+    const { userSignoutHandler, accessToken } = useContext(UserContext)
 
     return (
         <>
@@ -34,8 +33,8 @@ const Nav = () => {
                         )
                 }
 
-                <Link to="/wishlist" title="wish list"><FaRegHeart /></Link>
-                <Link to="/cart" title="shopping cart"><FaShoppingCart /></Link>
+                <Link to={accessToken ? "/wishlist" : "/signin"} ><FaRegHeart /></Link>
+                <Link to={accessToken ? "/cart" : "/signin"}><FaShoppingCart /></Link>
             </nav>
 
             <Outlet />

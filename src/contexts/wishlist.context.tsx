@@ -1,13 +1,9 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 import { ProviderPropsType } from "../types/ProviderPropsType";
 import { UserContext } from "./user.context";
-import { UserContextValueType } from "contexts/user.context";
 import { WISHLIST_API } from "constants/urls";
-import wishlistReducer from "reducers/wishlist/wishlist.reducer";
 import getNewAccessToken from "utils/getNewAccessToken";
-import { createAction } from "utils/reducer/createAction";
-import WISHLIST_ACTION_TYPE from "reducers/wishlist/wishlistActionType";
 import { showToastErrorMessage } from "utils/toastMessage";
 import WishlistType from "types/WishlistType";
 
@@ -28,13 +24,15 @@ const INITIAL_CONTEXT_VALUE = {
 export const WishlistContext = createContext<WishlistContextValueType>(INITIAL_CONTEXT_VALUE)
 
 export const WishlistProvider = ({ children }: ProviderPropsType) => {
-    const [wishlist, dispatch] = useReducer(wishlistReducer, INITIAL_STATE_VALUE)
-    const { accessToken, setAccessToken } = useContext(UserContext) || {} as Partial<UserContextValueType>;
+    const [wishlist, setWishlist] = useState(INITIAL_STATE_VALUE)
+    const { accessToken, setAccessToken } = useContext(UserContext);
+    const [initialFetch, setInitialFetch] = useState(true)
+    const wishlistCount = wishlist.length
 
     const accessForbiddenHandler = async () => {
         const result = await getNewAccessToken()
         if (result.accessToken) {
-            setAccessToken && setAccessToken(result.accessToken)
+            setAccessToken(result.accessToken)
             return result.accessToken;
         } else {
             showToastErrorMessage(result.message)
@@ -42,22 +40,26 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
     }
 
     useEffect(() => {
-        if (accessToken && wishlist.length < 0) { // once user is authenticated display the wishlist items of the logged in user from database
-            console.log("wishlist fetching", "access TOken:", accessToken)
-            const getWishlist = async () => {
+        if (accessToken && initialFetch) {
+            const getWishlist = async (accessToken: string) => {
                 const response = await fetch(WISHLIST_API, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`
-                    }
+                    },
                 })
-                const result: WishlistType = await response.json();
-                if (response.status === 403) accessForbiddenHandler()
-                else if (response.status === 200) {
-                    dispatch(createAction(WISHLIST_ACTION_TYPE.SET_WISHLIST, result.items))
+                console.log("hfjsbfkd")
+                const result: WishlistType | any = await response.json();
+                if (response.status === 200) {
+                    setWishlist(result.items)
+                    setInitialFetch(false)
+                } else {
+                    showToastErrorMessage(result.message)
                 }
             }
-            getWishlist()
+            getWishlist(accessToken)
+        } else if (accessToken === null) {
+            setWishlist(INITIAL_STATE_VALUE)
         }
     }, [accessToken])
 
@@ -90,25 +92,36 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
     }
 
     const addToWishlist = async (item: string) => {
-        console.log("Adding to wishlist", item)
         const response = await addItemtoWishlist(accessToken, item)
         if (response.status === 403) {
             const newAccessToken = await accessForbiddenHandler()
-            addItemtoWishlist(newAccessToken, item)
+            const response = await addItemtoWishlist(newAccessToken, item)
+            const result: any = await response.json()
+            if (response.status === 201) {
+                setWishlist(result.items)
+            } else {
+                showToastErrorMessage(result.message)
+            }
         } else if (response.status === 201) {
             const result: WishlistType = await response.json()
-            dispatch(createAction(WISHLIST_ACTION_TYPE.SET_WISHLIST, result.items))
+            setWishlist(result.items)
         }
     }
+
     const removeFromWishlist = async (item: string) => {
-        console.log("removing wishlist item", item)
         const response = await removeItemInWishlist(accessToken, item)
         if (response.status === 403) {
             const newAccessToken = await accessForbiddenHandler()
-            removeItemInWishlist(newAccessToken, item)
+            const response = await removeItemInWishlist(newAccessToken, item)
+            const result: any = await response.json()
+            if (response.status === 201) {
+                setWishlist(result.items)
+            } else {
+                showToastErrorMessage(result.message)
+            }
         } else if (response.status === 201) {
             const result: WishlistType = await response.json()
-            dispatch(createAction(WISHLIST_ACTION_TYPE.SET_WISHLIST, result.items))
+            setWishlist(result.items)
         }
     }
 

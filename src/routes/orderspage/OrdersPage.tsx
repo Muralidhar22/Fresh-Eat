@@ -3,3 +3,5 @@ const OrdersPage = () => {
         <div>Your Orders...</div>
     )
 }
+
+export default OrdersPage;

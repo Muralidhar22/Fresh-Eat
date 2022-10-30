@@ -1,5 +1,6 @@
 import { LOGOUT_API } from "constants/urls";
 import React, { useState, createContext } from "react";
+import { useNavigate } from "react-router-dom";
 import usePersist from "../hooks/usePersist";
 import { ProviderPropsType } from "../types/ProviderPropsType";
 
@@ -10,19 +11,29 @@ export type UserContextValueType = {
     userSigninHandler: (newAccessToken: string) => void
 }
 
-export const UserContext = createContext<UserContextValueType | null>(null);
+const INITIAL_CONTEXT_VALUE = {
+    accessToken: null,
+    setAccessToken: () => { },
+    userSignoutHandler: () => { },
+    userSigninHandler: (newAccessToken: string) => { }
+}
+
+export const UserContext = createContext<UserContextValueType>(INITIAL_CONTEXT_VALUE);
 
 export const UserProvider = ({ children }: ProviderPropsType) => {
     const [accessToken, setAccessToken, clearToken] = usePersist()
+    const navigate = useNavigate()
 
     const userSignoutHandler = () => {
         setAccessToken(null)
+        navigate('/')
         fetch(LOGOUT_API, {
             method: 'GET',
             credentials: 'include'
         })
         clearToken()
     }
+
     const userSigninHandler = (newAccessToken: string) => {
         setAccessToken(newAccessToken)
     }
