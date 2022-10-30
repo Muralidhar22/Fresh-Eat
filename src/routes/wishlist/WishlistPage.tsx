@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 import { WishlistContext } from "contexts/wishlist.context";
 import { ProductContext } from "contexts/products.context";
@@ -6,7 +6,7 @@ import { ProductContext } from "contexts/products.context";
 const WishlistPage = () => {
     const { wishlist } = useContext(WishlistContext);
     const { products } = useContext(ProductContext);
-    const wishlistProducts = wishlist.map(productId => {
+    const wishlistProducts = wishlist?.map(productId => {
         return products.find(product => product._id === productId)
     })
 

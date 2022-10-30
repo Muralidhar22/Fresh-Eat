@@ -1,14 +1,23 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { FaRegHeart, FaShoppingCart } from "react-icons/fa";
 import { useContext } from "react";
 
 import { UserContext } from "../../contexts/user.context";
+import { WishlistContext } from "contexts/wishlist.context";
 import HeaderDealsTag from "../homepage/HeaderDealsTag.component";
 import styles from "./Nav.styles.module.css";
+import WishlistButton from "components/wishlist-button/WishlistButton.component";
+import CartButton from "components/cart-button/cartButton.component";
+
 
 const Nav = () => {
     let location = useLocation();
     const { userSignoutHandler, accessToken } = useContext(UserContext)
+    const { wishlistInitialState } = useContext(WishlistContext)
+
+    const handleLogout = () => {
+        wishlistInitialState()
+        userSignoutHandler()
+    }
 
     return (
         <>
@@ -25,7 +34,7 @@ const Nav = () => {
                 <Link to="/products">Shop</Link>
                 {
                     accessToken ?
-                        <button onClick={userSignoutHandler}>Logout</button>
+                        <button onClick={handleLogout}>Logout</button>
                         : (
                             <Link to="/signin">
                                 Sign In
@@ -33,8 +42,16 @@ const Nav = () => {
                         )
                 }
 
-                <Link to={accessToken ? "/wishlist" : "/signin"} ><FaRegHeart /></Link>
-                <Link to={accessToken ? "/cart" : "/signin"}><FaShoppingCart /></Link>
+                <Link to={accessToken ? "/wishlist" : "/signin"} >
+                    <WishlistButton
+                        wishlistElementType="nav-icon"
+                    />
+                </Link>
+                <Link to={accessToken ? "/cart" : "/signin"} >
+                    <CartButton
+                        wishlistElementType="nav-icon"
+                    />
+                </Link>
             </nav>
 
             <Outlet />

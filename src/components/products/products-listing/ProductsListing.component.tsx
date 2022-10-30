@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { ProductContext } from "../../../contexts/products.context";
 import ProductType from "../../../types/ProductType";
-import AddToCart from "../../add-to-cart/AddToCart.component";
+import CartButton from "../../cart-button/cartButton.component";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import { getFilteredProducts, getSortedProducts } from "utils/filterProducts"
 
@@ -40,7 +40,10 @@ const ProductsListing = () => {
                             <del><span className="sr-only" aria-label="old price"></span>{product.price}</del>
                             <span>({product.discount}% Off)</span>
                         </div>
-                        <AddToCart productId={product._id} />
+                        <CartButton
+                            wishlistElementType="button"
+                            productId={product._id}
+                        />
                     </div>
                 ))
             }

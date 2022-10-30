@@ -1,5 +1,5 @@
 import ProductType from "../../../types/ProductType";
-import AddToCart from "../../add-to-cart/AddToCart.component";
+import AddToCart from "../../cart-button/cartButton.component";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 
 type ProductInfoPropsType = {

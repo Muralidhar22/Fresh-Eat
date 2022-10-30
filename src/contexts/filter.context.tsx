@@ -7,17 +7,17 @@ import productFilterReducer from "reducers/product-filter/productFilter.reducer"
 type FilterContextValueType = {
     filtersState: FiltersStateType
     dispatch: React.Dispatch<any>
-    INITIAL_FILTERS_STATE: FiltersStateType
+    INITIAL_FILTERS_STATE: any
 }
 
 const INITIAL_FILTERS_STATE = {
     priceRange: 20000,
     inStock: null,
     fastDelivery: null,
-    brands: [] as string[],
-    categories: [] as string[],
-    platforms: [] as string[],
-    esrbRatings: [] as string[],
+    brands: [],
+    categories: [],
+    platforms: [],
+    esrbRatings: [],
     rating: null,
     sortBy: null,
     search: null,

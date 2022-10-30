@@ -1,15 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { WishlistContext } from "contexts/wishlist.context";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { UserContext } from "contexts/user.context";
 
 type WishlistButtonPropsType = {
-    wishlistElementType: "icon" | "button"
-    productId: string
+    wishlistElementType: "icon" | "button" | "nav-icon"
+    productId?: string
 }
 
 const WishlistButton = ({ wishlistElementType, productId }: WishlistButtonPropsType) => {
-    const { wishlist, addToWishlist, removeFromWishlist } = useContext(WishlistContext)
-    const isItemWishlist = wishlist.length > 0 && wishlist.includes(productId)
+    const { wishlist, addToWishlist, removeFromWishlist, wishlistCount } = useContext(WishlistContext)
+    const isItemWishlist = (wishlist.length > 0 && productId) && wishlist.includes(productId)
+    const { accessToken } = useContext(UserContext)
 
     if (wishlistElementType === "icon") {
         return (
@@ -23,6 +25,13 @@ const WishlistButton = ({ wishlistElementType, productId }: WishlistButtonPropsT
                             onClick={() => addToWishlist(productId)}
                         />
                 }
+            </>
+        )
+    } else if (wishlistElementType === 'nav-icon') {
+        return (
+            <>
+                <FaRegHeart />
+                {accessToken && <span>{wishlistCount}</span>}
             </>
         )
     }
