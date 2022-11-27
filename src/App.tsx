@@ -1,4 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
+import { useContext } from 'react';
+
+import { UserContext } from 'contexts/user.context';
 
 import HomePage from './routes/homepage/HomePage';
 import WishlistPage from './routes/wishlist/WishlistPage';
@@ -12,8 +16,10 @@ import Faq from './components/faq/Faq.component';
 import Feedback from './routes/feedback/Feedback.component';
 import ProductPage from './routes/product-page/ProductPage.component';
 import OrdersPage from 'routes/orderspage/OrdersPage';
+import PaymentPage from 'routes/payment/PaymentPage';
 
 function App() {
+
   return (
     <Routes>
       <Route path="/" element={<Nav />}>
@@ -29,6 +35,7 @@ function App() {
       </Route>
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/checkout" element={<PaymentPage />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
   );

@@ -3,55 +3,63 @@ import { useContext } from "react";
 
 import { UserContext } from "../../contexts/user.context";
 import { WishlistContext } from "contexts/wishlist.context";
-import HeaderDealsTag from "../homepage/HeaderDealsTag.component";
+import { CartContext } from "contexts/cart.context";
 import styles from "./Nav.styles.module.css";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import CartButton from "components/cart-button/cartButton.component";
 
-
 const Nav = () => {
     let location = useLocation();
-    const { userSignoutHandler, accessToken } = useContext(UserContext)
+    const { userSignoutHandler, signedIn } = useContext(UserContext)
     const { wishlistInitialState } = useContext(WishlistContext)
+    const { cartInitialState } = useContext(CartContext)
 
     const handleLogout = () => {
-        wishlistInitialState()
         userSignoutHandler()
+        wishlistInitialState()
+        cartInitialState()
     }
 
     return (
         <>
-            <header>
-                {location.pathname === '/' && <HeaderDealsTag />}
-            </header>
+            {location.pathname === '/' &&
+                <header className={styles.header}>
+                    <Link to="">
+                        Free 1-3 Day Shipping Over &#8377;5000
+                    </Link>
+                </header>
+            }
             <nav className={styles.nav}>
-                <h1>
-                    <Link to="/">Game <span className="logo-x">X</span></Link>
-                </h1>
-
-
-                {location.pathname === '/shop' && <input type="search" placeholder="Search games, consoles & more" />}
-                <Link to="/products">Shop</Link>
-                {
-                    accessToken ?
-                        <button onClick={handleLogout}>Logout</button>
-                        : (
-                            <Link to="/signin">
-                                Sign In
-                            </Link>
-                        )
-                }
-
-                <Link to={accessToken ? "/wishlist" : "/signin"} >
-                    <WishlistButton
-                        wishlistElementType="nav-icon"
-                    />
+                <Link to="/">
+                    <span className="logoContainer">
+                        <span className="text-uppercase logoText">Game</span>
+                        <span className="logo-x"></span>
+                    </span>
                 </Link>
-                <Link to={accessToken ? "/cart" : "/signin"} >
-                    <CartButton
-                        wishlistElementType="nav-icon"
-                    />
-                </Link>
+                <div className={styles.navMenu}>
+                    {location.pathname === '/products' && <input type="search" placeholder="Search games, consoles & more" />}
+                    <Link to="/products">Shop</Link>
+                    {
+                        signedIn ?
+                            <button onClick={handleLogout}>Logout</button>
+                            : (
+                                <Link to="/signin">
+                                    Sign In
+                                </Link>
+                            )
+                    }
+
+                    <Link to={signedIn ? "/wishlist" : "/signin"} >
+                        <WishlistButton
+                            wishlistElementType="nav-icon"
+                        />
+                    </Link>
+                    <Link to={signedIn ? "/cart" : "/signin"} >
+                        <CartButton
+                            wishlistElementType="nav-icon"
+                        />
+                    </Link>
+                </div>
             </nav>
 
             <Outlet />

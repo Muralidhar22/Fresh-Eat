@@ -1,32 +1,48 @@
 import { useState, createContext, useContext, useEffect, useReducer } from "react";
+import axios from "axios";
 
 import { ProviderPropsType } from "types/ProviderPropsType";
-import { GET_PRODUCTS_API } from "constants/urls";
 import ProductType from "types/ProductType";
+import { getFilteredProducts, getSortedProducts } from "utils/filterProducts";
+import { FilterContext } from "contexts/filter.context";
 
 type ProductContextValueType = {
     products: ProductType[]
+    sortedProducts: ProductType[]
+    filteredProducts: ProductType[]
+    getProducts: () => {}
 }
+
 const DEFAULT_CONTEXT_VALUE = {
-    products: [] as ProductType[],
+    products: null,
+    sortedProducts: null,
+    filteredProducts: null,
+    getProducts: () => { }
 }
 
 export const ProductContext = createContext<ProductContextValueType>(DEFAULT_CONTEXT_VALUE);
 
 export const ProductProvider = ({ children }: ProviderPropsType) => {
-    const [products, setProducts] = useState([] as ProductType[]);
+    const [products, setProducts] = useState<ProductType[] | null>(null);
+    const { filtersState } = useContext(FilterContext)
+    const sortedProducts = products && getSortedProducts(products, filtersState.sortBy)
+    const filteredProducts = sortedProducts && getFilteredProducts(sortedProducts, filtersState)
 
-    useEffect(() => {
-        const getProducts = async () => {
-            const response = await fetch(GET_PRODUCTS_API)
-            const result = await response.json()
-            setProducts(result)
+    const getProducts = async () => {
+        if (!products) {
+            const { data, status } = await axios.get('products')
+            if (status === 200) {
+                setProducts(data)
+                return data;
+            }
         }
-        getProducts()
-    }, [])
+    }
 
     const value = {
-        products
+        products,
+        sortedProducts,
+        filteredProducts,
+        getProducts
     }
     return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
 }

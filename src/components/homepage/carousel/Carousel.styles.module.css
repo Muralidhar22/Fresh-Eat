@@ -26,6 +26,10 @@
     top: 60%;
     text-align: center;
     transition: 2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
 }
 
 @media screen and (max-width: 1084px) {
@@ -59,7 +63,7 @@
     padding: .5rem;
     color: #fff;
     width: fit-content;
-    background-color: #fe5e54;
+    background-color: var(--clr-cta);
     border-radius: .2em;
     font-weight: 700;
     letter-spacing: 1px;
@@ -151,7 +155,7 @@
     height: inherit;
     border-radius: 50%;
     transform: scale(0);
-    box-shadow: inset 15px 15px #fe5e54;
+    box-shadow: inset 15px 15px var(--clr-cta);
     position: absolute;
     top: 0;
     left: 0;

@@ -8,7 +8,7 @@ const HomepageBody = () => {
     const value = useContext(TimerContext)
 
     return (
-        <div>
+        <div className={styles.dealTimer}>
             <span className={`text-uppercase ${styles.heading}`}>gamer deals</span>
 
             <span className={`text-uppercase ${styles.timer}`}>ends in&nbsp;{value?.timer}</span>

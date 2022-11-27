@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 export const showToastInfoMessage = (message: string) => {
     toast.info(message, {
-        autoClose: 4000,
+        autoClose: 2000,
         pauseOnHover: false,
         position: toast.POSITION.TOP_RIGHT,
         draggable: false
@@ -10,7 +10,7 @@ export const showToastInfoMessage = (message: string) => {
 };
 export const showToastSuccessMessage = (message: string) => {
     toast.success(message, {
-        autoClose: 4000,
+        autoClose: 2000,
         pauseOnHover: false,
         position: toast.POSITION.TOP_RIGHT,
         draggable: false
@@ -19,7 +19,7 @@ export const showToastSuccessMessage = (message: string) => {
 
 export const showToastErrorMessage = (message: string) => {
     toast.error(message, {
-        autoClose: 4000,
+        autoClose: 2000,
         pauseOnHover: false,
         position: toast.POSITION.TOP_RIGHT,
         draggable: false

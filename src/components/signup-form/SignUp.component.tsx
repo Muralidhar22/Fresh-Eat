@@ -5,9 +5,9 @@ import FormInput from "../formInput/FormInput.component";
 import { showToastInfoMessage, showToastSuccessMessage, showToastErrorMessage } from "../../utils/toastMessage";
 import signUpFormValidation from "../../utils/signUpFormValidation";
 import FormValuesType from "../../types/FormValuesType";
-import { SIGNUP_API } from "../../constants/urls";
 
 import { FaCheck, FaTimes, FaInfoCircle } from "react-icons/fa";
+import axios from "axios";
 
 
 const INITIAL_STATE = {
@@ -78,26 +78,20 @@ const SignUp = () => {
             password: HTMLInputElement
         };
 
-        const response = await fetch(SIGNUP_API, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstname: firstName.value,
-                lastname: lastName.value,
-                email: email.value,
-                password: password.value
-            })
+        const { data, status } = await axios.post('register', {
+            firstname: firstName.value,
+            lastname: lastName.value,
+            email: email.value,
+            password: password.value
         })
-        const result = await response.json();
 
-        if (response.status === 409) {
-            showToastErrorMessage(result.message)
+
+        if (status === 409) {
+            showToastErrorMessage(data.message)
         }
-        if (response.status === 201) {
+        if (status === 201) {
             showToastInfoMessage(`Redirecting to SignIn page`)
-            showToastSuccessMessage(result.message)
+            showToastSuccessMessage(data.message)
             setTimeout(() => {
                 navigate('/signin')
             }, 4000)

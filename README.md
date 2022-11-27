@@ -13,7 +13,7 @@ React with TypeScript, Vanilla CSS, React Router V6, jsonwebtoken and bcrypt.
 * Dynamic Single Product page.
 * Orders Page.
 * Address list - Manage address to select for placing order.
-* A payment gateway using Razorpay.
+* A payment gateway using [Stripe PaymentElement](https://stripe.com/docs/payments/payment-element).
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -1,8 +1,35 @@
+:root {
+    --header-bg: #404040;
+}
+
 .nav {
     position: sticky;
     z-index: 99;
-    background-color: white;
     top: 0;
     display: flex;
     height: var(--nav-height);
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+    color: var(--clr-text-neutral);
+    background-image: var(--clr-linear-gradient);
+}
+
+.navMenu {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.navMenu input[type="search"] {
+    min-width: 250px;
+}
+
+.header {
+    background-color: var(--header-bg);
+    color: #ffffff;
+    font-size: 0.75rem;
+    word-spacing: 2px;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    text-align: center;
 }

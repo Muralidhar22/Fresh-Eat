@@ -11,7 +11,7 @@ type WishlistButtonPropsType = {
 const WishlistButton = ({ wishlistElementType, productId }: WishlistButtonPropsType) => {
     const { wishlist, addToWishlist, removeFromWishlist, wishlistCount } = useContext(WishlistContext)
     const isItemWishlist = (wishlist.length > 0 && productId) && wishlist.includes(productId)
-    const { accessToken } = useContext(UserContext)
+    const { signedIn } = useContext(UserContext)
 
     if (wishlistElementType === "icon") {
         return (
@@ -31,7 +31,7 @@ const WishlistButton = ({ wishlistElementType, productId }: WishlistButtonPropsT
         return (
             <>
                 <FaRegHeart />
-                {accessToken && <span>{wishlistCount}</span>}
+                {signedIn && <span>{wishlistCount}</span>}
             </>
         )
     }
@@ -39,11 +39,11 @@ const WishlistButton = ({ wishlistElementType, productId }: WishlistButtonPropsT
         isItemWishlist
             ? (
                 <button onClick={() => removeFromWishlist(productId)}>
-                    `Remove from Wishlist`
+                    Remove from Wishlist
                 </button>
             ) : (
                 <button onClick={() => addToWishlist(productId)}>
-                    `Add to Wishlist`
+                    Add to Wishlist
                 </button>
             )
     )

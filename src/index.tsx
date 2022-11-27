@@ -9,6 +9,8 @@ import { ProductProvider } from './contexts/products.context';
 import { ToastContainer } from "react-toastify";
 import { FilterProvider } from 'contexts/filter.context';
 import { WishlistProvider } from 'contexts/wishlist.context';
+import { CartProvider } from 'contexts/cart.context';
+import "api/axios";
 
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,20 +20,22 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <FilterProvider>
-        <ProductProvider>
-          <UserProvider>
-            <WishlistProvider>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <FilterProvider>
+      <ProductProvider>
+        <UserProvider>
+          <WishlistProvider>
+            <CartProvider>
               <ToastContainer />
-              <TimerProvider >
+              <TimerProvider>
                 <App />
               </TimerProvider>
-            </WishlistProvider>
-          </UserProvider>
-        </ProductProvider>
-      </FilterProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+            </CartProvider>
+          </WishlistProvider>
+        </UserProvider>
+      </ProductProvider>
+    </FilterProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );

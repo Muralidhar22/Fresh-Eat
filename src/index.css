@@ -46,6 +46,20 @@ select {
 
 :root {
   --nav-height: 3.5rem;
+  /* colors */
+  --clr-primary-100: #0083FD;
+  --clr-primary-200: #0858CF;
+  --black-accent: #404040;
+  --clr-text-neutral: #ffffff;
+  --clr-neutral: #ffffff;
+  --clr-logo-x: rgb(124, 178, 232);
+  --clr-cta: #ffa000;
+  --clr-linear-gradient: linear-gradient(to right, var(--clr-primary-200), var(--clr-primary-100));
+  --clr-bg-100: #e2e8f0;
+  /* border radius */
+  --br-product-card: 0.5rem;
+  /* padding */
+
 }
 
 a {
@@ -56,6 +70,7 @@ a {
 body {
   font-family: 'Barlow', sans-serif;
   line-height: 1.5;
+  background-color: var(--clr-bg-100);
 }
 
 /* utilities */
@@ -63,11 +78,54 @@ body {
   text-transform: uppercase;
 }
 
+.flex {
+  display: flex;
+}
+
+.jc-space-btwn {
+  justify-content: space-between;
+}
+
+.hidden {
+  display: none;
+}
+
+.logoContainer {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.logoText {
+  font-size: 1.8rem;
+}
+
 .logo-x {
   border-radius: 50%;
-  aspect-ratio: 1;
-  padding-inline: .25rem;
-  border: 1px solid black;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  background-color: var(--black-accent);
+}
+
+.logo-x::after,
+.logo-x::before {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 22px;
+  border-radius: 2.5px;
+  background-color: var(--clr-logo-x);
+  top: 10%;
+}
+
+.logo-x::before {
+  transform: translateX(250%) rotate(-45deg);
+}
+
+.logo-x::after {
+  transform: translateX(250%) rotate(45deg);
 }
 
 .sr-only {

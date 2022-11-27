@@ -1,16 +1,33 @@
 .heading {
     display: inline-block;
     position: relative;
-    border: 1em solid;
-    border-image-slice: 1;
-    border-width: 5px;
-    border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
-    padding: .15em;
-    color: #050554;
+    padding: 0.15em;
+    color: var(--clr-black-accent);
+    font-size: 1.5rem;
+    font-weight: 1000;
+    /* border: 7px solid var(--clr-primary-200);
+    border-radius: 60px; */
 }
 
 .timer {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #743ad5;
+    color: var(--clr-cta);
+}
+
+.dealTimer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.dealTimer * {
+    flex-basis: 50%;
+    text-align: center;
+}
+
+.dealTimer:last-child {
+    font-size: 5rem;
+    color: red;
 }

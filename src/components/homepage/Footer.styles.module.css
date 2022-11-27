@@ -1,0 +1,19 @@
+.footer {
+    background-image: var(--clr-linear-gradient);
+    color: var(--clr-text-neutral);
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.footerNav,
+.footerContact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footerContactIcons {
+    display: flex;
+    gap: 0.25rem;
+}

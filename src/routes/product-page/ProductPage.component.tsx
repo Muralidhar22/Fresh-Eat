@@ -13,12 +13,14 @@ const ProductPage = () => {
     const [product] = products.filter(product => product._id === productId)
     return (
         <div className={styles.productContainer}>
-            <ProductCarousel
-                product={product}
-            />
-            <ProductInfo
-                product={product}
-            />
+            <div className={styles.productImg}>
+                <img src={product.media[0].source} alt={product.name} />
+            </div>
+            <div className={styles.productInfo}>
+                <ProductInfo
+                    product={product}
+                />
+            </div>
         </div>
     )
 }

@@ -3,10 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import FormInput from "../formInput/FormInput.component";
 import { EMAIL_REGEX } from "../../utils/regex";
-import { showToastErrorMessage, showToastSuccessMessage } from '../../utils/toastMessage';
 import { UserContext } from "../../contexts/user.context";
-import { SIGNIN_API } from "../../constants/urls";
-import { UserContextValueType } from "contexts/user.context";
 
 import styles from "./SignIn.styles.module.css";
 
@@ -28,7 +25,7 @@ const INITIAL_STATE = {
 const SignIn = () => {
     const [formState, setFormState] = useState<SignInFormValuesType>(INITIAL_STATE);
     const [formValidValue, setFormValidValue] = useState({} as FormValidValueType);
-    const { setAccessToken } = useContext(UserContext)
+    const { userSigninHandler } = useContext(UserContext)
     let allValidValues = formValidValue?.email;
     const navigate = useNavigate();
 
@@ -40,30 +37,7 @@ const SignIn = () => {
             password: HTMLInputElement
         };
 
-        const response = await fetch(SIGNIN_API, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email.value,
-                password: password.value
-            })
-        })
-        const result = await response.json();
-        if (response.status === (401 || 400)) {
-            showToastErrorMessage(result.message)
-        }
-        else if (response.status === 200) {
-            showToastSuccessMessage(result.message)
-            setAccessToken && setAccessToken(result.accessToken)
-            setTimeout(() => {
-                navigate('/')
-            }, 1000)
-        } else {
-            showToastErrorMessage(`uh Oh! Something went wrong`)
-        }
+        userSigninHandler(email.value, password.value)
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, changedProperty: keyof typeof formState) => {

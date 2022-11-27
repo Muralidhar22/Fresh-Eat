@@ -1,6 +1,25 @@
 .productContainer {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
-    grid-template-rows: 1fr;
+    background-image: var(--clr-linear-gradient);
+    display: flex;
+    gap: 2.5rem;
+    padding: 3rem;
+    /* flex-wrap: wrap; */
+    color: var(--clr-text-neutral);
+}
+
+.productImg {
+    max-width: 300px;
+    border-radius: var(--br-product-card);
+    overflow: hidden;
+}
+
+.productImg img {
+    width: 100%;
+    display: block;
+}
+
+@media screen and (max-width: 750px) {
+    .productContainer {
+        flex-wrap: wrap;
+    }
 }
