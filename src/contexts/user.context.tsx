@@ -1,37 +1,24 @@
-// import { LOGOUT_API, SIGNIN_API } from "constants/urls";
-import React, { useState, createContext, useEffect, SetStateAction } from "react";
-import { useNavigate } from "react-router-dom";
-import { showToastSuccessMessage } from "utils/toastMessage";
-import usePersist from "../hooks/usePersist";
-import { ProviderPropsType } from "../types/ProviderPropsType";
-import { showToastErrorMessage } from "utils/toastMessage";
+import React, { useState, createContext } from "react";
 import axios from "axios";
-import { axiosPrivate } from "api/axios";
+import { useNavigate } from "react-router-dom";
 
-type UserInfoType = {
-    firstname: string
-    lastname: string
-    address: []
-}
+import { ProviderPropsType } from "../types/ProviderPropsType";
+
+import { showToastErrorMessage } from "utils/toastMessage";
+import { showToastSuccessMessage } from "utils/toastMessage";
 
 export type UserContextValueType = {
     userSignoutHandler: () => void
     userSigninHandler: (email: string, password: string) => void
-    username: string | null
-    customerName: string | null
-    userInfo: UserInfoType | null;
     signedIn: boolean
     setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-    setAccessToken: React.Dispatch<React.SetStateAction<string>>
+    setAccessToken: React.Dispatch<React.SetStateAction<string | null>>
     accessToken: string | null
 }
 
-const INITIAL_CONTEXT_VALUE = {
+const INITIAL_CONTEXT_VALUE: UserContextValueType = {
     userSignoutHandler: () => { },
     userSigninHandler: () => { },
-    username: null,
-    customerName: null,
-    userInfo: null,
     signedIn: false,
     setSignedIn: () => { },
     setAccessToken: () => { },
@@ -41,11 +28,8 @@ const INITIAL_CONTEXT_VALUE = {
 export const UserContext = createContext<UserContextValueType>(INITIAL_CONTEXT_VALUE);
 
 export const UserProvider = ({ children }: ProviderPropsType) => {
-    const [username, setUsername] = useState<string | null>(null)
-    const [customerName, setCustomerName] = useState<string | null>(null)
-    const [userInfo, setUserInfo] = useState<UserInfoType | null>(null)
     const [signedIn, setSignedIn] = useState(false)
-    const [accessToken, setAccessToken] = useState("")
+    const [accessToken, setAccessToken] = useState<string | null>(null)
 
     const navigate = useNavigate()
 
@@ -63,7 +47,7 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
             }, { withCredentials: true })
             setSignedIn(true)
             showToastSuccessMessage(data.message)
-            axiosPrivate.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`
+            axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`
             navigate('/')
         } catch (err) {
             showToastErrorMessage(`${err}`)
@@ -86,9 +70,6 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
     const value = {
         userSigninHandler,
         userSignoutHandler,
-        username,
-        customerName,
-        userInfo,
         signedIn,
         setSignedIn,
         accessToken,

@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { UserContext } from "contexts/user.context";
 import { CartContext } from "contexts/cart.context";
@@ -22,7 +23,7 @@ const CartButton = ({ productId, wishlistElementType }: CartButtonPropsType) => 
 
     const handleClickHandler = async () => {
         try {
-            await axiosPrivate.get('cart/count')
+            await axios.get('cart/count')
         } catch (error) {
             console.log(error)
             showToastErrorMessage(`YOOOOOOO`)

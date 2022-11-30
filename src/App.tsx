@@ -1,8 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import axios from 'axios';
-import { useContext } from 'react';
-
-import { UserContext } from 'contexts/user.context';
+import { Routes, Route } from 'react-router-dom';
 
 import HomePage from './routes/homepage/HomePage';
 import WishlistPage from './routes/wishlist/WishlistPage';

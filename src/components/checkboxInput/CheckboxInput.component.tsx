@@ -8,10 +8,18 @@ type CheckboxInputPropsType = {
 }
 
 const CheckboxInput = ({ label, id, ...otherProps }: CheckboxInputPropsType) => {
+    const style = {
+        display: "grid",
+        gridTemplateColumns: "1em auto",
+        gap: "0.5em",
+        alignItems: "center"
+    }
+
     return (
         <li>
-            <input type="checkbox" id={id} {...otherProps} />
-            <label htmlFor={id}>{label}</label>
+            <label htmlFor={id} style={style}>
+                <input type="checkbox" id={id} {...otherProps} />
+                {label}</label>
         </li>
     )
 }

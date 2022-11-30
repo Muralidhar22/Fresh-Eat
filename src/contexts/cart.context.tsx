@@ -1,13 +1,9 @@
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer, useState } from "react";
 
 import { ProviderPropsType } from "../types/ProviderPropsType";
-import { UserContext } from "./user.context";
 import cartReducer from "reducers/cart/cart.reducer";
-import { showToastErrorMessage, showToastSuccessMessage } from "../utils/toastMessage";
-import CartType from "types/CartType";
 import { createAction } from "utils/reducer/createAction";
 import CART_ACTION_TYPE from "reducers/cart/cartActionType";
-import axios from "axios";
 
 type CartContextValueType = {
     cartlist: {
@@ -41,24 +37,24 @@ const INITIAL_CONTEXT_VALUE = {
 
 
 const fetchAddToCart = async (accessToken: any, item: string) => {
-    const { data, status } = await axios.post('cart', { productItem: item })
-    return { data, status };
+    // const { data, status } = await axios.post('cart', { productItem: item })
+    // return { data, status };
 }
 
 const fetchRemoveFromCart = async (accessToken: any, item: string) => {
-    const { data, status } = await axios({
-        method: 'delete', url: 'cart', data: {
-            productId: item
-        }
-    })
-    return { data, status };
+    // const { data, status } = await axios({
+    //     method: 'delete', url: 'cart', data: {
+    //         productId: item
+    //     }
+    // })
+    // return { data, status };
 }
 
 const fetchChangeItemQty = async (accessToken: any, cartItem: string) => {
-    const { data, status } = await axios.patch('cart', {
-        cartItem
-    })
-    return { data, status };
+    // const { data, status } = await axios.patch('cart', {
+    //     cartItem
+    // })
+    // return { data, status };
 }
 
 export const CartContext = createContext<CartContextValueType>(INITIAL_CONTEXT_VALUE)

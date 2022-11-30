@@ -7,7 +7,6 @@ import { UserContext } from "contexts/user.context";
 import { CartContext } from "contexts/cart.context";
 import { ProductContext } from "contexts/products.context";
 import { formatDate, formatTime } from "utils/dateTimeFormat";
-import axios from "axios";
 
 const PaymentPage = () => {
     const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
@@ -24,33 +23,33 @@ const PaymentPage = () => {
     })
 
 
-    useEffect(() => {
-        setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`))
-        const updateOrders = async () => {
-            const { data, status } = await axios.post('orders', {
-                items: cartlistProducts,
-                shippingAddress: {},
-                billingAddress: {},
-                amount: orderAmount,
-                createdTime: formattedTime,
-                createdDate: formattedDate
-            })
-            if (status === 201) {
-                setOrderId(data.id)
-            }
-        }
-        (async () => {
-            const { data, status } = await axios.post('create-payment-intent', {
-                items: cartlist
-            })
-            if (status === 200) {
-                setClientSecret(data.clientSecret);
-                orderAmount = data.amount
-                updateOrders()
-            }
+    // useEffect(() => {
+    //     setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`))
+    //     const updateOrders = async () => {
+    //         const { data, status } = await axios.post('orders', {
+    //             items: cartlistProducts,
+    //             shippingAddress: {},
+    //             billingAddress: {},
+    //             amount: orderAmount,
+    //             createdTime: formattedTime,
+    //             createdDate: formattedDate
+    //         })
+    //         if (status === 201) {
+    //             setOrderId(data.id)
+    //         }
+    //     }
+    //     (async () => {
+    //         const { data, status } = await axios.post('create-payment-intent', {
+    //             items: cartlist
+    //         })
+    //         if (status === 200) {
+    //             setClientSecret(data.clientSecret);
+    //             orderAmount = data.amount
+    //             updateOrders()
+    //         }
 
-        })();
-    }, [])
+    //     })();
+    // }, [])
 
 
     return (
