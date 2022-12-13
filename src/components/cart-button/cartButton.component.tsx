@@ -12,21 +12,22 @@ import { showToastErrorMessage } from "utils/toastMessage";
 type CartButtonPropsType = {
     wishlistElementType: "button" | "nav-icon"
     productId?: string
+    className?: string
 }
 
-const CartButton = ({ productId, wishlistElementType }: CartButtonPropsType) => {
-    const { signedIn } = useContext(UserContext)
-    const { cartlist, cartlistCount, addToCart } = useContext(CartContext)
-    const isCartItem = cartlist.some((cartProduct) => cartProduct.productId === productId)
+const CartButton = ({ productId, wishlistElementType, className }: CartButtonPropsType) => {
+    const { signedIn, accessTokenRef } = useContext(UserContext)
+    const { cartList, cartListCount, addToCart } = useContext(CartContext)
+    const isCartItem = cartList.some((cartProduct) => cartProduct.productId === productId)
     const navigate = useNavigate()
     const axiosPrivate = useAxiosPrivate()
 
     const handleClickHandler = async () => {
         try {
-            await axios.get('cart/count')
+            await axiosPrivate.get('cart/count')
         } catch (error) {
-            console.log(error)
-            showToastErrorMessage(`YOOOOOOO`)
+            console.error(error)
+            showToastErrorMessage(`${error}`)
         }
     }
 
@@ -34,7 +35,7 @@ const CartButton = ({ productId, wishlistElementType }: CartButtonPropsType) => 
         return (
             <>
                 <FaShoppingCart />
-                {signedIn && <span>{cartlistCount}</span>}
+                {signedIn && <span>{cartListCount}</span>}
             </>
         )
     } else if (wishlistElementType === 'button') {
@@ -44,6 +45,7 @@ const CartButton = ({ productId, wishlistElementType }: CartButtonPropsType) => 
                     isCartItem
                         ? (
                             <button
+                                className={className}
                                 onClick={() => navigate('/cart')}
                             >
                                 Go To Cart
@@ -51,9 +53,9 @@ const CartButton = ({ productId, wishlistElementType }: CartButtonPropsType) => 
                         )
                         : (
                             <button
+                                className={className}
                                 onClick={() => {
                                     handleClickHandler()
-                                    // useAxiosPrivate.get('cart/count')
                                     addToCart(productId)
                                 }}
                             >

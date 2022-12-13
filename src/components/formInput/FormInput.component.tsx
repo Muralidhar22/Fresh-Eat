@@ -21,8 +21,7 @@ type FormInputPropsType = {
 const FormInput = ({ label, value, ariaInvalid, ariaDescribedBy, ...otherProps }: FormInputPropsType) => {
     return (
         <div className={styles.group}>
-
-            <input aria-invalid={ariaInvalid} aria-describedby={ariaDescribedBy} className={styles.formInput} {...otherProps} />
+            <input value={value} aria-invalid={ariaInvalid} aria-describedby={ariaDescribedBy} className={styles.formInput} {...otherProps} />
             {label && (
                 <label
                     htmlFor={otherProps.id}

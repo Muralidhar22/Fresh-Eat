@@ -8,18 +8,19 @@ import styles from "./Nav.styles.module.css";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import CartButton from "components/cart-button/cartButton.component";
 
+import { FaSignOutAlt } from "react-icons/fa";
+
 const Nav = () => {
     let location = useLocation();
-    const { userSignoutHandler, signedIn } = useContext(UserContext)
+    const { userSignOutHandler, signedIn } = useContext(UserContext)
     const { wishlistInitialState } = useContext(WishlistContext)
     const { cartInitialState } = useContext(CartContext)
 
     const handleLogout = () => {
-        userSignoutHandler()
+        userSignOutHandler()
         wishlistInitialState()
         cartInitialState()
     }
-
     return (
         <>
             {location.pathname === '/' &&
@@ -41,7 +42,11 @@ const Nav = () => {
                     <Link to="/products">Shop</Link>
                     {
                         signedIn ?
-                            <button onClick={handleLogout}>Logout</button>
+                            <button className={styles.logoutBtn} onClick={handleLogout}>
+                                <FaSignOutAlt
+                                    color="white"
+                                />
+                            </button>
                             : (
                                 <Link to="/signin">
                                     Sign In

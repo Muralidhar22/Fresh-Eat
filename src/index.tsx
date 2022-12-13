@@ -37,5 +37,4 @@ root.render(
       </ProductProvider>
     </FilterProvider>
   </BrowserRouter>
-  // </React.StrictMode>
 );

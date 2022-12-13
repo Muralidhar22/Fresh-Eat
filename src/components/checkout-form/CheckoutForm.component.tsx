@@ -18,7 +18,7 @@ export default function CheckoutForm({ orderId }: { orderId: string }) {
     const [isProcessing, setIsProcessing] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
-    const { customerName, signedIn } = useContext(UserContext);
+    // const { customerName, signedIn } = useContext(UserContext);
     const navigate = useNavigate();
     const { cartlist } = useContext(CartContext);
 
@@ -37,46 +37,46 @@ export default function CheckoutForm({ orderId }: { orderId: string }) {
 
         setIsProcessing(true);
 
-        const { error, paymentIntent } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                payment_method_data: {
-                    billing_details: {
-                        address: {
-                            line1: "",
-                            city: "foocity",
-                            country: "India",
-                            postal_code: "530051",
-                            state: "AP",
-                        },
-                        name: customerName ? customerName : "Guest",
-                    }
-                },
-                shipping: {
-                    name: customerName ? customerName : "Guest",
-                    address: {
-                        line1: "",
-                        city: "foocity",
-                        country: "India",
-                        postal_code: "530051",
-                        state: "AP",
-                    }
-                },
-                return_url: `${window.location.origin}/orders`,
-            },
-            redirect: "if_required"
-        });
+        // const { error, paymentIntent } = await stripe.confirmPayment({
+        // elements,
+        //     confirmParams: {
+        //         payment_method_data: {
+        //             billing_details: {
+        //                 address: {
+        //                     line1: "",
+        //                     city: "foocity",
+        //                     country: "India",
+        //                     postal_code: "530051",
+        //                     state: "AP",
+        //                 },
+        //                 // name: customerName ? customerName : "Guest",
+        //             }
+        //         },
+        //         // shipping: {
+        //             // name: customerName ? customerName : "Guest",
+        //             address: {
+        //                 line1: "",
+        //                 city: "foocity",
+        //                 country: "India",
+        //                 postal_code: "530051",
+        //                 state: "AP",
+        //             }
+        //         },
+        //         return_url: `${window.location.origin}/orders`,
+        //     },
+        //     redirect: "if_required"
+        // });
 
-        if (error) {
-            setMessage(error.message);
-        } else if (paymentIntent?.status === "succeeded") {
-            showToastSuccessMessage(`Payment completed`)
-            updateOrderStatus()
+        // if (error) {
+        //     setMessage(error.message);
+        // } else if (paymentIntent?.status === "succeeded") {
+        //     showToastSuccessMessage(`Payment completed`)
+        //     updateOrderStatus()
 
-        } else if (paymentIntent?.status === "canceled") {
+        // } else if (paymentIntent?.status === "canceled") {
 
-        }
-        setIsProcessing(false);
+        // }
+        // setIsProcessing(false);
     };
 
     // function updateClipboard(newClip) {

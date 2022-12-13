@@ -2,7 +2,7 @@ import CART_ACTION_TYPE from "./cartActionType"
 import CartActionType from "types/reducer/cart/ActionType";
 
 type CartStateType = {
-    cartlist: {
+    cartList: {
         productId: string
         count: number
     }[]
@@ -18,7 +18,7 @@ const cartReducer = (state: CartStateType, action: ReducerAction) => {
     const { type, payload } = action
     switch (type) {
         case CART_ACTION_TYPE.SET_CART_LIST:
-            return { ...state, cartlist: payload }
+            return { ...state, cartList: payload }
         case CART_ACTION_TYPE.SET_INITIAL_STATE:
             return { ...payload }
         case CART_ACTION_TYPE.SET_INITIAL_FETCH:

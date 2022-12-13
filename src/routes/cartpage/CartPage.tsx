@@ -13,10 +13,10 @@ const CartPage = () => {
     const { products } = useContext(ProductContext)
     const navigate = useNavigate()
     const cartlistProducts = cartlist.map(cartItem => {
-        return { count: cartItem.count, details: products.find(product => product._id === cartItem.productId) }
+        return { count: cartItem.count, details: products?.find(product => product._id === cartItem.productId) }
     })
     const cartAmount: number = cartlist.reduce((prevValue, currentItem) => {
-        const itemDetails = products.find(product => product._id === currentItem.productId)
+        const itemDetails = products?.find(product => product._id === currentItem.productId)
         if (itemDetails?.discountPrice) {
             return (prevValue + itemDetails?.discountPrice * currentItem.count)
         } else {

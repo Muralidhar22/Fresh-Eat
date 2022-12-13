@@ -15,19 +15,63 @@
     color: var(--clr-cta);
 }
 
-.dealTimer {
+.deal-timer {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
 }
 
-.dealTimer * {
+.deal-timer * {
     flex-basis: 50%;
     text-align: center;
 }
 
-.dealTimer:last-child {
+.deal-timer:last-child {
     font-size: 5rem;
     color: red;
+}
+
+.cta-email-subscription {
+    display: grid;
+    grid-template-areas:
+        ". img"
+        "form img";
+    position: relative;
+}
+
+.cta-text-content {
+    background-image: var(--clr-linear-gradient);
+    grid-area: form;
+    padding-inline: 5rem 3rem;
+    padding-block: 3rem;
+    color: var(--clr-text-neutral);
+    text-align: left;
+}
+
+.cta-text-content *:not(:last-child) {
+    padding-bottom: 1rem;
+}
+
+.form {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.form input {
+    background-color: var(--clr-bg-100);
+}
+
+.subscribe-button {
+    color: inherit;
+    background-color: var(--clr-cta);
+    padding-inline: 2rem;
+    cursor: pointer;
+}
+
+.email-subscription-decoration-img {
+    position: relative;
+    bottom: -25%;
+    grid-area: img;
+    width: 300px;
 }

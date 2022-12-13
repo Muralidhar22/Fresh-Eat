@@ -23,16 +23,16 @@ const ProductsListing = () => {
     }, [])
 
     return (
-        <div className={styles.productsListContainer}>
+        <div className={styles['products-list-container']}>
             {filteredProducts ?
                 filteredProducts.map((product: ProductType) => (
-                    <div className={styles.productContainer} key={product._id}>
-                        <div className={styles.productImg}>
+                    <div className={styles['product-container']} key={product._id}>
+                        <div className={styles['product-img']}>
                             <Link to={`/products/${product._id}`}>
                                 <img loading="lazy" src={product.media[0].source} alt={product.name} />
                             </Link>
                         </div>
-                        <div className={styles.productContainerInfo}>
+                        <div className={styles['product-container-info']}>
                             <div className="flex jc-space-btwn">
                                 <h3>{product.brand}</h3>
                                 <span className="cursor-pointer">
@@ -42,7 +42,7 @@ const ProductsListing = () => {
                                     />
                                 </span>
                             </div>
-                            <p className={styles.ProductName}>
+                            <p className={styles['product-name']}>
                                 {product.name}
                             </p>
                             <div>
@@ -50,17 +50,17 @@ const ProductsListing = () => {
                                 <del><span className="sr-only" aria-label="old price"></span>{product.price}</del>
                                 <span>({product.discount}% Off)</span>
                             </div>
-                            <CartButton
-                                wishlistElementType="button"
-                                productId={product._id}
-                            />
-
                         </div>
+                        <CartButton
+                            className={styles['add-to-cart-button']}
+                            wishlistElementType="button"
+                            productId={product._id}
+                        />
                     </div>
                 ))
                 : null
             }
-        </div>
+        </div >
     )
 }
 

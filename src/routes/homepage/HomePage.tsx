@@ -1,16 +1,16 @@
-import axios from "axios";
+import { useEffect } from "react";
+// import axios from "axios";
 
 import Carousel from "../../components/homepage/carousel/Carousel.component";
 import HomepageBody from "../../components/homepage/HomepageBody.component";
 import Footer from "../../components/homepage/Footer.component";
-import { useEffect } from "react";
+import useAxiosPrivate from "hooks/useAxiosPrivate";
 
 const HomePage = () => {
-
+    const axiosPrivate = useAxiosPrivate()
     useEffect(() => {
-        // onmount fetch cart and wishlist count
         (async () => {
-            const { data, status } = await axios({
+            const { data, status } = await axiosPrivate({
                 method: 'get',
                 url: 'cart/count'
             })
@@ -18,7 +18,7 @@ const HomePage = () => {
         })();
 
         (async () => {
-            const { data, status } = await axios({
+            const { data, status } = await axiosPrivate({
                 method: 'get',
                 url: 'wishlist/count'
             })

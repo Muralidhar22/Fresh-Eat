@@ -57,8 +57,8 @@ select {
   --clr-cta: #ffa000;
   --clr-linear-gradient: linear-gradient(to right, var(--clr-primary-200), var(--clr-primary-100));
   --clr-bg-100: #e2e8f0;
-  /* border radius */
-  --br-product-card: 0.5rem;
+
+  --error: red;
   /* padding */
 
 }
@@ -81,6 +81,7 @@ body {
 
 .flex {
   display: flex;
+  gap: var(--gap);
 }
 
 .jc-space-btwn {
@@ -89,6 +90,14 @@ body {
 
 .hidden {
   display: none;
+}
+
+.text-bold-500 {
+  font-weight: 500;
+}
+
+.width-100 {
+  width: 100%;
 }
 
 .sr-only {
@@ -153,6 +162,11 @@ body {
 
 .logo-x::after {
   transform: translateX(250%) rotate(45deg);
+}
+
+img {
+  max-inline-size: 100%;
+  block-size: auto;
 }
 
 p,

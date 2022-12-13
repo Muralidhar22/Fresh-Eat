@@ -3,6 +3,8 @@ import AddToCart from "../../cart-button/cartButton.component";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import CartButton from "../../cart-button/cartButton.component";
 
+import styles from "./ProductInfo.styles.module.css";
+
 type ProductInfoPropsType = {
     product: ProductType
 }
@@ -11,33 +13,30 @@ const ProductInfo = ({ product }: ProductInfoPropsType) => {
     return (
         <>
             <h1>{product.name}</h1>
-            <h2>{product.brand}</h2>
             <p>
-                <span>{product.discountPrice}</span>
-                <del><span className="sr-only" aria-label="old price"></span>{product.price}</del>
-                <span>({product.discount}% Off)</span>
-            </p>
-            <hr />
-            {product?.genre &&
-                <p>
-                    <span>Genre:</span>
-                    {
-                        product.genre.map(genre => <span key={genre}>{genre}&nbsp;</span>)
-                    }
-                </p>
-            }
-            <p>
-                <span>Description:</span>
+                <span>Description: </span>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus amet at dolorem sit magni earum quidem illo perspiciatis iure deserunt recusandae minus ullam similique libero tempore, beatae, nisi animi!
             </p>
-            <CartButton
-                wishlistElementType="button"
-                productId={product._id}
-            />
-            <WishlistButton
-                wishlistElementType="button"
-                productId={product._id}
-            />
+            <div className={styles['price-container']}>
+                <span className={styles['discount-price']}>{product.discountPrice}</span>
+                <del className={styles['old-price']}><span className="sr-only" aria-label="old price"></span>{product.price}</del>
+                <span className={styles['discount-percent']}>({product.discount}% Off)</span>
+            </div>
+            <div className={styles['action-items']}>
+                <CartButton
+                    className={styles['add-to-cart-button']}
+                    wishlistElementType="button"
+                    productId={product._id}
+                />
+                <div className={styles['wishlist-button-wrapper']}>
+                    <WishlistButton
+                        className={styles['wishlist-icon']}
+                        wishlistElementType="icon"
+                        productId={product._id}
+                    />
+
+                </div>
+            </div>
         </>
     )
 }

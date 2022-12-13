@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -6,48 +6,51 @@ import { ProviderPropsType } from "../types/ProviderPropsType";
 
 import { showToastErrorMessage } from "utils/toastMessage";
 import { showToastSuccessMessage } from "utils/toastMessage";
+import useAxiosPrivate from "hooks/useAxiosPrivate";
 
 export type UserContextValueType = {
-    userSignoutHandler: () => void
-    userSigninHandler: (email: string, password: string) => void
+    userSignOutHandler: () => void
+    userSignInHandler: (email: string, password: string) => void
     signedIn: boolean
+    accessTokenRef: React.MutableRefObject<string | null>
     setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-    setAccessToken: React.Dispatch<React.SetStateAction<string | null>>
-    accessToken: string | null
 }
 
 const INITIAL_CONTEXT_VALUE: UserContextValueType = {
-    userSignoutHandler: () => { },
-    userSigninHandler: () => { },
+    userSignOutHandler: () => { },
+    userSignInHandler: () => { },
     signedIn: false,
-    setSignedIn: () => { },
-    setAccessToken: () => { },
-    accessToken: null
+    accessTokenRef: { current: null },
+    setSignedIn: () => { }
 }
 
 export const UserContext = createContext<UserContextValueType>(INITIAL_CONTEXT_VALUE);
 
 export const UserProvider = ({ children }: ProviderPropsType) => {
     const [signedIn, setSignedIn] = useState(false)
-    const [accessToken, setAccessToken] = useState<string | null>(null)
+    const accessTokenRef = useRef<string | null>(null)
+    const axiosPrivate = useAxiosPrivate()
 
     const navigate = useNavigate()
 
-    const userSignoutHandler = async () => {
-        await axios.get('logout', { withCredentials: true })
+    const userSignOutHandler = async () => {
+        await axiosPrivate.get('logout')
         setSignedIn(false)
         navigate('/')
         showToastSuccessMessage(`Logged Out!, visit again to shop more`)
     }
 
-    const userSigninHandler = async (email: string, password: string) => {
+    const userSignInHandler = async (email: string, password: string) => {
         try {
-            const { data, status } = await axios.post('user/auth', {
-                email, password
-            }, { withCredentials: true })
+            const { data, status } = await axios({
+                method: 'POST',
+                url: 'user/auth',
+                data: { email, password },
+                withCredentials: true
+            })
             setSignedIn(true)
             showToastSuccessMessage(data.message)
-            axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`
+            accessTokenRef.current = data.accessToken
             navigate('/')
         } catch (err) {
             showToastErrorMessage(`${err}`)
@@ -68,12 +71,11 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
     }
 
     const value = {
-        userSigninHandler,
-        userSignoutHandler,
+        userSignInHandler,
+        userSignOutHandler,
         signedIn,
         setSignedIn,
-        accessToken,
-        setAccessToken
+        accessTokenRef
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }

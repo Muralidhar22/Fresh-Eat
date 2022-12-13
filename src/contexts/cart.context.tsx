@@ -4,13 +4,15 @@ import { ProviderPropsType } from "../types/ProviderPropsType";
 import cartReducer from "reducers/cart/cart.reducer";
 import { createAction } from "utils/reducer/createAction";
 import CART_ACTION_TYPE from "reducers/cart/cartActionType";
+import useAxiosPrivate from "hooks/useAxiosPrivate";
+import { showToastErrorMessage, showToastSuccessMessage } from "utils/toastMessage";
 
 type CartContextValueType = {
-    cartlist: {
+    cartList: {
         productId: string
         count: number
     }[]
-    cartlistCount: number
+    cartListCount: number
     addToCart: (item: any) => void,
     removeFromCart: (item: any) => void,
     increaseItemQty: (item: any) => void,
@@ -20,13 +22,13 @@ type CartContextValueType = {
 }
 
 const INITIAL_STATE_VALUE = {
-    cartlist: [],
+    cartList: [],
     INITIAL_FETCH: true
 }
 
 const INITIAL_CONTEXT_VALUE = {
-    cartlist: [],
-    cartlistCount: 0,
+    cartList: [],
+    cartListCount: 0,
     addToCart: () => { },
     removeFromCart: () => { },
     increaseItemQty: () => { },
@@ -60,10 +62,11 @@ const fetchChangeItemQty = async (accessToken: any, cartItem: string) => {
 export const CartContext = createContext<CartContextValueType>(INITIAL_CONTEXT_VALUE)
 
 export const CartProvider = ({ children }: ProviderPropsType) => {
-    const [{ cartlist, INITIAL_FETCH }, dispatch] = useReducer(cartReducer, INITIAL_STATE_VALUE)
+    const [{ cartList, INITIAL_FETCH }, dispatch] = useReducer(cartReducer, INITIAL_STATE_VALUE)
     // const { accessToken, setAccessToken } = useContext(UserContext);
-    const cartlistCount = cartlist.length
+    const cartListCount = cartList.length
     const [cartLoader, setCartLoader] = useState(false)
+    const axiosPrivate = useAxiosPrivate()
 
 
 
@@ -94,6 +97,18 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
 
 
     const addToCart = async (item: any) => {
+
+        try {
+            const { data, status } = await axiosPrivate.post('cart', { productItem: item })
+            if (status === 201) {
+                showToastSuccessMessage(`Added to Cart!`)
+                console.log(data);
+                // dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, data))
+            }
+        } catch (error) {
+            console.error(error);
+            showToastErrorMessage(`uh oh! something went wrong`);
+        }
         // const response = await fetchAddToCart(accessToken, item)
         // if (response.status === 403) {
         //     const newAccessToken = await accessForbiddenHandler()
@@ -113,6 +128,11 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     }
 
     const removeFromCart = async (item: any) => {
+        const { data, status } = await axiosPrivate({
+            method: 'delete', url: 'cart', data: { productId: item }
+        })
+
+
         // const response = await fetchRemoveFromCart(accessToken, item)
         // if (response.status === 403) {
         //     const newAccessToken = await accessForbiddenHandler()
@@ -165,8 +185,8 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     }
 
     const value = {
-        cartlist,
-        cartlistCount,
+        cartList,
+        cartListCount,
         addToCart,
         removeFromCart,
         increaseItemQty,

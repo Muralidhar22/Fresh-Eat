@@ -7,10 +7,10 @@ import { getFilteredProducts, getSortedProducts } from "utils/filterProducts";
 import { FilterContext } from "contexts/filter.context";
 
 type ProductContextValueType = {
-    products: ProductType[]
-    sortedProducts: ProductType[]
-    filteredProducts: ProductType[]
-    getProducts: () => {}
+    products: ProductType[] | null
+    sortedProducts: ProductType[] | null
+    filteredProducts: ProductType[] | null
+    getProducts: () => void
 }
 
 const DEFAULT_CONTEXT_VALUE = {

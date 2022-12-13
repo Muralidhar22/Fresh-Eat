@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import FormInput from "../formInput/FormInput.component";
 import { showToastInfoMessage, showToastSuccessMessage, showToastErrorMessage } from "../../utils/toastMessage";
 import signUpFormValidation from "../../utils/signUpFormValidation";
 import FormValuesType from "../../types/FormValuesType";
 
-import { FaCheck, FaTimes, FaInfoCircle } from "react-icons/fa";
-import axios from "axios";
-
+import { FaInfoCircle } from "react-icons/fa";
+import styles from "./SignUp.styles.module.css";
 
 const INITIAL_STATE = {
     firstName: '',
@@ -34,11 +34,34 @@ type FormInputFocusType = {
     confirmPassword: boolean
 }
 
+type InvalidNotePropsType = {
+    id: string
+    children: React.ReactNode
+}
+
+const InvalidNote = ({ id, children }: InvalidNotePropsType) => {
+    return (
+        <div className={styles.invalidValueNote}>
+            <FaInfoCircle style={{ minWidth: "20px" }} />
+            <p id={id}>
+                {children}
+            </p>
+        </div>
+    )
+}
+
 const SignUp = () => {
     const [formState, setFormState] = useState<FormValuesType>(INITIAL_STATE)
     const [formValidValue, setFormValidValue] = useState({} as FormValidValueType)
     const [formInputFocus, setFormInputFocus] = useState({} as FormInputFocusType)
     const navigate = useNavigate();
+    const inputLabelStyle = {
+        display: "grid",
+        gridTemplateColumns: "1em auto",
+        gap: "0.5em",
+        alignItems: "center",
+        justifyContent: "center"
+    }
 
     let allValidValues = Object.entries(formValidValue).reduce((prev, curr) => prev && curr[1], true)
 
@@ -99,9 +122,9 @@ const SignUp = () => {
     }
 
     return (
-        <>
-            <div>
-                <h1>Sign Up to create an account</h1>
+        <div className={styles.signUpWrapper}>
+            <h1 className="text-uppercase">sign up</h1>
+            <section className={styles.signUpContainer}>
                 <form onSubmit={handleSubmit}>
                     <FormInput
                         label="Firstname"
@@ -112,18 +135,17 @@ const SignUp = () => {
                         required={true}
                         onChange={(event) => handleFormInputChange(event, 'firstName')}
                         autoComplete="off"
-                        ariaInvalid={formValidValue.firstName}
+                        ariaInvalid={!formValidValue.firstName}
                         ariaDescribedBy="f-nidnote"
                         onFocus={() => handleInputFocus('firstName', true)}
                         onBlur={() => handleInputFocus('firstName', false)}
                     />
                     {displayInvalidValueNote('firstName') &&
-                        <p id="f-nidnote">
-                            <FaInfoCircle />
-                            4 to 24 characters.<br />
-                            Must begin with a letter.<br />
+                        <InvalidNote id="l-nidnote">
+                            4 to 24 characters.
+                            Must begin with a letter.
                             Letters, numbers, underscores, hyphens allowed.
-                        </p>
+                        </InvalidNote>
                     }
                     <FormInput
                         label="Lastname"
@@ -134,18 +156,17 @@ const SignUp = () => {
                         required={true}
                         onChange={(event) => handleFormInputChange(event, 'lastName')}
                         autoComplete="off"
-                        ariaInvalid={formValidValue.lastName}
+                        ariaInvalid={!formValidValue.lastName}
                         ariaDescribedBy="l-nidnote"
                         onFocus={() => handleInputFocus('lastName', true)}
                         onBlur={() => handleInputFocus('lastName', false)}
                     />
                     {displayInvalidValueNote('lastName') &&
-                        <p id="l-nidnote">
-                            <FaInfoCircle />
-                            4 to 24 characters.<br />
-                            Must begin with a letter.<br />
+                        <InvalidNote id="l-nidnote">
+                            4 to 24 characters.
+                            Must begin with a letter.
                             Letters, numbers, underscores, hyphens allowed.
-                        </p>
+                        </InvalidNote>
                     }
                     <FormInput
                         label="Email"
@@ -156,16 +177,16 @@ const SignUp = () => {
                         onChange={(event) => handleFormInputChange(event, 'email')}
                         required={true}
                         autoComplete="off"
-                        ariaInvalid={formValidValue.email}
+                        ariaInvalid={!formValidValue.email}
                         ariaDescribedBy="email-idnote"
                         onFocus={() => handleInputFocus('email', true)}
                         onBlur={() => handleInputFocus('email', false)}
                     />
-                    {displayInvalidValueNote('email') &&
-                        <p id="email-idnote">
-                            <FaInfoCircle />
-                            Your entered email should look like this <strong>example@test.com</strong>
-                        </p>
+                    {
+                        displayInvalidValueNote('email') &&
+                        <InvalidNote id="email-idnote">
+                            Your entered email should look like this <strong style={{ color: "black" }}>example@test.com</strong>
+                        </InvalidNote>
                     }
                     <FormInput
                         label="Password"
@@ -176,18 +197,16 @@ const SignUp = () => {
                         onChange={(event) => handleFormInputChange(event, 'password')}
                         required={true}
                         autoComplete="off"
-                        ariaInvalid={formValidValue.password}
+                        ariaInvalid={!formValidValue.password}
                         ariaDescribedBy="pwd-idnote"
                         onFocus={() => handleInputFocus('password', true)}
                         onBlur={() => handleInputFocus('password', false)}
                     />
-                    {displayInvalidValueNote('password') &&
-                        <p id='pwd-idnote'>
-                            <FaInfoCircle />
-                            8 to 24 characters.<br />
-                            Must include uppercase and lowercase letters, a number and a special character.<br />
-                            Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
-                        </p>
+                    {
+                        displayInvalidValueNote('password') &&
+                        <InvalidNote id="pwd-idnote">
+                            8 to 24 characters. Must include uppercase and lowercase letters, a number and a special character. Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                        </InvalidNote>
                     }
                     <FormInput
                         label="Confirm Password"
@@ -198,31 +217,32 @@ const SignUp = () => {
                         onChange={(event) => handleFormInputChange(event, 'confirmPassword')}
                         required={true}
                         autoComplete="off"
-                        ariaInvalid={formValidValue.confirmPassword}
+                        ariaInvalid={!formValidValue.confirmPassword}
                         ariaDescribedBy="c-pwd-idnote"
                         onFocus={() => handleInputFocus('confirmPassword', true)}
                         onBlur={() => handleInputFocus('confirmPassword', false)}
                     />
-                    {displayInvalidValueNote('confirmPassword') &&
-                        <p id="c-pwd-idnote">
-                            <FaInfoCircle />
+                    {
+                        displayInvalidValueNote('confirmPassword') &&
+                        <InvalidNote id="c-pwd-idnote">
                             Must match the first password input field.
-                        </p>
+                        </InvalidNote>
                     }
-                    <label htmlFor="checkbox">
+                    <label className={styles.terms} htmlFor="checkbox" style={inputLabelStyle} >
                         <input type="checkbox"
                             required
                             checked={formState.terms}
                             onChange={(event) => handleFormInputChange(event, 'terms')}
                             id="terms"
                             name="terms"
-                            aria-invalid={formValidValue.terms} />
+                            aria-invalid={!formValidValue.terms} />
                         I accept Terms & Conditions
                     </label>
-                    <button disabled={!allValidValues}>Sign Up</button>
-                </form>
-            </div>
-        </>
+                    <button disabled={!allValidValues} className={`${styles.signUpBtn}
+                     ${!allValidValues && styles.disabled}`}>Sign Up</button>
+                </form >
+            </section >
+        </div >
     )
 }
 
