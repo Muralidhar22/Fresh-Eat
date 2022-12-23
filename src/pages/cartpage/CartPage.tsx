@@ -29,20 +29,6 @@ const CartPage = () => {
             return product._id === cartItem.productId
         })
     })
-    useEffect(() => {
-        (async () => {
-            try {
-                const { data, status } = await axiosPrivate.get('cart')
-                if (status === 200) {
-                    console.log(data.items)
-                    setCartList(data.items)
-                }
-            } catch (error) {
-                handleError(error)
-            }
-        }
-        )()
-    }, [])
 
     if (cartList) {
         return (

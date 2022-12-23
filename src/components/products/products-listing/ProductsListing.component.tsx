@@ -1,10 +1,8 @@
 import { FC, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 import { ProductContext } from "../../../contexts/products.context";
 import ProductType from "../../../types/ProductType";
-import CartButton from "../../cart-button/cartButton.component";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import { getFilteredProducts, getSortedProducts } from "utils/filterProducts";
 import { FilterContext } from "contexts/filter.context";

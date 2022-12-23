@@ -1,10 +1,11 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 import { ProviderPropsType } from "../types/ProviderPropsType";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
 import { showToastSuccessMessage } from "utils/toastMessage";
 import { handleError } from "utils/displayError";
 import { ProductContext } from "./products.context";
+import { UserContext } from "./user.context";
 
 type CartListType =
     {
@@ -41,10 +42,25 @@ export const CartContext = createContext<CartContextValueType>(INITIAL_CONTEXT_V
 
 export const CartProvider = ({ children }: ProviderPropsType) => {
     const [cartList, setCartList] = useState<CartListType[] | null>(null)
-    const [cartListCount, setCartListCount] = useState<number | null>(null)
+    const cartListCount = cartList ? cartList.length : null
     const [cartLoader, setCartLoader] = useState(false)
     const { products } = useContext(ProductContext)
     const axiosPrivate = useAxiosPrivate()
+    const { signedIn } = useContext(UserContext)
+    useEffect(() => {
+        if (signedIn && !cartList)
+            (async () => {
+                try {
+                    const { data, status } = await axiosPrivate.get('cart')
+                    if (status === 200) {
+                        setCartList(data.items)
+                    }
+                } catch (error) {
+                    handleError(error)
+                }
+            }
+            )()
+    }, [signedIn])
 
     const addToCart = async (item: any) => {
         try {
@@ -157,7 +173,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
         cartInitialState,
         cartLoader,
         getCartTotal,
-        setCartList
+        setCartList,
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>

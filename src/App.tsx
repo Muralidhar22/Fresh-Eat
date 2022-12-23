@@ -1,18 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
 
-import HomePage from './routes/homepage/HomePage';
-import WishlistPage from './routes/wishlist/WishlistPage';
-import CartPage from './routes/cartpage/CartPage';
-import ShopPage from './routes/shoppage/ShopPage';
+import HomePage from './pages/homepage/HomePage';
+import WishlistPage from './pages/wishlist/WishlistPage';
+import CartPage from './pages/cartpage/CartPage';
+import ShopPage from './pages/shoppage/ShopPage';
 import PageNotFound from './components/404.component';
-import Nav from './components/nav/Nav.component';
 import SignIn from './components/signin-form/SignIn.component';
 import SignUp from './components/signup-form/SignUp.component';
 import Faq from './components/faq/Faq.component';
-import Feedback from './routes/feedback/Feedback.component';
-import ProductPage from './routes/product-page/ProductPage.component';
-import OrdersPage from 'routes/orderspage/OrdersPage';
-import PaymentPage from 'routes/payment/PaymentPage';
+import Feedback from './pages/feedback/Feedback.component';
+import ProductPage from './pages/product-page/ProductPage.component';
+import OrdersPage from 'pages/orderspage/OrdersPage';
+import PaymentPage from 'pages/payment/PaymentPage';
 
 function App() {
 

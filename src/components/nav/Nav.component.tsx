@@ -8,7 +8,7 @@ import styles from "./Nav.styles.module.css";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import CartButton from "components/cart-button/cartButton.component";
 
-import { FaSignOutAlt, FaSearch } from "react-icons/fa";
+import { FaSignOutAlt, FaUserAlt, FaSearch } from "react-icons/fa";
 
 const Navbar = () => {
     let location = useLocation();
@@ -52,11 +52,12 @@ const Navbar = () => {
                     <Link to="/products">Shop</Link>
                     {
                         signedIn ?
-                            <button className={styles['logout-button']} onClick={handleLogout}>
-                                <FaSignOutAlt
-                                    color="white"
-                                />
-                            </button>
+                            <FaUserAlt />
+                            // <button className={styles['logout-button']} onClick={handleLogout}>
+                            //     <FaSignOutAlt
+                            //         color="white"
+                            //     />
+                            // </button>
                             : (
                                 <Link to="/signin">
                                     Sign In

@@ -1,19 +1,18 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { ProviderPropsType } from "../types/ProviderPropsType";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
 import { handleError } from "utils/displayError";
 import { showToastSuccessMessage } from "utils/toastMessage";
-import WishlistType from "types/WishlistType";
+import { UserContext } from "./user.context";
 
 type WishlistContextValueType = {
-    wishlist: WishlistType[] | null
+    wishlist: string[] | null
     addToWishlist: (item: any) => any
     removeFromWishlist: (item: any) => any
     wishlistInitialState: () => void
     wishlistCount: number | null
-    setWishlistCount: React.Dispatch<React.SetStateAction<number | null>>
-    setWishlist: React.Dispatch<React.SetStateAction<WishlistType[] | null>>
+    setWishlist: React.Dispatch<React.SetStateAction<string[] | null>>
 }
 
 const INITIAL_CONTEXT_VALUE = {
@@ -22,16 +21,31 @@ const INITIAL_CONTEXT_VALUE = {
     removeFromWishlist: () => { },
     wishlistInitialState: () => { },
     wishlistCount: null,
-    setWishlistCount: () => { },
     setWishlist: () => { }
 }
 
 export const WishlistContext = createContext<WishlistContextValueType>(INITIAL_CONTEXT_VALUE)
 
 export const WishlistProvider = ({ children }: ProviderPropsType) => {
-    const [wishlist, setWishlist] = useState<WishlistType[] | null>(null)
-    const [wishlistCount, setWishlistCount] = useState<number | null>(null)
+    const [wishlist, setWishlist] = useState<string[] | null>(null)
+    const wishlistCount = wishlist ? wishlist.length : null
     const axiosPrivate = useAxiosPrivate()
+    const { signedIn } = useContext(UserContext)
+
+    useEffect(() => {
+        if (signedIn && !wishlist) {
+            (async () => {
+                try {
+                    const { data, status } = await axiosPrivate.get('wishlist')
+                    if (status === 200) {
+                        setWishlist(data.items)
+                    }
+                } catch (error) {
+                    handleError(error)
+                }
+            })()
+        }
+    }, [signedIn])
 
     const addToWishlist = async (item: string) => {
         try {
@@ -71,7 +85,6 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
         removeFromWishlist,
         wishlistCount,
         wishlistInitialState,
-        setWishlistCount,
         setWishlist
     }
     return <WishlistContext.Provider value={value}>{children}</WishlistContext.Provider>
