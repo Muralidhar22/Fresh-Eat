@@ -7,49 +7,51 @@ import { UserContext } from "contexts/user.context";
 import { CartContext } from "contexts/cart.context";
 import { ProductContext } from "contexts/products.context";
 import { formatDate, formatTime } from "utils/dateTimeFormat";
+import useAxiosPrivate from "hooks/useAxiosPrivate";
 
 const PaymentPage = () => {
     const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
     const [clientSecret, setClientSecret] = useState<string>();
     const { signedIn } = useContext(UserContext);
-    const { cartlist, } = useContext(CartContext);
+    const { cartList } = useContext(CartContext);
+    const axiosPrivate = useAxiosPrivate();
     let orderAmount = 0;
     const formattedDate = formatDate()
     const formattedTime = formatTime()
     const [orderId, setOrderId] = useState<string>();
     const { products } = useContext(ProductContext)
-    const cartlistProducts = cartlist.map(cartItem => {
+    const cartListProducts = cartList.map(cartItem => {
         return { count: cartItem.count, details: products.find(product => product._id === cartItem.productId) }
     })
 
 
-    // useEffect(() => {
-    //     setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`))
-    //     const updateOrders = async () => {
-    //         const { data, status } = await axios.post('orders', {
-    //             items: cartlistProducts,
-    //             shippingAddress: {},
-    //             billingAddress: {},
-    //             amount: orderAmount,
-    //             createdTime: formattedTime,
-    //             createdDate: formattedDate
-    //         })
-    //         if (status === 201) {
-    //             setOrderId(data.id)
-    //         }
-    //     }
-    //     (async () => {
-    //         const { data, status } = await axios.post('create-payment-intent', {
-    //             items: cartlist
-    //         })
-    //         if (status === 200) {
-    //             setClientSecret(data.clientSecret);
-    //             orderAmount = data.amount
-    //             updateOrders()
-    //         }
+    useEffect(() => {
+        setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`))
+        const updateOrders = async () => {
+            const { data, status } = await axiosPrivate.post('orders', {
+                items: cartListProducts,
+                shippingAddress: {},
+                billingAddress: {},
+                amount: orderAmount,
+                createdTime: formattedTime,
+                createdDate: formattedDate
+            })
+            if (status === 201) {
+                setOrderId(data.id)
+            }
+        }
+        (async () => {
+            const { data, status } = await axiosPrivate.post('create-payment-intent', {
+                items: cartList
+            })
+            if (status === 200) {
+                setClientSecret(data.clientSecret);
+                orderAmount = data.amount
+                updateOrders()
+            }
 
-    //     })();
-    // }, [])
+        })();
+    }, [])
 
 
     return (

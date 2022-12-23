@@ -78,14 +78,6 @@ export default function CheckoutForm({ orderId }: { orderId: string }) {
         // }
         // setIsProcessing(false);
     };
-
-    // function updateClipboard(newClip) {
-    //     navigator.clipboard.writeText(newClip).then(() => {
-    //         /* clipboard successfully set */
-    //     }, () => {
-    //         /* clipboard write failed */
-    //     });
-    // }
     return (
         <div className={styles.paymentFormContainer}>
             <form id="payment-form" onSubmit={handleSubmit}>

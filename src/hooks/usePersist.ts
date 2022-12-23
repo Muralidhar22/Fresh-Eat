@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const getToken = () => {
+const getPersistedValue = () => {
     const value = localStorage.getItem("persist")
     if (typeof value === "string") {
         return JSON.parse(value)
@@ -9,7 +9,7 @@ const getToken = () => {
 }
 
 const usePersist = () => {
-    const [persist, setPersist] = useState(getToken)
+    const [persist, setPersist] = useState(getPersistedValue)
     useEffect(() => {
         localStorage.setItem("persist", JSON.stringify(persist))
     }, [persist])

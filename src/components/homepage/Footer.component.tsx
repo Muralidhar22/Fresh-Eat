@@ -19,12 +19,14 @@ const Footer = () => {
                     <a href="#" target="_blank"><FaGithub /></a>
                 </div>
             </section>
-            <div>
-                &#169; 2000 - 2022
-                <span className="logoContainer">
-                    <span className="text-uppercase logoText">Game</span>
+            <div className={styles['footer-note']}>
+                &#169;
+                <div className="logo-container">
+                    <span className={`text-uppercase logo-text`}>Game</span>
                     <span className="logo-x"></span>
-                </span>
+                </div>
+                2000 - 2022
+                <span>Online store of digital goods. All rights reserved.</span>
             </div>
         </footer>
     )

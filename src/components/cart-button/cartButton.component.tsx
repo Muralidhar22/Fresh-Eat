@@ -16,20 +16,10 @@ type CartButtonPropsType = {
 }
 
 const CartButton = ({ productId, wishlistElementType, className }: CartButtonPropsType) => {
-    const { signedIn, accessTokenRef } = useContext(UserContext)
+    const { signedIn } = useContext(UserContext)
     const { cartList, cartListCount, addToCart } = useContext(CartContext)
-    const isCartItem = cartList.some((cartProduct) => cartProduct.productId === productId)
+    const isCartItem = cartList?.some((cartProduct) => cartProduct.productId === productId)
     const navigate = useNavigate()
-    const axiosPrivate = useAxiosPrivate()
-
-    const handleClickHandler = async () => {
-        try {
-            await axiosPrivate.get('cart/count')
-        } catch (error) {
-            console.error(error)
-            showToastErrorMessage(`${error}`)
-        }
-    }
 
     if (wishlistElementType === 'nav-icon') {
         return (
@@ -55,7 +45,6 @@ const CartButton = ({ productId, wishlistElementType, className }: CartButtonPro
                             <button
                                 className={className}
                                 onClick={() => {
-                                    handleClickHandler()
                                     addToCart(productId)
                                 }}
                             >

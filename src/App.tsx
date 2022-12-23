@@ -18,17 +18,15 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Nav />}>
-        <Route index element={<HomePage />} />
-        <Route path="products" element={<ShopPage />} />
-        <Route path="products/:productId" element={<ProductPage />} />
-        <Route path="cart" element={<CartPage />} />
-        <Route path="wishlist" element={<WishlistPage />} />
-        <Route path="orders" element={<OrdersPage />} />
-        <Route path="address" element />
-        <Route path="faq" element={<Faq />} />
-        <Route path="feedback" element={<Feedback />} />
-      </Route>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/products" element={<ShopPage />} />
+      <Route path="/products/:productId" element={<ProductPage />} />
+      <Route path="/cart" element={<CartPage />} />
+      <Route path="/wishlist" element={<WishlistPage />} />
+      <Route path="/orders" element={<OrdersPage />} />
+      <Route path="/address" element />
+      <Route path="/faq" element={<Faq />} />
+      <Route path="/feedback" element={<Feedback />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/checkout" element={<PaymentPage />} />

@@ -11,7 +11,9 @@ type WishlistButtonPropsType = {
 
 const WishlistButton = ({ wishlistElementType, productId, className }: WishlistButtonPropsType) => {
     const { wishlist, addToWishlist, removeFromWishlist, wishlistCount } = useContext(WishlistContext)
-    const isItemWishlist = (wishlist.length > 0 && productId) && wishlist.includes(productId)
+    const isItemWishlist = wishlist
+        ? (wishlist.includes(productId) && true)
+        : false
     const { signedIn } = useContext(UserContext)
 
     if (wishlistElementType === "icon") {

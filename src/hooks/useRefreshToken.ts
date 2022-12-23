@@ -25,6 +25,7 @@ const useRefreshToken = () => {
             accessTokenRef.current = response.data.accessToken
             return response.data.accessToken;
         } catch (err) {
+            console.log("yoooooo")
             handleLogout()
             showToastErrorMessage(`${err}`)
         }

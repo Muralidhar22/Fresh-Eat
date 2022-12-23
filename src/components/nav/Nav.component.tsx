@@ -1,5 +1,5 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useContext, useState } from "react";
 
 import { UserContext } from "../../contexts/user.context";
 import { WishlistContext } from "contexts/wishlist.context";
@@ -8,13 +8,14 @@ import styles from "./Nav.styles.module.css";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import CartButton from "components/cart-button/cartButton.component";
 
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaSearch } from "react-icons/fa";
 
-const Nav = () => {
+const Navbar = () => {
     let location = useLocation();
     const { userSignOutHandler, signedIn } = useContext(UserContext)
     const { wishlistInitialState } = useContext(WishlistContext)
     const { cartInitialState } = useContext(CartContext)
+    const [searchBarFocus, setSearchBarFocus] = useState(false)
 
     const handleLogout = () => {
         userSignOutHandler()
@@ -37,12 +38,21 @@ const Nav = () => {
                         <span className="logo-x"></span>
                     </span>
                 </Link>
-                <div className={styles.navMenu}>
-                    {location.pathname === '/products' && <input type="search" placeholder="Search games, consoles & more" />}
+                {location.pathname === '/products' &&
+                    <form className={`${styles['search-wrapper']} ${searchBarFocus && styles['active']}`}>
+                        <input
+                            className={styles['search-input']}
+                            type="search"
+                            placeholder="Search games, consoles & more"
+                            onFocus={() => setSearchBarFocus(true)}
+                            onBlur={() => setSearchBarFocus(false)} />
+                        <button className={styles['search-submit-button']} type="submit"><span className="sr-only">search</span><span> <FaSearch /> </span></button>
+                    </form>}
+                <div className={styles['nav-menu']}>
                     <Link to="/products">Shop</Link>
                     {
                         signedIn ?
-                            <button className={styles.logoutBtn} onClick={handleLogout}>
+                            <button className={styles['logout-button']} onClick={handleLogout}>
                                 <FaSignOutAlt
                                     color="white"
                                 />
@@ -66,10 +76,8 @@ const Nav = () => {
                     </Link>
                 </div>
             </nav>
-
-            <Outlet />
         </>
     )
 }
 
-export default Nav;
+export default Navbar;

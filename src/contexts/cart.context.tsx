@@ -1,187 +1,150 @@
-import { createContext, useReducer, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 
 import { ProviderPropsType } from "../types/ProviderPropsType";
-import cartReducer from "reducers/cart/cart.reducer";
-import { createAction } from "utils/reducer/createAction";
-import CART_ACTION_TYPE from "reducers/cart/cartActionType";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
-import { showToastErrorMessage, showToastSuccessMessage } from "utils/toastMessage";
+import { showToastSuccessMessage } from "utils/toastMessage";
+import { handleError } from "utils/displayError";
+import { ProductContext } from "./products.context";
 
-type CartContextValueType = {
-    cartList: {
+type CartListType =
+    {
         productId: string
         count: number
-    }[]
-    cartListCount: number
+    }
+
+type CartContextValueType = {
+    cartList: CartListType[] | null
+    cartListCount: number | null
     addToCart: (item: any) => void,
     removeFromCart: (item: any) => void,
     increaseItemQty: (item: any) => void,
     decreaseItemQty: (item: any) => void,
     cartInitialState: () => void,
     cartLoader: boolean
+    getCartTotal: () => number | null
+    setCartList: React.Dispatch<React.SetStateAction<CartListType[] | null>>
 }
-
-const INITIAL_STATE_VALUE = {
-    cartList: [],
-    INITIAL_FETCH: true
-}
-
 const INITIAL_CONTEXT_VALUE = {
-    cartList: [],
-    cartListCount: 0,
+    cartList: null,
+    cartListCount: null,
     addToCart: () => { },
     removeFromCart: () => { },
     increaseItemQty: () => { },
     decreaseItemQty: () => { },
     cartInitialState: () => { },
-    cartLoader: false
-}
-
-
-const fetchAddToCart = async (accessToken: any, item: string) => {
-    // const { data, status } = await axios.post('cart', { productItem: item })
-    // return { data, status };
-}
-
-const fetchRemoveFromCart = async (accessToken: any, item: string) => {
-    // const { data, status } = await axios({
-    //     method: 'delete', url: 'cart', data: {
-    //         productId: item
-    //     }
-    // })
-    // return { data, status };
-}
-
-const fetchChangeItemQty = async (accessToken: any, cartItem: string) => {
-    // const { data, status } = await axios.patch('cart', {
-    //     cartItem
-    // })
-    // return { data, status };
+    cartLoader: false,
+    setCartList: () => { },
+    getCartTotal: () => { return null }
 }
 
 export const CartContext = createContext<CartContextValueType>(INITIAL_CONTEXT_VALUE)
 
 export const CartProvider = ({ children }: ProviderPropsType) => {
-    const [{ cartList, INITIAL_FETCH }, dispatch] = useReducer(cartReducer, INITIAL_STATE_VALUE)
-    // const { accessToken, setAccessToken } = useContext(UserContext);
-    const cartListCount = cartList.length
+    const [cartList, setCartList] = useState<CartListType[] | null>(null)
+    const [cartListCount, setCartListCount] = useState<number | null>(null)
     const [cartLoader, setCartLoader] = useState(false)
+    const { products } = useContext(ProductContext)
     const axiosPrivate = useAxiosPrivate()
 
-
-
-    // useEffect(() => {
-    //     if (accessToken && INITIAL_FETCH) {
-    //         const getCartlist = async (accessToken: string) => {
-    //             const response = await fetch(CART_API, {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     'Authorization': `Bearer ${accessToken}`
-    //                 },
-    //             })
-    //             const result: any = await response.json();
-    //             if (response.status === 200) {
-    //                 dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, result.items))
-    //                 dispatch(createAction(CART_ACTION_TYPE.SET_INITIAL_FETCH, false))
-    //             } else if (response.status === 403) {
-    //                 const newAccessToken = await accessForbiddenHandler()
-    //                 getCartlist(newAccessToken)
-    //             } else {
-    //                 showToastErrorMessage(result.message)
-    //             }
-    //         }
-    //         getCartlist(accessToken)
-    //     }
-    // }, [accessToken])
-
-
-
     const addToCart = async (item: any) => {
-
         try {
-            const { data, status } = await axiosPrivate.post('cart', { productItem: item })
+            const { data, status } = await axiosPrivate.post('cart', { productId: item })
             if (status === 201) {
                 showToastSuccessMessage(`Added to Cart!`)
-                console.log(data);
-                // dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, data))
+                setCartList(data.items)
             }
         } catch (error) {
-            console.error(error);
-            showToastErrorMessage(`uh oh! something went wrong`);
+            handleError(error)
         }
-        // const response = await fetchAddToCart(accessToken, item)
-        // if (response.status === 403) {
-        //     const newAccessToken = await accessForbiddenHandler()
-        //     const response = await fetchAddToCart(newAccessToken, item)
-        //     const result: any = await response.json()
-        //     if (response.status === 201) {
-        //         showToastSuccessMessage(`Added to Cart!`)
-        //         dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, result.items))
-        //     } else {
-        //         showToastErrorMessage(result.message)
-        //     }
-        // } else if (response.status === 201) {
-        //     showToastSuccessMessage(`Added to Cart!`)
-        //     const result: CartType = await response.json()
-        //     dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, result.items))
-        // }
     }
 
     const removeFromCart = async (item: any) => {
-        const { data, status } = await axiosPrivate({
-            method: 'delete', url: 'cart', data: { productId: item }
-        })
-
-
-        // const response = await fetchRemoveFromCart(accessToken, item)
-        // if (response.status === 403) {
-        //     const newAccessToken = await accessForbiddenHandler()
-        //     const response = await fetchRemoveFromCart(newAccessToken, item)
-        //     const result: any = await response.json()
-        //     if (response.status === 200) {
-        //         showToastSuccessMessage(`Removed from Cart!`)
-        //         dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, result.items))
-        //     } else {
-        //         showToastErrorMessage(result.message)
-        //     }
-        // } else if (response.status === 200) {
-        //     const result: CartType = await response.json()
-        //     dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, result.items))
-        // }
+        try {
+            const { data, status } = await axiosPrivate({
+                method: 'delete', url: 'cart', data: { productId: item }
+            })
+            if (status === 200) {
+                console.log(data, status)
+                showToastSuccessMessage(`Removed from Cart!`)
+                setCartList(data.items)
+            }
+        } catch (error) {
+            handleError(error)
+        }
     }
 
     const increaseItemQty = async (item: any) => {
-        // setCartLoader(true)
-        // const itemToUpdate = cartlist.find((cartItem: {
-        //     productId: string
-        //     count: number
-        // }) => cartItem.productId === item)
-        // const response = await fetchChangeItemQty(accessToken, { ...itemToUpdate, count: itemToUpdate.count + 1 })
-        // setCartLoader(false)
-        // if (response.status === 200) {
-        //     const result: CartType = await response.json()
-        //     dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, result.items))
-        // } else if (response.status === 403) {
-        //     const newAccessToken = await accessForbiddenHandler()
-        //     const response = await fetchChangeItemQty(newAccessToken, { ...itemToUpdate, count: itemToUpdate.count + 1 })
-        //     const result: any = await response.json()
-        //     if (response.status === 200) {
-        //         dispatch(createAction(CART_ACTION_TYPE.SET_CART_LIST, result.items))
-        //     } else {
-        //         showToastErrorMessage(result.message)
-        //     }
-        // } else {
-        //     const result: any = await response.json()
-        //     showToastErrorMessage(result.message)
-        // }
+        setCartLoader(true)
+        if (cartList) {
+            const itemToUpdate = cartList.find((cartItem) => cartItem.productId === item)
+            try {
+                if (itemToUpdate) {
+                    const { data, status } = await axiosPrivate.patch('cart', {
+                        ...itemToUpdate,
+                        count: itemToUpdate.count + 1
+                    })
+                    console.log(data, status)
+                    if (status === 200) {
+                        setCartList(data.items)
+                        showToastSuccessMessage(`Item quantity increased`)
+                    }
+                }
+            } catch (error) {
+                handleError(error);
+            }
+
+        }
+        setCartLoader(false)
     }
 
     const decreaseItemQty = async (item: any) => {
-        // s
+        setCartLoader(true)
+
+        if (cartList) {
+            const itemToUpdate = cartList.find((cartItem: {
+                productId: string
+                count: number
+            }) => cartItem.productId === item)
+            if (itemToUpdate && itemToUpdate.count === 1) removeFromCart(item)
+            else {
+                try {
+                    if (itemToUpdate) {
+                        const { data, status } = await axiosPrivate.patch('cart', {
+                            ...itemToUpdate,
+                            count: itemToUpdate.count - 1
+                        })
+                        console.log(data, status)
+                        if (status === 200) {
+                            setCartList(data.items)
+                            showToastSuccessMessage(`Item quantity increased`)
+                        }
+                    }
+                } catch (error) {
+                    handleError(error);
+                }
+            }
+        }
+        setCartLoader(false)
     }
 
     const cartInitialState = () => {
-        dispatch(createAction(CART_ACTION_TYPE.SET_INITIAL_STATE, INITIAL_STATE_VALUE))
+        setCartList(null)
+    }
+
+    const getCartTotal = () => {
+        let cartAmount;
+        if (cartList && products) {
+            cartAmount = cartList?.reduce((prevValue, currentItem) => {
+                const itemDetails = products?.find(product => product._id === currentItem.productId)
+                if (itemDetails?.discountPrice) {
+                    return (prevValue + itemDetails?.discountPrice * currentItem.count)
+                } else {
+                    return prevValue
+                }
+            }, 0)
+            return cartAmount
+        }
+        return null
     }
 
     const value = {
@@ -192,7 +155,9 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
         increaseItemQty,
         decreaseItemQty,
         cartInitialState,
-        cartLoader
+        cartLoader,
+        getCartTotal,
+        setCartList
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>

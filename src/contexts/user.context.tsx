@@ -3,10 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { ProviderPropsType } from "../types/ProviderPropsType";
+import useAxiosPrivate from "hooks/useAxiosPrivate";
+import usePersist from "hooks/usePersist";
 
 import { showToastErrorMessage } from "utils/toastMessage";
 import { showToastSuccessMessage } from "utils/toastMessage";
-import useAxiosPrivate from "hooks/useAxiosPrivate";
 
 export type UserContextValueType = {
     userSignOutHandler: () => void
@@ -27,7 +28,7 @@ const INITIAL_CONTEXT_VALUE: UserContextValueType = {
 export const UserContext = createContext<UserContextValueType>(INITIAL_CONTEXT_VALUE);
 
 export const UserProvider = ({ children }: ProviderPropsType) => {
-    const [signedIn, setSignedIn] = useState(false)
+    const [signedIn, setSignedIn, clearPersist] = usePersist()
     const accessTokenRef = useRef<string | null>(null)
     const axiosPrivate = useAxiosPrivate()
 
@@ -35,6 +36,7 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
 
     const userSignOutHandler = async () => {
         await axiosPrivate.get('logout')
+        clearPersist()
         setSignedIn(false)
         navigate('/')
         showToastSuccessMessage(`Logged Out!, visit again to shop more`)
@@ -55,19 +57,6 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
         } catch (err) {
             showToastErrorMessage(`${err}`)
         }
-        // const result = await response.json();
-        // console.log(data)
-        // if (status === (401 || 400)) {
-        //     (`Something went wrong`)
-        // }
-        //         else if (status === 200) {
-
-        //     setSignedIn(true)
-        //     showToastSuccessMessage(data.message)
-        // } else {
-        //     console.log(status)
-        //     showToastErrorMessage(`uh Oh! Something went wrong`)
-        // }
     }
 
     const value = {

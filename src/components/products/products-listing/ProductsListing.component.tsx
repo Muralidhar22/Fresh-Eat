@@ -27,9 +27,9 @@ const ProductsListing = () => {
             {filteredProducts ?
                 filteredProducts.map((product: ProductType) => (
                     <div className={styles['product-container']} key={product._id}>
-                        <div className={styles['product-img']}>
+                        <div className={styles['product-image-container']}>
                             <Link to={`/products/${product._id}`}>
-                                <img loading="lazy" src={product.media[0].source} alt={product.name} />
+                                <img loading="lazy" className={styles['product-image']} src={product.media[0].source} alt={product.name} />
                             </Link>
                         </div>
                         <div className={styles['product-container-info']}>
@@ -45,17 +45,12 @@ const ProductsListing = () => {
                             <p className={styles['product-name']}>
                                 {product.name}
                             </p>
-                            <div>
-                                <span>{product.discountPrice}</span>
+                            <div className={styles['price-container']}>
+                                <span>{product.discountPrice} &#8377;</span>
                                 <del><span className="sr-only" aria-label="old price"></span>{product.price}</del>
-                                <span>({product.discount}% Off)</span>
                             </div>
                         </div>
-                        <CartButton
-                            className={styles['add-to-cart-button']}
-                            wishlistElementType="button"
-                            productId={product._id}
-                        />
+                        <span className={styles['discount-percent']}>-{product.discount}%</span>
                     </div>
                 ))
                 : null

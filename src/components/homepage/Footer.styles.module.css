@@ -17,3 +17,9 @@
     display: flex;
     gap: 0.25rem;
 }
+
+.footer-note {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}

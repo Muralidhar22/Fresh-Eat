@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import { ProductContext } from "../../contexts/products.context";
-import ProductCarousel from "../../components/products/product-carousel/ProductCarousel.component";
 import ProductInfo from "../../components/products/product-info/ProductInfo.component";
 import ProductType from "types/ProductType";
 

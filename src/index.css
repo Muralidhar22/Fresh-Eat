@@ -126,13 +126,13 @@ body {
 }
 
 /* brand logo styling */
-.logoContainer {
+.logo-container {
   display: flex;
   gap: 0.25rem;
   align-items: center;
 }
 
-.logoText {
+.logo-text {
   font-size: 1.8rem;
 }
 

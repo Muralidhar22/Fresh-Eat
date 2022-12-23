@@ -1,9 +1,4 @@
-.videoContainer {
-    width: 320px;
-    font-size: .5rem;
-}
-
-.ShopPage_main {
-    display: flex;
-    gap: 1rem;
+.main-content {
+    align-items: flex-start;
+    padding: 2rem;
 }

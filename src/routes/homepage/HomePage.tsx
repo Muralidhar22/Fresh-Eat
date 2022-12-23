@@ -5,6 +5,7 @@ import Carousel from "../../components/homepage/carousel/Carousel.component";
 import HomepageBody from "../../components/homepage/HomepageBody.component";
 import Footer from "../../components/homepage/Footer.component";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
+import Navbar from "components/nav/Nav.component";
 
 const HomePage = () => {
     const axiosPrivate = useAxiosPrivate()
@@ -14,7 +15,6 @@ const HomePage = () => {
                 method: 'get',
                 url: 'cart/count'
             })
-            console.log("cart count", data)
         })();
 
         (async () => {
@@ -22,17 +22,17 @@ const HomePage = () => {
                 method: 'get',
                 url: 'wishlist/count'
             })
-            console.log("wishlist count", data)
         })();
     }, [])
 
 
     return (
-        <div>
+        <>
+            <Navbar />
             <Carousel />
             <HomepageBody />
             <Footer />
-        </div>
+        </>
     )
 }
 

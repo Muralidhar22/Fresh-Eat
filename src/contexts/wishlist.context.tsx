@@ -1,87 +1,68 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import React, { createContext, useState } from "react";
 
 import { ProviderPropsType } from "../types/ProviderPropsType";
-import wishlistReducer from "reducers/wishlist/wishlist.reducer"
-import { createAction } from "utils/reducer/createAction";
-import WISHLIST_ACTION_TYPE from "reducers/wishlist/wishlistActionType";
+import useAxiosPrivate from "hooks/useAxiosPrivate";
+import { handleError } from "utils/displayError";
+import { showToastSuccessMessage } from "utils/toastMessage";
+import WishlistType from "types/WishlistType";
 
 type WishlistContextValueType = {
-    wishlist: string[]
+    wishlist: WishlistType[] | null
     addToWishlist: (item: any) => any
     removeFromWishlist: (item: any) => any
     wishlistInitialState: () => void
-    wishlistCount: number
-}
-
-const INITIAL_STATE_VALUE = {
-    wishlist: [],
-    INITIAL_FETCH: true
+    wishlistCount: number | null
+    setWishlistCount: React.Dispatch<React.SetStateAction<number | null>>
+    setWishlist: React.Dispatch<React.SetStateAction<WishlistType[] | null>>
 }
 
 const INITIAL_CONTEXT_VALUE = {
-    wishlist: [],
+    wishlist: null,
     addToWishlist: () => { },
     removeFromWishlist: () => { },
     wishlistInitialState: () => { },
-    wishlistCount: 0
-}
-
-const fetchAddToWishlist = async (item: string) => {
-    // const { data, status } = await axios.post('wishlist', {
-    //     productId: item
-    // })
-    // return { data, status };
-}
-
-const fetchRemoveFromWishlist = async (item: string) => {
-    // const { data, status } = await axios.patch('wishlist', {
-    //     productId: item
-    // })
-    // return { data, status };
+    wishlistCount: null,
+    setWishlistCount: () => { },
+    setWishlist: () => { }
 }
 
 export const WishlistContext = createContext<WishlistContextValueType>(INITIAL_CONTEXT_VALUE)
 
 export const WishlistProvider = ({ children }: ProviderPropsType) => {
-    const [{ wishlist, INITIAL_FETCH }, dispatch] = useReducer(wishlistReducer, INITIAL_STATE_VALUE)
-    const wishlistCount = wishlist.length
+    const [wishlist, setWishlist] = useState<WishlistType[] | null>(null)
+    const [wishlistCount, setWishlistCount] = useState<number | null>(null)
+    const axiosPrivate = useAxiosPrivate()
 
     const addToWishlist = async (item: string) => {
-        // const response = await fetchAddToWishlist(accessToken, item)
-        // if (response.status === 403) {
-        //     const newAccessToken = await accessForbiddenHandler()
-        //     const   = await fetchAddToWishlist(newAccessToken, item)
-        //     const result: any = await response.json()
-        //     if (response.status === 201) {
-        //         dispatch(createAction(WISHLIST_ACTION_TYPE.SET_WISHLIST, result.items))
-        //     } else {
-        //         showToastErrorMessage(result.message)
-        //     }
-        // } else if (response.status === 201) {
-        //     const result: WishlistType = await response.json()
-        //     dispatch(createAction(WISHLIST_ACTION_TYPE.SET_WISHLIST, result.items))
-        // }
+        try {
+            const { data, status } = await axiosPrivate.post('wishlist', {
+                productId: item
+            })
+            if (status === 201) {
+                setWishlist(data.items)
+                showToastSuccessMessage(`Added to wishlist`)
+            }
+        } catch (error) {
+            handleError(error)
+        }
     }
 
     const removeFromWishlist = async (item: string) => {
-        // const response = await fetchRemoveFromWishlist(accessToken, item)
-        // if (response.status === 403) {
-        //     const newAccessToken = await accessForbiddenHandler()
-        //     const response = await fetchRemoveFromWishlist(newAccessToken, item)
-        //     const result: any = await response.json()
-        //     if (response.status === 201) {
-        //         dispatch(createAction(WISHLIST_ACTION_TYPE.SET_WISHLIST, result.items))
-        //     } else {
-        //         showToastErrorMessage(result.message)
-        //     }
-        // } else if (response.status === 201) {
-        //     const result: WishlistType = await response.json()
-        //     dispatch(createAction(WISHLIST_ACTION_TYPE.SET_WISHLIST, result.items))
-        // }
+        try {
+            const { data, status } = await axiosPrivate.patch('wishlist', {
+                productId: item
+            })
+            if (status === 201) {
+                setWishlist(data.items)
+                showToastSuccessMessage(`Removed from wishlist`)
+            }
+        } catch (error) {
+            handleError(error)
+        }
     }
 
     const wishlistInitialState = () => {
-        dispatch(createAction(WISHLIST_ACTION_TYPE.SET_INITIAL_STATE, INITIAL_STATE_VALUE))
+        setWishlist(null)
     }
 
     const value = {
@@ -89,7 +70,9 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
         addToWishlist,
         removeFromWishlist,
         wishlistCount,
-        wishlistInitialState
+        wishlistInitialState,
+        setWishlistCount,
+        setWishlist
     }
     return <WishlistContext.Provider value={value}>{children}</WishlistContext.Provider>
 }

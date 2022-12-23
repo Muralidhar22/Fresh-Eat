@@ -1,3 +1,7 @@
+:root {
+    --inset-bottom-cta-decoration-img: 85px;
+}
+
 .heading {
     display: inline-block;
     position: relative;
@@ -5,8 +9,6 @@
     color: var(--clr-black-accent);
     font-size: 1.5rem;
     font-weight: 1000;
-    /* border: 7px solid var(--clr-primary-200);
-    border-radius: 60px; */
 }
 
 .timer {
@@ -33,25 +35,21 @@
 }
 
 .cta-email-subscription {
-    display: grid;
-    grid-template-areas:
-        ". img"
-        "form img";
+    background-image: var(--clr-linear-gradient);
     position: relative;
+    margin-block: 8rem;
 }
 
 .cta-text-content {
-    background-image: var(--clr-linear-gradient);
-    grid-area: form;
     padding-inline: 5rem 3rem;
     padding-block: 3rem;
     color: var(--clr-text-neutral);
     text-align: left;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
 }
 
-.cta-text-content *:not(:last-child) {
-    padding-bottom: 1rem;
-}
 
 .form {
     display: flex;
@@ -59,19 +57,30 @@
 }
 
 .form input {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
     background-color: var(--clr-bg-100);
+    padding-inline: 0.5rem;
+    border: none;
+    outline: none;
 }
 
 .subscribe-button {
     color: inherit;
     background-color: var(--clr-cta);
     padding-inline: 2rem;
+    padding-block: 0.5rem;
     cursor: pointer;
+    border: none;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
 }
 
 .email-subscription-decoration-img {
-    position: relative;
-    bottom: -25%;
-    grid-area: img;
-    width: 300px;
+    position: absolute;
+    width: 250px;
+    clip-path: inset(0 0 var(--inset-bottom-cta-decoration-img));
+    bottom: 0;
+    transform: translateY(var(--inset-bottom-cta-decoration-img));
+    right: 15%;
 }
