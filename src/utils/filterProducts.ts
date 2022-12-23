@@ -13,7 +13,7 @@ export const getSortedProducts = (products: ProductType[], sortBy: "ascending" |
 export const getFilteredProducts = (
     products: ProductType[],
     {
-        inStock,
+        outOfStock,
         fastDelivery,
         categories,
         brands,
@@ -24,34 +24,37 @@ export const getFilteredProducts = (
         platforms
     }: FiltersStateType
 ) => {
-    return products
-        .filter((product) => (inStock === null ? true : inStock === product.inStock))
-        .filter((product) => (fastDelivery === null ? true : fastDelivery === product.fastDelivery))
-        .filter((product) => (rating === null ? true : product.ratings >= rating))
-        .filter((product) => (priceRange === null ? true : product.discountPrice <= priceRange))
-        .filter((product) =>
-            esrbRatings.length === 0
-                ? true
-                : esrbRatings.find((esrbRating) => product.esrbRating ? esrbRating === product.esrbRating : true)
-        )
-        .filter((product) =>
-            platforms.length === 0
-                ? true
-                : platforms.find((platform) => product.platform ? product.platform.includes(platform) : true)
-        )
-        .filter((product) =>
-            brands.length === 0
-                ? true
-                : brands.find((brand) => brand === product.brand)
-        )
-        .filter((product) =>
-            categories.length === 0
-                ? true
-                : categories.find((category) => category === product.category)
-        )
-        .filter(
-            (product) => search === null ? true :
-                product.name.toLowerCase().includes(search.toLowerCase()) ||
-                product.brand.toLowerCase().includes(search.toLowerCase())
-        )
+    const filteredProducts = products.filter((product) => {
+        const categoryMatch = categories.some((category) => product.brand === category)
+        const brandMatch = brands.some((brand) => product.brand === brand)
+        const esrbRatingMatch = esrbRatings.some((esrbRating) => product.esrbRating === esrbRating)
+        const platformMatch = platforms.some((platform) => product.platform?.includes(platform))
+
+        if (!(product.discountPrice <= priceRange)) {
+            return false
+        }
+        if (rating && !(product.ratings >= rating)) {
+            return false
+        }
+        if (categories.length > 0 && !categoryMatch) {
+            return false
+        }
+        if (brands.length > 0 && !brandMatch) {
+            return false
+        }
+        if (esrbRatings.length > 0 && !esrbRatingMatch && product.category === "game") {
+            return false
+        }
+        if (platforms.length > 0 && !platformMatch && product.category === "game") {
+            return false
+        }
+        if (!outOfStock && product.inStock === false) {
+            return false
+        }
+        if (fastDelivery && !product.fastDelivery) {
+            return false
+        }
+        return true;
+    })
+    return filteredProducts;
 };

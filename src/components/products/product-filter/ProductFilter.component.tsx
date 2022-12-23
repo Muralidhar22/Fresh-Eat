@@ -81,10 +81,10 @@ const ProductFilter = () => {
                     <CheckboxInput
                         id="availability-stock"
                         label="Include Out of Stock"
-                        name="inStock"
-                        checked={filtersState.inStock ? true : false}
+                        name="outOfStock"
+                        checked={filtersState.outOfStock ? true : false}
                         onChange={() => {
-                            dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.IN_STOCK_FILTER, null))
+                            dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.OUT_OF_STOCK_FILTER, null))
                         }}
                     />
                     <CheckboxInput

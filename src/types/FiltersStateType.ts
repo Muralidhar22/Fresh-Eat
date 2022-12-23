@@ -1,7 +1,7 @@
 type FiltersStateType = {
     priceRange: number
-    inStock: boolean | null
-    fastDelivery: boolean | null
+    outOfStock: boolean
+    fastDelivery: boolean
     brands: string[]
     categories: string[]
     platforms: string[]

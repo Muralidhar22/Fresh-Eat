@@ -12,8 +12,8 @@ type FilterContextValueType = {
 
 const INITIAL_FILTERS_STATE = {
     priceRange: 20000,
-    inStock: null,
-    fastDelivery: null,
+    outOfStock: false,
+    fastDelivery: false,
     brands: [],
     categories: [],
     platforms: [],

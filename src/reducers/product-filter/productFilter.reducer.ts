@@ -35,8 +35,9 @@ const productFilterReducer = (state: FiltersStateType, action: ReducerActionType
             return updateFilterArray(state, payload, 'platforms')
         case PRODUCT_FILTER_ACTION_TYPE.FAST_DELIVERY_FILTER:
             return { ...state, fastDelivery: !state.fastDelivery }
-        case PRODUCT_FILTER_ACTION_TYPE.IN_STOCK_FILTER:
-            return { ...state, inStock: !state.inStock }
+        case PRODUCT_FILTER_ACTION_TYPE.OUT_OF_STOCK_FILTER:
+            console.log("in stock", state.outOfStock)
+            return { ...state, outOfStock: !state.outOfStock }
         case PRODUCT_FILTER_ACTION_TYPE.PRICERANGE_FILTER:
             return { ...state, priceRange: Number(payload) }
         case PRODUCT_FILTER_ACTION_TYPE.RATINGS_FILTER:
