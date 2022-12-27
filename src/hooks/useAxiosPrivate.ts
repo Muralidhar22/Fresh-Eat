@@ -1,36 +1,44 @@
 import { useContext, useEffect } from "react";
-import axios from "axios";
 
 import { UserContext } from "contexts/user.context";
-import { WishlistContext } from "contexts/wishlist.context";
-import { CartContext } from "contexts/cart.context";
 import useRefreshToken from "hooks/useRefreshToken";
 import { axiosPrivate } from "api/axios";
 
 const useAxiosPrivate = () => {
     const refresh = useRefreshToken()
-    const { accessTokenRef } = useContext(UserContext)
+    const { accessToken } = useContext(UserContext)
 
-    axiosPrivate.interceptors.request.use(
-        config => {
-            if (config.headers) config.headers['Authorization'] = `Bearer ${accessTokenRef.current}`;
-            return config;
-        }, (error) => Promise.reject(error)
-    );
+    useEffect(() => {
+        const requestInterceptor = axiosPrivate.interceptors.request.use(
+            config => {
+                console.log(config.headers && config.headers['Authorization'], "Access", accessToken)
+                if (config.headers && !config.headers['Authorization']) {
+                    config.headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+                return config;
+            }, (error) => Promise.reject(error)
+        );
 
-    axiosPrivate.interceptors.response.use(
-        response => response,
-        async (error) => {
-            const prevRequest = error?.config;
-            if (error?.response?.status === 403 && !prevRequest?.sent) {
-                prevRequest.sent = true;
-                await refresh();
-                return axiosPrivate(prevRequest);
+        const responseInterceptor = axiosPrivate.interceptors.response.use(
+            response => response,
+            async (error) => {
+                const prevRequest = error?.config;
+                if (error?.response?.status === 403 && !prevRequest?.sent) {
+                    prevRequest.sent = true;
+                    const newAccessToken = await refresh();
+                    prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
+                    return axiosPrivate(prevRequest);
+                }
+                return Promise.reject(error);
             }
-            return Promise.reject(error);
-        }
-    );
+        );
 
+
+        return () => {
+            axiosPrivate.interceptors.request.eject(requestInterceptor)
+            axiosPrivate.interceptors.response.eject(responseInterceptor)
+        }
+    }, [accessToken])
     return axiosPrivate;
 }
 export default useAxiosPrivate;

@@ -102,8 +102,8 @@ const SignUp = () => {
         };
 
         const { data, status } = await axios.post('register', {
-            firstname: firstName.value,
-            lastname: lastName.value,
+            firstName: firstName.value,
+            lastName: lastName.value,
             email: email.value,
             password: password.value
         })

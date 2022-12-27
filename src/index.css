@@ -96,6 +96,10 @@ body {
   font-weight: 500;
 }
 
+.fw-500 {
+  font-weight: 500;
+}
+
 .width-100 {
   width: 100%;
 }

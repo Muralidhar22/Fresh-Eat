@@ -11,16 +11,14 @@ type WishlistButtonPropsType = {
 
 const WishlistButton = ({ wishlistElementType, productId, className }: WishlistButtonPropsType) => {
     const { wishlist, addToWishlist, removeFromWishlist, wishlistCount } = useContext(WishlistContext)
-    const isItemWishlist = wishlist
-        ? (wishlist.includes(productId) && true)
-        : false
     const { signedIn } = useContext(UserContext)
+    const isWishlistItem = wishlist?.find((item) => item._id === productId)
 
     if (wishlistElementType === "icon") {
         return (
             <>
                 {
-                    isItemWishlist ?
+                    isWishlistItem ?
                         <FaHeart
                             className={className}
                             color="red"
@@ -42,7 +40,7 @@ const WishlistButton = ({ wishlistElementType, productId, className }: WishlistB
         )
     }
     return (
-        isItemWishlist
+        isWishlistItem
             ? (
                 <button className={className} onClick={() => removeFromWishlist(productId)}>
                     Remove from Wishlist

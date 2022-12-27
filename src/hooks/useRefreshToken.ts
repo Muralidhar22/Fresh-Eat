@@ -1,5 +1,5 @@
 import axios from "axios"
-import { showToastErrorMessage } from "utils/toastMessage";
+import { showToastErrorMessage, showToastInfoMessage } from "utils/toastMessage";
 import { useContext, useEffect } from "react";
 
 import { UserContext } from "contexts/user.context";
@@ -7,14 +7,14 @@ import { WishlistContext } from "contexts/wishlist.context";
 import { CartContext } from "contexts/cart.context";
 
 const useRefreshToken = () => {
-    const { userSignOutHandler, accessTokenRef } = useContext(UserContext)
+    const { userSignOutHandler, setAccessToken, accessToken } = useContext(UserContext)
     const { wishlistInitialState } = useContext(WishlistContext)
     const { cartInitialState } = useContext(CartContext)
 
     const handleLogout = () => {
         userSignOutHandler()
         wishlistInitialState()
-        cartInitialState()
+        console.log("sadsad", cartInitialState())
     }
 
     const refresh = async () => {
@@ -22,12 +22,13 @@ const useRefreshToken = () => {
             const response = await axios.get('refresh', {
                 withCredentials: true
             })
-            accessTokenRef.current = response.data.accessToken
+            console.log("in refresh", accessToken)
+            setAccessToken(response.data.accessToken)
             return response.data.accessToken;
         } catch (err) {
-            console.log("yoooooo")
             handleLogout()
-            showToastErrorMessage(`${err}`)
+            showToastErrorMessage("Seems like your session expired!")
+            showToastInfoMessage("SignIn again to continue.")
         }
     }
     return refresh;

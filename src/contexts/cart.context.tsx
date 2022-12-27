@@ -6,24 +6,22 @@ import { showToastSuccessMessage } from "utils/toastMessage";
 import { handleError } from "utils/displayError";
 import { ProductContext } from "./products.context";
 import { UserContext } from "./user.context";
+import ProductType from "types/ProductType";
 
-type CartListType =
-    {
-        productId: string
-        count: number
-    }
+type CartListType = { product: ProductType, count: number }[]
 
 type CartContextValueType = {
-    cartList: CartListType[] | null
+    cartList: CartListType | null
     cartListCount: number | null
     addToCart: (item: any) => void,
     removeFromCart: (item: any) => void,
     increaseItemQty: (item: any) => void,
     decreaseItemQty: (item: any) => void,
-    cartInitialState: () => void,
+    cartInitialState: () => string,
     cartLoader: boolean
     getCartTotal: () => number | null
-    setCartList: React.Dispatch<React.SetStateAction<CartListType[] | null>>
+    setCartList: React.Dispatch<React.SetStateAction<CartListType | null>>
+    getCartList: () => void
 }
 const INITIAL_CONTEXT_VALUE = {
     cartList: null,
@@ -32,23 +30,29 @@ const INITIAL_CONTEXT_VALUE = {
     removeFromCart: () => { },
     increaseItemQty: () => { },
     decreaseItemQty: () => { },
-    cartInitialState: () => { },
+    cartInitialState: () => { return " " },
     cartLoader: false,
     setCartList: () => { },
-    getCartTotal: () => { return null }
+    getCartTotal: () => { return null },
+    getCartList: () => { },
 }
 
 export const CartContext = createContext<CartContextValueType>(INITIAL_CONTEXT_VALUE)
 
 export const CartProvider = ({ children }: ProviderPropsType) => {
-    const [cartList, setCartList] = useState<CartListType[] | null>(null)
+    const [cartList, setCartList] = useState<CartListType | null>(null)
     const cartListCount = cartList ? cartList.length : null
     const [cartLoader, setCartLoader] = useState(false)
     const { products } = useContext(ProductContext)
     const axiosPrivate = useAxiosPrivate()
     const { signedIn } = useContext(UserContext)
+
     useEffect(() => {
-        if (signedIn && !cartList)
+        getCartList()
+    }, [signedIn])
+
+    const getCartList = () => {
+        if (signedIn && !cartList) {
             (async () => {
                 try {
                     const { data, status } = await axiosPrivate.get('cart')
@@ -60,7 +64,8 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                 }
             }
             )()
-    }, [signedIn])
+        }
+    }
 
     const addToCart = async (item: any) => {
         try {
@@ -92,7 +97,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     const increaseItemQty = async (item: any) => {
         setCartLoader(true)
         if (cartList) {
-            const itemToUpdate = cartList.find((cartItem) => cartItem.productId === item)
+            const itemToUpdate = cartList.find((cartItem) => cartItem.product._id === item)
             try {
                 if (itemToUpdate) {
                     const { data, status } = await axiosPrivate.patch('cart', {
@@ -117,10 +122,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
         setCartLoader(true)
 
         if (cartList) {
-            const itemToUpdate = cartList.find((cartItem: {
-                productId: string
-                count: number
-            }) => cartItem.productId === item)
+            const itemToUpdate = cartList.find((cartItem) => cartItem.product._id === item)
             if (itemToUpdate && itemToUpdate.count === 1) removeFromCart(item)
             else {
                 try {
@@ -145,13 +147,14 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
 
     const cartInitialState = () => {
         setCartList(null)
+        return "set to initial cart state";
     }
 
     const getCartTotal = () => {
         let cartAmount;
         if (cartList && products) {
             cartAmount = cartList?.reduce((prevValue, currentItem) => {
-                const itemDetails = products?.find(product => product._id === currentItem.productId)
+                const itemDetails = products?.find(product => product._id === currentItem.product._id)
                 if (itemDetails?.discountPrice) {
                     return (prevValue + itemDetails?.discountPrice * currentItem.count)
                 } else {
@@ -174,6 +177,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
         cartLoader,
         getCartTotal,
         setCartList,
+        getCartList,
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>

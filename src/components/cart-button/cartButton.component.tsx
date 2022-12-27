@@ -18,7 +18,7 @@ type CartButtonPropsType = {
 const CartButton = ({ productId, wishlistElementType, className }: CartButtonPropsType) => {
     const { signedIn } = useContext(UserContext)
     const { cartList, cartListCount, addToCart } = useContext(CartContext)
-    const isCartItem = cartList?.some((cartProduct) => cartProduct.productId === productId)
+    const isCartItem = cartList?.find((cartProduct) => cartProduct.product._id === productId)
     const navigate = useNavigate()
 
     if (wishlistElementType === 'nav-icon') {

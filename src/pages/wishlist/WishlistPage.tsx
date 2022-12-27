@@ -1,30 +1,24 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { WishlistContext } from "contexts/wishlist.context";
-import { ProductContext } from "contexts/products.context";
 import Navbar from "components/nav/Nav.component";
+import ProductCard from "components/products/product-card/ProductCard";
+
+import styles from "./WishlistPage.styles.module.css";
 
 const WishlistPage = () => {
     const { wishlist } = useContext(WishlistContext);
-    const { products } = useContext(ProductContext);
-    const wishlistProducts = (products && wishlist)
-        ? wishlist.map(productId => {
-            return products.find(product => product._id === productId)
-        })
-        : null
 
-    if (products && wishlist && wishlistProducts) {
+    if (wishlist) {
         return (
             <>
                 <Navbar />
-                <div>
+                <h1 className={styles['page-heading']}>Wish List</h1>
+                <div className={styles['wishlist-container']}>
                     {
-                        wishlistProducts.map(item => {
-                            return (
-                                <div>
-                                    <p>{item?.name}</p>
-                                </div>)
-                        })
+                        wishlist.map(item =>
+                            item ? <ProductCard key={item._id} product={item} /> : null
+                        )
                     }
                 </div>
             </>

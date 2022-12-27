@@ -19,6 +19,7 @@
 .nav-menu {
     display: flex;
     gap: 1rem;
+    align-items: baseline;
 }
 
 .nav input[type="search"] {
@@ -62,10 +63,36 @@
     outline: var(--clr-neutral) solid 1.75px;
 }
 
+.drop-down-menu {
+    display: none;
+}
+
+.sign-in-component {
+    position: relative;
+    cursor: pointer;
+}
+
+.sign-in-component:hover .drop-down-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    position: absolute;
+    color: black;
+    background-color: var(--clr-neutral);
+    padding: 1rem;
+}
+
+.username {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid var(--clr-cta);
+}
+
 .logout-button {
     background: none;
     padding: 0;
     padding-inline: 0.5rem;
     border: none;
     cursor: pointer;
+    border-bottom: 3px solid var(--clr-cta);
 }
