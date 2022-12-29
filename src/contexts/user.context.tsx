@@ -10,13 +10,34 @@ import { showToastErrorMessage } from "utils/toastMessage";
 import { showToastSuccessMessage } from "utils/toastMessage";
 import { handleError } from "utils/displayError";
 
+
+type AddressType =
+    {
+        delivery: {
+            name: string
+            country: string
+            line1: string
+            city: string
+            state: string
+            postal_code: string
+        },
+        other: {
+            name: string
+            country: string
+            line1: string
+            city: string
+            state: string
+            postal_code: string
+        }[]
+    }
+
 export type UserContextValueType = {
     userSignOutHandler: () => void
     userSignInHandler: (email: string, password: string) => void
     signedIn: boolean
     accessToken: string | null
     setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-    userInfo: { firstName: string, lastName: string, address: any } | null
+    userInfo: { firstName: string, lastName: string, address: AddressType } | null
     setAccessToken: React.Dispatch<React.SetStateAction<string | null>>
 }
 
@@ -38,15 +59,13 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
     const [userInfo, setUserInfo] = useState(null)
     const navigate = useNavigate()
     const axiosPrivate = useAxiosPrivate()
-    console.log("outside", accessToken)
+
     useEffect(() => {
         (async () => {
-            console.log(userInfo, accessToken, "useEffect ran")
             if (accessToken && !userInfo) {
                 try {
                     const { data, status } = await axiosPrivate.get('user/details')
                     if (status === 200) {
-                        console.log("userinfo", userInfo)
                         setUserInfo(data.userInfo)
                     }
                 } catch (error) {
@@ -55,7 +74,6 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
             }
         }
         )();
-        console.log("Access token useEffect ran", accessToken)
     }, [accessToken])
 
     const userSignOutHandler = async () => {

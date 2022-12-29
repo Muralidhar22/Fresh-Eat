@@ -59,8 +59,11 @@ select {
   --clr-bg-100: #e2e8f0;
 
   --error: red;
-  /* padding */
 
+  /* z - index */
+  --z-modal: 999;
+  --z-loader: 9999;
+  --z-nav: 99;
 }
 
 a {

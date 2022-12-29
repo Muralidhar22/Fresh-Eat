@@ -14,7 +14,7 @@ const useRefreshToken = () => {
     const handleLogout = () => {
         userSignOutHandler()
         wishlistInitialState()
-        console.log("sadsad", cartInitialState())
+        cartInitialState()
     }
 
     const refresh = async () => {
@@ -22,7 +22,6 @@ const useRefreshToken = () => {
             const response = await axios.get('refresh', {
                 withCredentials: true
             })
-            console.log("in refresh", accessToken)
             setAccessToken(response.data.accessToken)
             return response.data.accessToken;
         } catch (err) {

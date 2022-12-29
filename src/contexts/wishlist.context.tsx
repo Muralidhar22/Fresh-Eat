@@ -40,7 +40,6 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
     }, [signedIn])
 
     const getWishlist = async () => {
-        console.log(!wishlist, "why?")
         if (signedIn && !wishlist) {
             (async () => {
                 try {

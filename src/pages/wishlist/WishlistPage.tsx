@@ -8,7 +8,6 @@ import styles from "./WishlistPage.styles.module.css";
 
 const WishlistPage = () => {
     const { wishlist } = useContext(WishlistContext);
-
     if (wishlist) {
         return (
             <>

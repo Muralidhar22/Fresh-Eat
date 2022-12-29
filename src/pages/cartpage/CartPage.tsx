@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { CartContext } from "contexts/cart.context";
 import Navbar from "components/nav/Nav.component";
+import AddressModal from "./AddressModal.component";
 
 import { FaPlusCircle, FaTrashAlt, FaMinusCircle } from "react-icons/fa";
 import Loader from "components/loader/Loader.component";
@@ -13,24 +14,27 @@ const CartPage = () => {
     const { cartList, increaseItemQty, decreaseItemQty, removeFromCart, cartLoader, getCartTotal } = useContext(CartContext)
     const navigate = useNavigate()
     const cartTotal = getCartTotal();
-    const { accessToken } = useContext(UserContext)
-
-    console.log(accessToken)
+    const { userInfo } = useContext(UserContext)
+    const [isAddressesModalOpen, setIsAddressesModalOpen] = useState(false)
 
     if (cartList && cartList.length > 0) {
         return (
             <>
-                <Navbar />
                 {cartLoader && <Loader />}
-
+                {
+                    isAddressesModalOpen &&
+                    <AddressModal
+                        setIsAddressesModalOpen={setIsAddressesModalOpen} />
+                }
+                <Navbar />
                 <div className={styles['cart-content-container']}>
                     <div className={styles['cart-list-container']}>
                         <div className={styles['address-container']}>
                             <div className={styles['address-content']}>
-                                Deliver To: <span>Muralidhar, 530051</span> <span className={styles['address-type']}></span>
-                                <div>MIG A 71, Foo- City, Foo - pradesh</div>
+                                Deliver To: <span>{userInfo?.firstName}, {userInfo?.address.delivery.postal_code}</span> <span className={styles['address-type']}>{userInfo?.address.delivery.name}</span>
+                                <div>{userInfo?.address.delivery.line1}, {userInfo?.address.delivery.city}, {userInfo?.address.delivery.state}</div>
                             </div>
-                            <button className={styles['change-address-button']}>Change</button>
+                            <button className={styles['change-address-button']} onClick={() => setIsAddressesModalOpen(prev => !prev)}>Change</button>
                         </div>
                         {cartList.map((item) => (
                             <div className={styles['cart-list-item']} key={item.product._id}>

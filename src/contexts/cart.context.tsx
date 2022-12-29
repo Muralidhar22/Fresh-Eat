@@ -85,7 +85,6 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                 method: 'delete', url: 'cart', data: { productId: item }
             })
             if (status === 200) {
-                console.log(data, status)
                 showToastSuccessMessage(`Removed from Cart!`)
                 setCartList(data.items)
             }
@@ -104,7 +103,6 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                         ...itemToUpdate,
                         count: itemToUpdate.count + 1
                     })
-                    console.log(data, status)
                     if (status === 200) {
                         setCartList(data.items)
                         showToastSuccessMessage(`Item quantity increased`)
@@ -131,7 +129,6 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                             ...itemToUpdate,
                             count: itemToUpdate.count - 1
                         })
-                        console.log(data, status)
                         if (status === 200) {
                             setCartList(data.items)
                             showToastSuccessMessage(`Item quantity increased`)
