@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { ProviderPropsType } from "../types/ProviderPropsType";
-import useAxiosPrivate from "hooks/useAxiosPrivate";
+import ProviderPropsType from "../types/ProviderPropsType";
+import { useAxiosPrivateContext } from "./axiosPrivate.context";
 import { handleError } from "utils/displayError";
 import { showToastSuccessMessage } from "utils/toastMessage";
 import { UserContext } from "./user.context";
@@ -32,20 +32,20 @@ export const WishlistContext = createContext<WishlistContextValueType>(INITIAL_C
 export const WishlistProvider = ({ children }: ProviderPropsType) => {
     const [wishlist, setWishlist] = useState<ProductType[] | null>(null)
     const wishlistCount = wishlist ? wishlist.length : null
-    const axiosPrivate = useAxiosPrivate()
-    const { signedIn } = useContext(UserContext)
+    const { accessToken } = useContext(UserContext)
+    const { axiosPrivate } = useAxiosPrivateContext()
 
     useEffect(() => {
         getWishlist()
-    }, [signedIn])
+    }, [accessToken])
 
     const getWishlist = async () => {
-        if (signedIn && !wishlist) {
+        if (accessToken && !wishlist) {
             (async () => {
                 try {
                     const { data, status } = await axiosPrivate.get('wishlist')
                     if (status === 200) {
-                        setWishlist(data)
+                        setWishlist(data.data)
                     }
                 } catch (error) {
                     handleError(error)
@@ -59,9 +59,10 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
             const { data, status } = await axiosPrivate.post('wishlist', {
                 productId: item
             })
-            if (status === 201) {
-                setWishlist(data.items)
-                showToastSuccessMessage(`Added to wishlist`)
+            if (status === 201 || status === 200) {
+                console.log(data)
+                setWishlist(prev => prev ? [...prev, data.data] : data.data)
+                showToastSuccessMessage(data.message)
             }
         } catch (error) {
             handleError(error)
@@ -73,9 +74,9 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
             const { data, status } = await axiosPrivate.patch('wishlist', {
                 productId: item
             })
-            if (status === 201) {
+            if (status === 200) {
                 setWishlist(data.items)
-                showToastSuccessMessage(`Removed from wishlist`)
+                showToastSuccessMessage(data.message)
             }
         } catch (error) {
             handleError(error)

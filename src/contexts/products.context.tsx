@@ -1,10 +1,11 @@
 import { useState, createContext, useContext } from "react";
 import axios from "axios";
 
-import { ProviderPropsType } from "types/ProviderPropsType";
+import ProviderPropsType from "types/ProviderPropsType";
 import ProductType from "types/ProductType";
 import { getFilteredProducts, getSortedProducts } from "utils/filterProducts";
 import { FilterContext } from "contexts/filter.context";
+import { handleError } from "utils/displayError";
 
 type ProductContextValueType = {
     products: ProductType[] | null
@@ -30,10 +31,14 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
 
     const getProducts = async () => {
         if (!products) {
-            const { data, status } = await axios.get('products')
-            if (status === 200) {
-                setProducts(data)
-                return data;
+            try {
+                const { data, status } = await axios.get('products')
+                if (status === 200) {
+                    setProducts(data.data)
+                    return data;
+                }
+            } catch (error) {
+                handleError(error)
             }
         }
     }

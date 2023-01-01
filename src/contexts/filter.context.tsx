@@ -1,6 +1,6 @@
-import { createContext, SetStateAction, useReducer } from "react";
+import { createContext, useReducer } from "react";
 
-import { ProviderPropsType } from "../types/ProviderPropsType";
+import ProviderPropsType from "../types/ProviderPropsType";
 import FiltersStateType from "types/FiltersStateType";
 import productFilterReducer from "reducers/product-filter/productFilter.reducer";
 

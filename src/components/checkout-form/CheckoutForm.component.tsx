@@ -18,9 +18,9 @@ export default function CheckoutForm({ orderId }: { orderId: string }) {
     const [isProcessing, setIsProcessing] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
-    // const { customerName, signedIn } = useContext(UserContext);
+    const { signedIn } = useContext(UserContext);
     const navigate = useNavigate();
-    const { cartlist } = useContext(CartContext);
+    const { cartList } = useContext(CartContext);
 
 
     const updateOrderStatus = async () => {

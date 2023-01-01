@@ -1,10 +1,8 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import { UserContext } from "contexts/user.context";
 import { CartContext } from "contexts/cart.context";
-import useAxiosPrivate from "hooks/useAxiosPrivate";
 
 import { FaShoppingCart } from "react-icons/fa";
 import { showToastErrorMessage } from "utils/toastMessage";

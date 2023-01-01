@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { FilterProvider } from 'contexts/filter.context';
 import { WishlistProvider } from 'contexts/wishlist.context';
 import { CartProvider } from 'contexts/cart.context';
+import { AxiosPrivateProvider } from 'contexts/axiosPrivate.context';
 import "api/axios";
 
 import './index.css';
@@ -20,21 +21,24 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  // <React.StrictMode>
-  <BrowserRouter>
-    <FilterProvider>
-      <ProductProvider>
-        <UserProvider>
-          <WishlistProvider>
-            <CartProvider>
-              <ToastContainer />
-              <TimerProvider>
-                <App />
-              </TimerProvider>
-            </CartProvider>
-          </WishlistProvider>
-        </UserProvider>
-      </ProductProvider>
-    </FilterProvider>
-  </BrowserRouter>
+  <React.StrictMode>
+    <BrowserRouter>
+      <FilterProvider>
+        <ProductProvider>
+          <UserProvider>
+            <AxiosPrivateProvider>
+              <WishlistProvider>
+                <CartProvider>
+                  <ToastContainer />
+                  <TimerProvider>
+                    <App />
+                  </TimerProvider>
+                </CartProvider>
+              </WishlistProvider>
+            </AxiosPrivateProvider>
+          </UserProvider>
+        </ProductProvider>
+      </FilterProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );

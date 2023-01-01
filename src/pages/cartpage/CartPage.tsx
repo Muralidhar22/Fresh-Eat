@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "contexts/cart.context";
 import Navbar from "components/nav/Nav.component";
 import AddressModal from "./AddressModal.component";
+import { UserContext } from "contexts/user.context";
+import NewAddressForm from "components/new-address-form/NewAddressForm.component";
+import { handleError } from "utils/displayError";
 
 import { FaPlusCircle, FaTrashAlt, FaMinusCircle } from "react-icons/fa";
 import Loader from "components/loader/Loader.component";
 import styles from "./CartPage.styles.module.css";
-import { UserContext } from "contexts/user.context";
 
 const CartPage = () => {
     const { cartList, increaseItemQty, decreaseItemQty, removeFromCart, cartLoader, getCartTotal } = useContext(CartContext)
@@ -16,6 +18,7 @@ const CartPage = () => {
     const cartTotal = getCartTotal();
     const { userInfo } = useContext(UserContext)
     const [isAddressesModalOpen, setIsAddressesModalOpen] = useState(false)
+    const [isNewAddressModalOpen, setIsNewAddressModalOpen] = useState(false)
 
     if (cartList && cartList.length > 0) {
         return (
@@ -24,18 +27,33 @@ const CartPage = () => {
                 {
                     isAddressesModalOpen &&
                     <AddressModal
-                        setIsAddressesModalOpen={setIsAddressesModalOpen} />
+                        setIsAddressesModalOpen={setIsAddressesModalOpen}
+                        setIsNewAddressModalOpen={setIsNewAddressModalOpen} />
+                }
+                {
+                    isNewAddressModalOpen &&
+                    <NewAddressForm setIsNewAddressModalOpen={setIsNewAddressModalOpen} />
                 }
                 <Navbar />
                 <div className={styles['cart-content-container']}>
+                    {
+                        userInfo?.address.map((option) => (
+                            option.isDeliveryAddress ?
+                                (
+                                    <div className={styles['address-container']}>
+                                        <div className={styles['address-content']}>
+
+                                            Deliver To: <span>{userInfo?.firstName}, {option.postalCode}</span> <span className={styles['address-type']}>{option.name}</span>
+                                            <div>{option.line1}, {option.city}, {option.state}</div>
+                                        </div>
+                                        <button className={styles['change-address-button']} onClick={() => setIsAddressesModalOpen(prev => !prev)}>Change</button>
+                                    </div>
+
+                                )
+                                : null
+                        ))
+                    }
                     <div className={styles['cart-list-container']}>
-                        <div className={styles['address-container']}>
-                            <div className={styles['address-content']}>
-                                Deliver To: <span>{userInfo?.firstName}, {userInfo?.address.delivery.postal_code}</span> <span className={styles['address-type']}>{userInfo?.address.delivery.name}</span>
-                                <div>{userInfo?.address.delivery.line1}, {userInfo?.address.delivery.city}, {userInfo?.address.delivery.state}</div>
-                            </div>
-                            <button className={styles['change-address-button']} onClick={() => setIsAddressesModalOpen(prev => !prev)}>Change</button>
-                        </div>
                         {cartList.map((item) => (
                             <div className={styles['cart-list-item']} key={item.product._id}>
                                 <div className={styles['cart-list-item-image-container']}>

@@ -50,6 +50,7 @@ const ProductFilter = () => {
                     <li>
                         <label htmlFor="sort-by-low" style={inputLabelStyle}>
                             <input
+                                className="custom-input"
                                 type="radio"
                                 name="sortBy"
                                 id="sort-by-low"
@@ -63,6 +64,7 @@ const ProductFilter = () => {
                     <li>
                         <label htmlFor="sort-by-high" style={inputLabelStyle}>
                             <input
+                                className="custom-input"
                                 type="radio"
                                 name="sortBy"
                                 id="sort-by-high"
@@ -79,6 +81,7 @@ const ProductFilter = () => {
                 <h3 className={styles['filter-heading']}>Availability</h3>
                 <ul>
                     <CheckboxInput
+                        className="custom-input"
                         id="availability-stock"
                         label="Include Out of Stock"
                         name="outOfStock"
@@ -88,6 +91,7 @@ const ProductFilter = () => {
                         }}
                     />
                     <CheckboxInput
+                        className="custom-input"
                         id="availability-fastDelivery"
                         name="fastDelivery"
                         label="Fast Delivery Only"
@@ -102,6 +106,7 @@ const ProductFilter = () => {
                 <h3 className={styles['filter-heading']}>Category</h3>
                 <ul>
                     <CheckboxInput
+                        className="custom-input"
                         id="category-game"
                         label="Games"
                         value="game"
@@ -112,6 +117,7 @@ const ProductFilter = () => {
                         }}
                     />
                     <CheckboxInput
+                        className="custom-input"
                         id="category-accessories"
                         label="Accessories"
                         name="category"
@@ -127,6 +133,7 @@ const ProductFilter = () => {
                 <h3 className={styles['filter-heading']}>Brands</h3>
                 <ul>
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-sony"
                         label="Sony"
                         name="brand"
@@ -136,6 +143,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-ea"
                         label="EA"
                         name="brand"
@@ -145,6 +153,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-ubisoft"
                         label="Ubisoft"
                         name="brand"
@@ -154,6 +163,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-ant"
                         label="Ant"
                         name="brand"
@@ -163,6 +173,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-acer"
                         label="Acer"
                         name="brand"
@@ -172,6 +183,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-green-soul"
                         label="Green Soul"
                         name="brand"
@@ -181,6 +193,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-eureka"
                         label="Eureka"
                         name="brand"
@@ -190,6 +203,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-razer"
                         label="Razer"
                         name="brand"
@@ -199,6 +213,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-red-clutch"
                         label="Red Clutch"
                         name="brand"
@@ -208,6 +223,7 @@ const ProductFilter = () => {
                             dispatch(createAction(PRODUCT_FILTER_ACTION_TYPE.BRAND_FILTER, e.target.value))
                         }} />
                     <CheckboxInput
+                        className="custom-input"
                         id="brand-qbik"
                         label="Qbik"
                         name="brand"
@@ -224,6 +240,7 @@ const ProductFilter = () => {
                         <h3 className={styles['filter-heading']}>Platform</h3>
                         <ul>
                             <CheckboxInput
+                                className="custom-input"
                                 name="platform"
                                 label="PC"
                                 checked={filtersState.platforms.includes("PC")}
@@ -234,6 +251,7 @@ const ProductFilter = () => {
                                 value="PC"
                             />
                             <CheckboxInput
+                                className="custom-input"
                                 name="platform"
                                 label="PlayStation (PS)"
                                 checked={filtersState.platforms.includes("PS")}
@@ -249,6 +267,7 @@ const ProductFilter = () => {
                         <h3 className={styles['filter-heading']}>ESRB Rating</h3>
                         <ul>
                             <CheckboxInput
+                                className="custom-input"
                                 name="esrbRating"
                                 label="Teen"
                                 value="Teen"
@@ -259,6 +278,7 @@ const ProductFilter = () => {
                                 }}
                             />
                             <CheckboxInput
+                                className="custom-input"
                                 name="esrbRating"
                                 label="Everyone"
                                 value="Everyone"
@@ -269,6 +289,7 @@ const ProductFilter = () => {
                                 }}
                             />
                             <CheckboxInput
+                                className="custom-input"
                                 name="esrbRating"
                                 label="Mature"
                                 value="Mature"
@@ -289,6 +310,7 @@ const ProductFilter = () => {
                     <li>
                         <label htmlFor="rating-4" style={inputLabelStyle}>
                             <input
+                                className="custom-input"
                                 type="radio"
                                 name="rating"
                                 id="rating-4"
@@ -302,6 +324,7 @@ const ProductFilter = () => {
                     <li>
                         <label htmlFor="rating-3" style={inputLabelStyle}>
                             <input
+                                className="custom-input"
                                 type="radio"
                                 name="rating"
                                 id="rating-3"
@@ -315,6 +338,7 @@ const ProductFilter = () => {
                     <li>
                         <label htmlFor="rating-3" style={inputLabelStyle}>
                             <input
+                                className="custom-input"
                                 type="radio"
                                 name="rating"
                                 id="rating-2"
@@ -328,6 +352,7 @@ const ProductFilter = () => {
                     <li>
                         <label htmlFor="rating-1" style={inputLabelStyle}>
                             <input
+                                className="custom-input"
                                 type="radio"
                                 name="rating"
                                 id="rating-1"

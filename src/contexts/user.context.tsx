@@ -2,34 +2,23 @@ import React, { useState, createContext, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import { ProviderPropsType } from "../types/ProviderPropsType";
+import ProviderPropsType from "../types/ProviderPropsType";
 import usePersist from "hooks/usePersist";
-import useAxiosPrivate from "hooks/useAxiosPrivate";
-
-import { showToastErrorMessage } from "utils/toastMessage";
-import { showToastSuccessMessage } from "utils/toastMessage";
 import { handleError } from "utils/displayError";
 
+import { showToastSuccessMessage } from "utils/toastMessage";
 
 type AddressType =
     {
-        delivery: {
-            name: string
-            country: string
-            line1: string
-            city: string
-            state: string
-            postal_code: string
-        },
-        other: {
-            name: string
-            country: string
-            line1: string
-            city: string
-            state: string
-            postal_code: string
-        }[]
-    }
+        name: string
+        country: string
+        line1: string
+        city: string
+        state: string
+        postalCode: string
+        addressType: string
+        isDeliveryAddress: boolean
+    }[]
 
 export type UserContextValueType = {
     userSignOutHandler: () => void
@@ -48,25 +37,28 @@ const INITIAL_CONTEXT_VALUE: UserContextValueType = {
     accessToken: null,
     setSignedIn: () => { },
     userInfo: null,
-    setAccessToken: () => { }
+    setAccessToken: () => { },
 }
 
 export const UserContext = createContext<UserContextValueType>(INITIAL_CONTEXT_VALUE);
 
 export const UserProvider = ({ children }: ProviderPropsType) => {
     const [signedIn, setSignedIn, clearPersist] = usePersist()
-    const [accessToken, setAccessToken] = useState<string | null>(null)
     const [userInfo, setUserInfo] = useState(null)
+    const [accessToken, setAccessToken] = useState<string | null>(null)
     const navigate = useNavigate()
-    const axiosPrivate = useAxiosPrivate()
 
     useEffect(() => {
         (async () => {
             if (accessToken && !userInfo) {
                 try {
-                    const { data, status } = await axiosPrivate.get('user/details')
+                    const { data, status } = await axios({
+                        method: 'get',
+                        url: 'user/details',
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    })
                     if (status === 200) {
-                        setUserInfo(data.userInfo)
+                        setUserInfo(data.data.userInfo)
                     }
                 } catch (error) {
                     handleError(error)
@@ -80,6 +72,8 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
         await axios.get('logout')
         clearPersist()
         setSignedIn(false)
+        setUserInfo(null)
+        setAccessToken(null)
         navigate('/')
         showToastSuccessMessage(`Logged Out!, visit again to shop more`)
     }
@@ -92,12 +86,14 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
                 data: { email, password },
                 withCredentials: true
             })
-            setSignedIn(true)
-            showToastSuccessMessage(data.message)
-            setAccessToken(data.accessToken)
-            navigate('/')
-        } catch (err) {
-            showToastErrorMessage(`${err}`)
+            if (status === 200) {
+                setSignedIn(true)
+                showToastSuccessMessage(data.message)
+                setAccessToken(data.data.accessToken)
+                navigate('/')
+            }
+        } catch (error) {
+            handleError(error)
         }
     }
 
@@ -108,7 +104,15 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
         setSignedIn,
         accessToken,
         setAccessToken,
-        userInfo
+        userInfo,
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
+}
+
+export function useUserContext() {
+    const context = React.useContext(UserContext);
+    if (context === undefined) {
+        throw new Error('useUserContext must be used within a UserProvider')
+    }
+    return context;
 }

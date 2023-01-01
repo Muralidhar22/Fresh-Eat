@@ -1,7 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 
-import { ProviderPropsType } from "../types/ProviderPropsType";
-import useAxiosPrivate from "hooks/useAxiosPrivate";
+import ProviderPropsType from "../types/ProviderPropsType";
+// import useAxiosPrivate from "hooks/useAxiosPrivate";
+import { useAxiosPrivateContext } from "./axiosPrivate.context";
 import { showToastSuccessMessage } from "utils/toastMessage";
 import { handleError } from "utils/displayError";
 import { ProductContext } from "./products.context";
@@ -44,8 +45,8 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     const cartListCount = cartList ? cartList.length : null
     const [cartLoader, setCartLoader] = useState(false)
     const { products } = useContext(ProductContext)
-    const axiosPrivate = useAxiosPrivate()
-    const { signedIn } = useContext(UserContext)
+    const { signedIn, accessToken } = useContext(UserContext)
+    const { axiosPrivate } = useAxiosPrivateContext()
 
     useEffect(() => {
         getCartList()
@@ -57,7 +58,8 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                 try {
                     const { data, status } = await axiosPrivate.get('cart')
                     if (status === 200) {
-                        setCartList(data.items)
+                        console.log(data)
+                        setCartList(data.data.items)
                     }
                 } catch (error) {
                     handleError(error)
@@ -70,9 +72,10 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     const addToCart = async (item: any) => {
         try {
             const { data, status } = await axiosPrivate.post('cart', { productId: item })
-            if (status === 201) {
+            if (status === 201 || status === 200) {
                 showToastSuccessMessage(`Added to Cart!`)
-                setCartList(data.items)
+                console.log(data.data, cartList)
+                // setCartList(prev => prev?.push(data.data))
             }
         } catch (error) {
             handleError(error)
@@ -85,8 +88,9 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                 method: 'delete', url: 'cart', data: { productId: item }
             })
             if (status === 200) {
-                showToastSuccessMessage(`Removed from Cart!`)
-                setCartList(data.items)
+                showToastSuccessMessage(data.message)
+                console.log(data.data, cartList)
+                // setCartList(data.items)
             }
         } catch (error) {
             handleError(error)
@@ -104,8 +108,9 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                         count: itemToUpdate.count + 1
                     })
                     if (status === 200) {
-                        setCartList(data.items)
-                        showToastSuccessMessage(`Item quantity increased`)
+                        console.log(data.data)
+                        // setCartList(data.items)
+                        showToastSuccessMessage(data.message)
                     }
                 }
             } catch (error) {
@@ -130,8 +135,9 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                             count: itemToUpdate.count - 1
                         })
                         if (status === 200) {
-                            setCartList(data.items)
-                            showToastSuccessMessage(`Item quantity increased`)
+                            console.log(data)
+                            // setCartList(data.items)
+                            showToastSuccessMessage(data.message)
                         }
                     }
                 } catch (error) {

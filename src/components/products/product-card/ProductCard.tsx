@@ -7,11 +7,9 @@ import styles from "./ProductCard.styles.module.css";
 
 type ProductCardType = {
     product: ProductType
-    isWishlistItem?: boolean
-    isCartItem?: boolean
 }
 
-const ProductCard = ({ product, isWishlistItem, isCartItem }: ProductCardType) => {
+const ProductCard = ({ product }: ProductCardType) => {
     return (
         <div className={styles['product-container']} key={product._id}>
             <div className={styles['product-image-container']}>
@@ -26,7 +24,6 @@ const ProductCard = ({ product, isWishlistItem, isCartItem }: ProductCardType) =
                         <WishlistButton
                             wishlistElementType="icon"
                             productId={product._id}
-                            isWishlistItem={isWishlistItem}
                         />
                     </span>
                 </div>

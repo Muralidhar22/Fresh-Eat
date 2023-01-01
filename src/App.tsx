@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
+import { useContext } from 'react';
 
+import { UserContext } from 'contexts/user.context';
 import HomePage from './pages/homepage/HomePage';
 import WishlistPage from './pages/wishlist/WishlistPage';
 import CartPage from './pages/cartpage/CartPage';
@@ -12,8 +14,10 @@ import Feedback from './pages/feedback/Feedback.component';
 import ProductPage from './pages/product-page/ProductPage.component';
 import OrdersPage from 'pages/orderspage/OrdersPage';
 import PaymentPage from 'pages/payment/PaymentPage';
+import AddressPage from 'pages/address-page/Addresspage';
 
 function App() {
+  const { signedIn } = useContext(UserContext);
 
   return (
     <Routes>
@@ -23,11 +27,11 @@ function App() {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/wishlist" element={<WishlistPage />} />
       <Route path="/orders" element={<OrdersPage />} />
-      <Route path="/address" element />
+      <Route path="/address" element={<AddressPage />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/feedback" element={<Feedback />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
+      <Route path="/signin" element={signedIn ? <HomePage /> : <SignIn />} />
+      <Route path="/signup" element={signedIn ? <HomePage /> : <SignUp />} />
       <Route path="/checkout" element={<PaymentPage />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>

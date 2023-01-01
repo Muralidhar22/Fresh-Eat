@@ -5,6 +5,7 @@ type CheckboxInputPropsType = {
     value?: "game" | "accessories" | "Sony" | "EA" | "Ubisoft" | "Eureka" | "Acer" | "Ant" | "Razer" | "Redclutch" | "Qbik" | "GreenSoul" | "PC" | "PS" | "Teen" | "Everyone" | "Mature"
     checked: boolean
     name: "category" | "brand" | "priceRange" | "platform" | "esrbRating" | "outOfStock" | "fastDelivery"
+    className: string
 }
 
 const CheckboxInput = ({ label, id, ...otherProps }: CheckboxInputPropsType) => {

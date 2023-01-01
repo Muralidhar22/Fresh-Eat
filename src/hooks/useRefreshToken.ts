@@ -1,15 +1,21 @@
 import axios from "axios"
 import { showToastErrorMessage, showToastInfoMessage } from "utils/toastMessage";
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 
 import { UserContext } from "contexts/user.context";
 import { WishlistContext } from "contexts/wishlist.context";
 import { CartContext } from "contexts/cart.context";
+import { useUserContext } from "contexts/user.context";
 
-const useRefreshToken = () => {
-    const { userSignOutHandler, setAccessToken, accessToken } = useContext(UserContext)
+type RefreshRequestType = {
+    queue: [any]
+}
+
+const useRefreshToken = (setAccessToken: any) => {
+    const { userSignOutHandler } = useContext(UserContext)
     const { wishlistInitialState } = useContext(WishlistContext)
     const { cartInitialState } = useContext(CartContext)
+    // const { setAccessToken, userSignOutHandler, setTestState } = useUserContext()
 
     const handleLogout = () => {
         userSignOutHandler()
@@ -19,11 +25,13 @@ const useRefreshToken = () => {
 
     const refresh = async () => {
         try {
-            const response = await axios.get('refresh', {
+            const { data } = await axios.get('refresh', {
                 withCredentials: true
             })
-            setAccessToken(response.data.accessToken)
-            return response.data.accessToken;
+            if (setAccessToken) {
+                setAccessToken(data.data.accessToken)
+            }
+            return data.data.accessToken;
         } catch (err) {
             handleLogout()
             showToastErrorMessage("Seems like your session expired!")
