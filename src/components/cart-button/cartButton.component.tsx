@@ -1,11 +1,9 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { UserContext } from "contexts/user.context";
-import { CartContext } from "contexts/cart.context";
+import { useUserContext } from "contexts/user.context";
+import { useCartContext } from "contexts/cart.context";
 
 import { FaShoppingCart } from "react-icons/fa";
-import { showToastErrorMessage } from "utils/toastMessage";
 
 type CartButtonPropsType = {
     wishlistElementType: "button" | "nav-icon"
@@ -14,8 +12,8 @@ type CartButtonPropsType = {
 }
 
 const CartButton = ({ productId, wishlistElementType, className }: CartButtonPropsType) => {
-    const { signedIn } = useContext(UserContext)
-    const { cartList, cartListCount, addToCart } = useContext(CartContext)
+    const { signedIn } = useUserContext()
+    const { cartList, cartListCount, addToCart } = useCartContext()
     const isCartItem = cartList?.find((cartProduct) => cartProduct.product._id === productId)
     const navigate = useNavigate()
 

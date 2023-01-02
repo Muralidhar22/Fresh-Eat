@@ -1,65 +1,83 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
 
 import CheckoutForm from "components/checkout-form/CheckoutForm.component";
-import { UserContext } from "contexts/user.context";
-import { CartContext } from "contexts/cart.context";
-import { ProductContext } from "contexts/products.context";
+import { useUserContext } from "contexts/user.context";
+import { useCartContext } from "contexts/cart.context";
 import { formatDate, formatTime } from "utils/dateTimeFormat";
-import useAxiosPrivate from "hooks/useAxiosPrivate";
+import { useAxiosPrivateContext } from "contexts/axiosPrivate.context";
+
+import { showToastInfoMessage } from "utils/toastMessage";
 
 const PaymentPage = () => {
     const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
     const [clientSecret, setClientSecret] = useState<string>();
-    const { accessToken } = useContext(UserContext);
-    const { cartList } = useContext(CartContext);
-    // const axiosPrivate = useAxiosPrivate(accessToken);
-    let orderAmount = 0;
+    const { signedIn, userInfo, accessToken, setAccessToken, setSignedIn } = useUserContext();
+    const { cartList } = useCartContext();
     const formattedDate = formatDate()
     const formattedTime = formatTime()
     const [orderId, setOrderId] = useState<string>();
-    const { products } = useContext(ProductContext)
-
-
+    const navigate = useNavigate()
+    const deliveryAddress = userInfo?.address.find(userAddress => userAddress.isDeliveryAddress)
+    const isCheckoutFormDisplayed = stripePromise && clientSecret && orderId && deliveryAddress
+    let orderAmount = 0;
+    const { useAxiosPrivate } = useAxiosPrivateContext()
+    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate(accessToken, setAccessToken, setSignedIn)
 
     useEffect(() => {
-        setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`))
-        // const updateOrders = async () => {
-        //     const { data, status } = await axiosPrivate.post('orders', {
-        //         items: cartList,
-        //         shippingAddress: {},
-        //         billingAddress: {},
-        //         amount: orderAmount,
-        //         createdTime: formattedTime,
-        //         createdDate: formattedDate
-        //     })
-        //     if (status === 201) {
-        //         setOrderId(data.id)
-        //     }
-        // }
-        // (async () => {
-        //     const { data, status } = await axiosPrivate.post('create-payment-intent', {
-        //         items: cartList
-        //     })
-        //     if (status === 200) {
-        //         setClientSecret(data.clientSecret);
-        //         orderAmount = data.amount
-        //         updateOrders()
-        //     }
-
-        // })();
+        return () => {
+            axiosPrivate.interceptors.request.eject(requestInterceptor)
+            axiosPrivate.interceptors.response.eject(responseInterceptor)
+        }
     }, [])
+
+    useEffect(() => {
+        if (signedIn) {
+            if (deliveryAddress) {
+                setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`))
+                const updateOrders = async () => {
+                    const { data, status } = await axiosPrivate.post('orders', {
+                        items: cartList,
+                        shippingAddress: {},
+                        billingAddress: {},
+                        amount: orderAmount,
+                        createdTime: formattedTime,
+                        createdDate: formattedDate
+                    })
+                    if (status === 201) {
+                        setOrderId(data.id)
+                    }
+                }
+                (async () => {
+                    const { data, status } = await axiosPrivate.post('create-payment-intent', {
+                        items: cartList
+                    })
+                    if (status === 200) {
+                        setClientSecret(data.clientSecret);
+                        orderAmount = data.amount
+                        updateOrders()
+                    }
+                })();
+            } else {
+                showToastInfoMessage("Set a delivery address");
+                navigate('/addresses')
+            }
+
+        }
+    }, [signedIn])
 
 
     return (
         <>
             <h1>Payment Gateway</h1>
             <p>please do not refresh</p>
-            {stripePromise && clientSecret && orderId &&
+            {isCheckoutFormDisplayed &&
                 <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'flat' } }}>
                     <CheckoutForm
                         orderId={orderId}
+                        deliveryAddress={deliveryAddress}
                     />
                 </Elements>}
         </>

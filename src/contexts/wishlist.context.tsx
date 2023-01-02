@@ -11,7 +11,6 @@ type WishlistContextValueType = {
     wishlist: ProductType[] | null
     addToWishlist: (item: any) => any
     removeFromWishlist: (item: any) => any
-    wishlistInitialState: () => void
     wishlistCount: number | null
     setWishlist: React.Dispatch<React.SetStateAction<ProductType[] | null>>
     getWishlist: () => any
@@ -21,7 +20,6 @@ const INITIAL_CONTEXT_VALUE = {
     wishlist: null,
     addToWishlist: () => { },
     removeFromWishlist: () => { },
-    wishlistInitialState: () => { },
     wishlistCount: null,
     setWishlist: () => { },
     getWishlist: () => { },
@@ -32,26 +30,36 @@ export const WishlistContext = createContext<WishlistContextValueType>(INITIAL_C
 export const WishlistProvider = ({ children }: ProviderPropsType) => {
     const [wishlist, setWishlist] = useState<ProductType[] | null>(null)
     const wishlistCount = wishlist ? wishlist.length : null
-    const { accessToken } = useContext(UserContext)
-    const { axiosPrivate } = useAxiosPrivateContext()
+    const { signedIn, accessToken, setAccessToken, setSignedIn } = useContext(UserContext)
+    const { useAxiosPrivate } = useAxiosPrivateContext()
+    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate(accessToken, setAccessToken, setSignedIn)
 
     useEffect(() => {
-        getWishlist()
-    }, [accessToken])
+        return () => {
+            axiosPrivate.interceptors.request.eject(requestInterceptor)
+            axiosPrivate.interceptors.response.eject(responseInterceptor)
+        }
+    })
+
+    useEffect(() => {
+        if (signedIn && !wishlist) {
+            getWishlist()
+        } else if (!signedIn) {
+            setWishlist(null)
+        }
+    }, [signedIn])
 
     const getWishlist = async () => {
-        if (accessToken && !wishlist) {
-            (async () => {
-                try {
-                    const { data, status } = await axiosPrivate.get('wishlist')
-                    if (status === 200) {
-                        setWishlist(data.data)
-                    }
-                } catch (error) {
-                    handleError(error)
+        (async () => {
+            try {
+                const { data, status } = await axiosPrivate.get('wishlist')
+                if (status === 200) {
+                    setWishlist(data.data)
                 }
-            })()
-        }
+            } catch (error) {
+                handleError(error)
+            }
+        })()
     }
 
     const addToWishlist = async (item: string) => {
@@ -60,7 +68,6 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
                 productId: item
             })
             if (status === 201 || status === 200) {
-                console.log(data)
                 setWishlist(prev => prev ? [...prev, data.data] : data.data)
                 showToastSuccessMessage(data.message)
             }
@@ -75,7 +82,11 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
                 productId: item
             })
             if (status === 200) {
-                setWishlist(data.items)
+                setWishlist(prev => (
+                    prev
+                        ? prev.filter(cartItem => cartItem._id !== data.removedItem)
+                        : prev
+                ))
                 showToastSuccessMessage(data.message)
             }
         } catch (error) {
@@ -83,18 +94,21 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
         }
     }
 
-    const wishlistInitialState = () => {
-        setWishlist(null)
-    }
-
     const value = {
         wishlist,
         addToWishlist,
         removeFromWishlist,
         wishlistCount,
-        wishlistInitialState,
         setWishlist,
         getWishlist,
     }
     return <WishlistContext.Provider value={value}>{children}</WishlistContext.Provider>
+}
+
+export function useWishlistContext() {
+    const context = React.useContext(WishlistContext);
+    if (context === undefined) {
+        throw new Error('useWishlistContext must be used within a WishlistProvider')
+    }
+    return context;
 }

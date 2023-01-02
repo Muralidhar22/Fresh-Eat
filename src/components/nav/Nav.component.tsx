@@ -1,27 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useState } from "react";
 
-import { UserContext } from "../../contexts/user.context";
-import { WishlistContext } from "contexts/wishlist.context";
-import { CartContext } from "contexts/cart.context";
-import styles from "./Nav.styles.module.css";
+import { useUserContext } from "../../contexts/user.context";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import CartButton from "components/cart-button/cartButton.component";
 
+import styles from "./Nav.styles.module.css";
 import { FaSignOutAlt, FaUserAlt, FaSearch } from "react-icons/fa";
 
 const Navbar = () => {
     let location = useLocation();
-    const { userSignOutHandler, signedIn, userInfo } = useContext(UserContext)
-    const { wishlistInitialState } = useContext(WishlistContext)
-    const { cartInitialState } = useContext(CartContext)
+    const { signedIn, userInfo, setSignedIn } = useUserContext()
     const [searchBarFocus, setSearchBarFocus] = useState(false)
-
-    const handleLogout = () => {
-        userSignOutHandler()
-        wishlistInitialState()
-        cartInitialState()
-    }
 
     const handleDropdown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, state: boolean) => {
         if (state) {
@@ -70,7 +60,7 @@ const Navbar = () => {
                                 <div className={styles['drop-down-menu']}>
                                     <Link to="/orders">Orders</Link>
                                     <Link to="/address">Addresses</Link>
-                                    <button className={styles['logout-button']} onClick={handleLogout}>
+                                    <button className={styles['logout-button']} onClick={() => setSignedIn(false)}>
                                         Signout
                                         <FaSignOutAlt />
                                     </button>

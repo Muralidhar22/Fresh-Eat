@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { CartContext } from "contexts/cart.context";
+import { useCartContext } from "contexts/cart.context";
 import Navbar from "components/nav/Nav.component";
 import AddressModal from "./AddressModal.component";
-import { UserContext } from "contexts/user.context";
+import { useUserContext } from "contexts/user.context";
 import NewAddressForm from "components/new-address-form/NewAddressForm.component";
-import { handleError } from "utils/displayError";
 
 import { FaPlusCircle, FaTrashAlt, FaMinusCircle } from "react-icons/fa";
 import Loader from "components/loader/Loader.component";
 import styles from "./CartPage.styles.module.css";
 
 const CartPage = () => {
-    const { cartList, increaseItemQty, decreaseItemQty, removeFromCart, cartLoader, getCartTotal } = useContext(CartContext)
+    const { cartList, increaseItemQty, decreaseItemQty, removeFromCart, cartLoader, getCartTotal } = useCartContext()
     const navigate = useNavigate()
     const cartTotal = getCartTotal();
-    const { userInfo } = useContext(UserContext)
+    const { userInfo } = useUserContext();
     const [isAddressesModalOpen, setIsAddressesModalOpen] = useState(false)
     const [isNewAddressModalOpen, setIsNewAddressModalOpen] = useState(false)
 
@@ -69,7 +68,7 @@ const CartPage = () => {
                                         onClick={() => increaseItemQty(item.product._id)}><FaPlusCircle /></button>
                                 </div>
                                 <button
-                                    onClick={() => removeFromCart(item.product._id)}
+                                    onClick={() => removeFromCart(item._id)}
                                 ><FaTrashAlt /></button>
                             </div>
                         ))}

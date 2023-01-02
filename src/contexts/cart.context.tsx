@@ -5,11 +5,10 @@ import ProviderPropsType from "../types/ProviderPropsType";
 import { useAxiosPrivateContext } from "./axiosPrivate.context";
 import { showToastSuccessMessage } from "utils/toastMessage";
 import { handleError } from "utils/displayError";
-import { ProductContext } from "./products.context";
 import { UserContext } from "./user.context";
 import ProductType from "types/ProductType";
 
-type CartListType = { product: ProductType, count: number }[]
+type CartListType = { _id: string, product: ProductType, count: number }[]
 
 type CartContextValueType = {
     cartList: CartListType | null
@@ -18,7 +17,6 @@ type CartContextValueType = {
     removeFromCart: (item: any) => void,
     increaseItemQty: (item: any) => void,
     decreaseItemQty: (item: any) => void,
-    cartInitialState: () => string,
     cartLoader: boolean
     getCartTotal: () => number | null
     setCartList: React.Dispatch<React.SetStateAction<CartListType | null>>
@@ -31,7 +29,6 @@ const INITIAL_CONTEXT_VALUE = {
     removeFromCart: () => { },
     increaseItemQty: () => { },
     decreaseItemQty: () => { },
-    cartInitialState: () => { return " " },
     cartLoader: false,
     setCartList: () => { },
     getCartTotal: () => { return null },
@@ -44,38 +41,47 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     const [cartList, setCartList] = useState<CartListType | null>(null)
     const cartListCount = cartList ? cartList.length : null
     const [cartLoader, setCartLoader] = useState(false)
-    const { products } = useContext(ProductContext)
-    const { signedIn, accessToken } = useContext(UserContext)
-    const { axiosPrivate } = useAxiosPrivateContext()
+    const { signedIn, setAccessToken, accessToken, setSignedIn } = useContext(UserContext)
+    const { useAxiosPrivate } = useAxiosPrivateContext()
+    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate(accessToken, setAccessToken, setSignedIn)
 
     useEffect(() => {
-        getCartList()
+        return () => {
+            axiosPrivate.interceptors.request.eject(requestInterceptor)
+            axiosPrivate.interceptors.response.eject(responseInterceptor)
+        }
+    })
+
+    useEffect(() => {
+        if (signedIn && !cartList) {
+            getCartList()
+        } else if (!signedIn) {
+            setCartList(null)
+        }
     }, [signedIn])
 
+
     const getCartList = () => {
-        if (signedIn && !cartList) {
-            (async () => {
-                try {
-                    const { data, status } = await axiosPrivate.get('cart')
-                    if (status === 200) {
-                        console.log(data)
-                        setCartList(data.data.items)
-                    }
-                } catch (error) {
-                    handleError(error)
+        (async () => {
+            try {
+                const { data, status } = await axiosPrivate.get('cart')
+                if (status === 200) {
+                    console.log(data.data.items)
+                    setCartList(data.data.items)
                 }
+            } catch (error) {
+                handleError(error)
             }
-            )()
         }
+        )();
     }
 
     const addToCart = async (item: any) => {
         try {
             const { data, status } = await axiosPrivate.post('cart', { productId: item })
             if (status === 201 || status === 200) {
-                showToastSuccessMessage(`Added to Cart!`)
-                console.log(data.data, cartList)
-                // setCartList(prev => prev?.push(data.data))
+                showToastSuccessMessage(data.message)
+                setCartList(prev => prev ? [...prev, data.data.addedItem] : [...data.data.addedItem])
             }
         } catch (error) {
             handleError(error)
@@ -85,12 +91,11 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     const removeFromCart = async (item: any) => {
         try {
             const { data, status } = await axiosPrivate({
-                method: 'delete', url: 'cart', data: { productId: item }
+                method: 'delete', url: 'cart', data: { cartItemId: item }
             })
             if (status === 200) {
                 showToastSuccessMessage(data.message)
-                console.log(data.data, cartList)
-                // setCartList(data.items)
+                setCartList(prev => prev ? prev.filter(cartItem => cartItem._id !== data.data.removedItem) : null)
             }
         } catch (error) {
             handleError(error)
@@ -109,7 +114,11 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                     })
                     if (status === 200) {
                         console.log(data.data)
-                        // setCartList(data.items)
+                        setCartList(prev => (
+                            prev ?
+                                prev.map(cartItem => cartItem.product._id === data.data.updatedItem
+                                    ? { ...cartItem, count: cartItem.count + 1 }
+                                    : cartItem) : null))
                         showToastSuccessMessage(data.message)
                     }
                 }
@@ -135,8 +144,11 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                             count: itemToUpdate.count - 1
                         })
                         if (status === 200) {
-                            console.log(data)
-                            // setCartList(data.items)
+                            setCartList(prev => (
+                                prev ?
+                                    prev.map(cartItem => cartItem.product._id === data.data.updatedItem
+                                        ? { ...cartItem, count: cartItem.count - 1 }
+                                        : cartItem) : null))
                             showToastSuccessMessage(data.message)
                         }
                     }
@@ -148,21 +160,11 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
         setCartLoader(false)
     }
 
-    const cartInitialState = () => {
-        setCartList(null)
-        return "set to initial cart state";
-    }
-
     const getCartTotal = () => {
         let cartAmount;
-        if (cartList && products) {
-            cartAmount = cartList?.reduce((prevValue, currentItem) => {
-                const itemDetails = products?.find(product => product._id === currentItem.product._id)
-                if (itemDetails?.discountPrice) {
-                    return (prevValue + itemDetails?.discountPrice * currentItem.count)
-                } else {
-                    return prevValue
-                }
+        if (cartList) {
+            cartAmount = cartList.reduce((prevValue, currentItem) => {
+                return (prevValue + currentItem.product.discountPrice * currentItem.count)
             }, 0)
             return cartAmount
         }
@@ -176,7 +178,6 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
         removeFromCart,
         increaseItemQty,
         decreaseItemQty,
-        cartInitialState,
         cartLoader,
         getCartTotal,
         setCartList,
@@ -184,4 +185,12 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>
+}
+
+export function useCartContext() {
+    const context = React.useContext(CartContext);
+    if (context === undefined) {
+        throw new Error('useCartContext must be used within a CartProvider')
+    }
+    return context;
 }

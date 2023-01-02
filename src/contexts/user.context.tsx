@@ -1,14 +1,15 @@
-import React, { useState, createContext, useRef, useEffect } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import ProviderPropsType from "../types/ProviderPropsType";
 import usePersist from "hooks/usePersist";
+import { axiosPrivate } from "api/axios";
 import { handleError } from "utils/displayError";
 
 import { showToastSuccessMessage } from "utils/toastMessage";
 
-type AddressType =
+export type AddressType =
     {
         name: string
         country: string
@@ -18,15 +19,15 @@ type AddressType =
         postalCode: string
         addressType: string
         isDeliveryAddress: boolean
-    }[]
+    }
 
 export type UserContextValueType = {
     userSignOutHandler: () => void
     userSignInHandler: (email: string, password: string) => void
     signedIn: boolean
-    accessToken: string | null
     setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-    userInfo: { firstName: string, lastName: string, address: AddressType } | null
+    userInfo: { firstName: string, lastName: string, address: AddressType[] } | null
+    accessToken: string | null
     setAccessToken: React.Dispatch<React.SetStateAction<string | null>>
 }
 
@@ -34,10 +35,10 @@ const INITIAL_CONTEXT_VALUE: UserContextValueType = {
     userSignOutHandler: () => { },
     userSignInHandler: () => { },
     signedIn: false,
-    accessToken: null,
     setSignedIn: () => { },
     userInfo: null,
-    setAccessToken: () => { },
+    accessToken: null,
+    setAccessToken: () => { }
 }
 
 export const UserContext = createContext<UserContextValueType>(INITIAL_CONTEXT_VALUE);
@@ -49,10 +50,10 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        (async () => {
-            if (accessToken && !userInfo) {
+        if (signedIn && !userInfo) {
+            (async () => {
                 try {
-                    const { data, status } = await axios({
+                    const { data, status } = await axiosPrivate({
                         method: 'get',
                         url: 'user/details',
                         headers: { 'Authorization': `Bearer ${accessToken}` }
@@ -64,16 +65,17 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
                     handleError(error)
                 }
             }
+            )();
+        } else if (!signedIn) {
+            userSignOutHandler()
         }
-        )();
-    }, [accessToken])
+    }, [signedIn])
 
     const userSignOutHandler = async () => {
         await axios.get('logout')
         clearPersist()
         setSignedIn(false)
         setUserInfo(null)
-        setAccessToken(null)
         navigate('/')
         showToastSuccessMessage(`Logged Out!, visit again to shop more`)
     }
@@ -102,9 +104,9 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
         userSignOutHandler,
         signedIn,
         setSignedIn,
-        accessToken,
         setAccessToken,
         userInfo,
+        accessToken,
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
