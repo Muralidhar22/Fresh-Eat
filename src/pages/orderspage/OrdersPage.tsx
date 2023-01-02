@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 
-import { UserContext } from "contexts/user.context";
+import { useAuthContext } from "contexts/auth.context";
 
 const OrdersPage = () => {
-    const { signedIn } = useContext(UserContext)
+    const { signedIn } = useAuthContext()
     // useEffect(() => {
     //     (async () => {
     //         const { data, status } = await axios.get('orders')

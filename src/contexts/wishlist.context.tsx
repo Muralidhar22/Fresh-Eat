@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 import ProviderPropsType from "../types/ProviderPropsType";
-import { useAxiosPrivateContext } from "./axiosPrivate.context";
+import { useAuthContext } from "./auth.context";
 import { handleError } from "utils/displayError";
-import { showToastSuccessMessage } from "utils/toastMessage";
-import { UserContext } from "./user.context";
 import ProductType from "types/ProductType";
+
+import { showToastSuccessMessage } from "utils/toastMessage";
 
 type WishlistContextValueType = {
     wishlist: ProductType[] | null
@@ -30,16 +30,15 @@ export const WishlistContext = createContext<WishlistContextValueType>(INITIAL_C
 export const WishlistProvider = ({ children }: ProviderPropsType) => {
     const [wishlist, setWishlist] = useState<ProductType[] | null>(null)
     const wishlistCount = wishlist ? wishlist.length : null
-    const { signedIn, accessToken, setAccessToken, setSignedIn } = useContext(UserContext)
-    const { useAxiosPrivate } = useAxiosPrivateContext()
-    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate(accessToken, setAccessToken, setSignedIn)
+    const { useAxiosPrivate, signedIn } = useAuthContext()
+    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
 
     useEffect(() => {
         return () => {
             axiosPrivate.interceptors.request.eject(requestInterceptor)
             axiosPrivate.interceptors.response.eject(responseInterceptor)
         }
-    })
+    }, [requestInterceptor, responseInterceptor])
 
     useEffect(() => {
         if (signedIn && !wishlist) {

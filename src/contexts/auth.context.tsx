@@ -1,28 +1,32 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { AxiosInstance } from "axios";
 
 import ProviderPropsType from "types/ProviderPropsType";
 import { axiosPrivate } from "api/axios";
+import usePersist from "hooks/usePersist";
 
 import { showToastErrorMessage, showToastInfoMessage } from "utils/toastMessage";
 
-type AxiosPrivateContextType = {
-    useAxiosPrivate: (accessToken: string | null, setAccessToken: React.Dispatch<React.SetStateAction<string | null>>, setSignedIn: React.Dispatch<React.SetStateAction<boolean>>) => {
+type AuthContextType = {
+    useAxiosPrivate: () => {
         axiosPrivate: AxiosInstance;
         responseInterceptor: number;
         requestInterceptor: number;
     }
+    signedIn: boolean
+    setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
+    accessToken: string | null
+    setAccessToken: React.Dispatch<React.SetStateAction<string | null>>
+    clearPersist: any
 } | undefined
 
-const AxiosPrivateContext = createContext<AxiosPrivateContextType>(undefined);
+const AuthContext = createContext<AuthContextType>(undefined);
 
-export const AxiosPrivateProvider = ({ children }: ProviderPropsType) => {
-    const useAxiosPrivate = (
-        accessToken: string | null,
-        setAccessToken: React.Dispatch<React.SetStateAction<string | null>>,
-        setSignedIn: React.Dispatch<React.SetStateAction<boolean>>) => {
-        console.log("accessToken", accessToken)
+export const AuthProvider = ({ children }: ProviderPropsType) => {
+    const [signedIn, setSignedIn, clearPersist] = usePersist()
+    const [accessToken, setAccessToken] = useState<string | null>(null)
+    const useAxiosPrivate = () => {
 
         const refresh = async () => {
             try {
@@ -66,15 +70,15 @@ export const AxiosPrivateProvider = ({ children }: ProviderPropsType) => {
 
         return { axiosPrivate, responseInterceptor, requestInterceptor };
     }
-    const value = { useAxiosPrivate }
+    const value = { useAxiosPrivate, accessToken, setAccessToken, signedIn, setSignedIn, clearPersist }
 
-    return < AxiosPrivateContext.Provider value={value} > {children}</AxiosPrivateContext.Provider>
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-export function useAxiosPrivateContext() {
-    const context = useContext(AxiosPrivateContext);
+export function useAuthContext() {
+    const context = useContext(AuthContext);
     if (context === undefined) {
-        throw new Error('useAxiosPrivateContext must be used within a useAxiosPrivateContext')
+        throw new Error('useAuthContext must be used within a useAuthContext')
     }
     return context;
 }

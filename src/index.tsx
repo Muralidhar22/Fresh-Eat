@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { FilterProvider } from 'contexts/filter.context';
 import { WishlistProvider } from 'contexts/wishlist.context';
 import { CartProvider } from 'contexts/cart.context';
-import { AxiosPrivateProvider } from 'contexts/axiosPrivate.context';
+import { AuthProvider } from 'contexts/auth.context';
 import "api/axios";
 
 import './index.css';
@@ -25,8 +25,8 @@ root.render(
     <BrowserRouter>
       <FilterProvider>
         <ProductProvider>
-          <UserProvider>
-            <AxiosPrivateProvider>
+          <AuthProvider>
+            <UserProvider>
               <WishlistProvider>
                 <CartProvider>
                   <ToastContainer />
@@ -35,8 +35,8 @@ root.render(
                   </TimerProvider>
                 </CartProvider>
               </WishlistProvider>
-            </AxiosPrivateProvider>
-          </UserProvider>
+            </UserProvider>
+          </AuthProvider>
         </ProductProvider>
       </FilterProvider>
     </BrowserRouter>

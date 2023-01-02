@@ -7,14 +7,14 @@ import CheckoutForm from "components/checkout-form/CheckoutForm.component";
 import { useUserContext } from "contexts/user.context";
 import { useCartContext } from "contexts/cart.context";
 import { formatDate, formatTime } from "utils/dateTimeFormat";
-import { useAxiosPrivateContext } from "contexts/axiosPrivate.context";
+import { useAuthContext } from "contexts/auth.context";
 
 import { showToastInfoMessage } from "utils/toastMessage";
 
 const PaymentPage = () => {
     const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
     const [clientSecret, setClientSecret] = useState<string>();
-    const { signedIn, userInfo, accessToken, setAccessToken, setSignedIn } = useUserContext();
+    const { userInfo, } = useUserContext();
     const { cartList } = useCartContext();
     const formattedDate = formatDate()
     const formattedTime = formatTime()
@@ -23,15 +23,15 @@ const PaymentPage = () => {
     const deliveryAddress = userInfo?.address.find(userAddress => userAddress.isDeliveryAddress)
     const isCheckoutFormDisplayed = stripePromise && clientSecret && orderId && deliveryAddress
     let orderAmount = 0;
-    const { useAxiosPrivate } = useAxiosPrivateContext()
-    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate(accessToken, setAccessToken, setSignedIn)
+    const { useAxiosPrivate, signedIn } = useAuthContext()
+    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
 
     useEffect(() => {
         return () => {
             axiosPrivate.interceptors.request.eject(requestInterceptor)
             axiosPrivate.interceptors.response.eject(responseInterceptor)
         }
-    }, [])
+    }, [requestInterceptor, responseInterceptor])
 
     useEffect(() => {
         if (signedIn) {

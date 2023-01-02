@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { useUserContext } from "contexts/user.context";
+import { useAuthContext } from "contexts/auth.context";
 import { useCartContext } from "contexts/cart.context";
 
 import { FaShoppingCart } from "react-icons/fa";
@@ -12,7 +12,7 @@ type CartButtonPropsType = {
 }
 
 const CartButton = ({ productId, wishlistElementType, className }: CartButtonPropsType) => {
-    const { signedIn } = useUserContext()
+    const { signedIn } = useAuthContext()
     const { cartList, cartListCount, addToCart } = useCartContext()
     const isCartItem = cartList?.find((cartProduct) => cartProduct.product._id === productId)
     const navigate = useNavigate()

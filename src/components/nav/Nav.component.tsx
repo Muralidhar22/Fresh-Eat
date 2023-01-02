@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 import { useUserContext } from "../../contexts/user.context";
+import { useAuthContext } from "contexts/auth.context";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
 import CartButton from "components/cart-button/cartButton.component";
 
@@ -10,7 +11,8 @@ import { FaSignOutAlt, FaUserAlt, FaSearch } from "react-icons/fa";
 
 const Navbar = () => {
     let location = useLocation();
-    const { signedIn, userInfo, setSignedIn } = useUserContext()
+    const { userInfo } = useUserContext()
+    const { signedIn, setSignedIn } = useAuthContext()
     const [searchBarFocus, setSearchBarFocus] = useState(false)
 
     const handleDropdown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, state: boolean) => {

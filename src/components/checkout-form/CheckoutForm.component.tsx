@@ -6,8 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 
 import { AddressType } from "contexts/user.context";
-import { useAxiosPrivateContext } from "contexts/axiosPrivate.context";
-import { useUserContext } from "contexts/user.context";
+import { useAuthContext } from "contexts/auth.context";
 
 import styles from "./CheckoutForm.styles.module.css";
 import { showToastSuccessMessage } from "utils/toastMessage";
@@ -15,18 +14,17 @@ import { showToastSuccessMessage } from "utils/toastMessage";
 export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: string, deliveryAddress: AddressType }) {
     const [message, setMessage] = useState<string>();
     const [isProcessing, setIsProcessing] = useState(false);
-    const { accessToken, setAccessToken, setSignedIn } = useUserContext();
     const stripe = useStripe();
     const elements = useElements();
-    const { useAxiosPrivate } = useAxiosPrivateContext()
-    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate(accessToken, setAccessToken, setSignedIn)
+    const { useAxiosPrivate } = useAuthContext()
+    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
 
     useEffect(() => {
         return () => {
             axiosPrivate.interceptors.request.eject(requestInterceptor)
             axiosPrivate.interceptors.response.eject(responseInterceptor)
         }
-    }, [])
+    }, [requestInterceptor, responseInterceptor])
 
     const updateOrderStatus = async () => {
         const { data, status } = await axiosPrivate.patch('orders')

@@ -1,7 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { useContext } from 'react';
 
-import { UserContext } from 'contexts/user.context';
 import HomePage from './pages/homepage/HomePage';
 import WishlistPage from './pages/wishlist/WishlistPage';
 import CartPage from './pages/cartpage/CartPage';
@@ -16,8 +14,10 @@ import OrdersPage from 'pages/orderspage/OrdersPage';
 import PaymentPage from 'pages/payment/PaymentPage';
 import AddressPage from 'pages/address-page/Addresspage';
 
+import { useAuthContext } from 'contexts/auth.context';
+
 function App() {
-  const { signedIn } = useContext(UserContext);
+  const { signedIn } = useAuthContext()
 
   return (
     <Routes>
