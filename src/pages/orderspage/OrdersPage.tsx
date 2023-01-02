@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 
 import { useAuthContext } from "contexts/auth.context";
+import Navbar from "components/nav/Nav.component";
 
 const OrdersPage = () => {
     const { signedIn } = useAuthContext()
@@ -10,7 +11,10 @@ const OrdersPage = () => {
     //     })();
     // }, [])
     return (
-        <div>Your Orders...</div>
+        <>
+            <Navbar />
+            <div>Your Orders...</div>
+        </>
     )
 }
 

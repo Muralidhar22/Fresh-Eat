@@ -111,10 +111,6 @@ body {
   font-size: 1.5rem;
 }
 
-.width-100 {
-  width: 100%;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -193,8 +189,6 @@ h4 {
   /* Help prevent overflow of long words/names/URLs */
   overflow-wrap: break-word;
 }
-
-
 
 /* custom input styles */
 input[type="checkbox"].custom-input {

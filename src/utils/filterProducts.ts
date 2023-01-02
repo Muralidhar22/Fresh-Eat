@@ -25,7 +25,7 @@ export const getFilteredProducts = (
     }: FiltersStateType
 ) => {
     const filteredProducts = products.filter((product) => {
-        const categoryMatch = categories.some((category) => product.brand === category)
+        const categoryMatch = categories.some((category) => product.category === category)
         const brandMatch = brands.some((brand) => product.brand === brand)
         const esrbRatingMatch = esrbRatings.some((esrbRating) => product.esrbRating === esrbRating)
         const platformMatch = platforms.some((platform) => product.platform?.includes(platform))

@@ -159,7 +159,7 @@ const Carousel = () => {
                             </b>
                             <p>{slideContent.actionItem.content.para}</p>
                             {slideContent.actionItem.content.tag && <span>{slideContent.actionItem.content.tag}</span>}
-                            <Link to="/shop" className={`text-uppercase cursor-pointer ${styles.actionLink}`}>{slideContent.actionItem.content.actionButtonText}</Link>
+                            <Link to="/products" className={`text-uppercase cursor-pointer ${styles.actionLink}`}>{slideContent.actionItem.content.actionButtonText}</Link>
                         </div>
                     )
                 ))
