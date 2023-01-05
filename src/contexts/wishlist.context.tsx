@@ -30,7 +30,7 @@ export const WishlistContext = createContext<WishlistContextValueType>(INITIAL_C
 export const WishlistProvider = ({ children }: ProviderPropsType) => {
     const [wishlist, setWishlist] = useState<ProductType[] | null>(null)
     const wishlistCount = wishlist ? wishlist.length : null
-    const { useAxiosPrivate, signedIn } = useAuthContext()
+    const { useAxiosPrivate, signedIn, accessToken } = useAuthContext()
     const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
 
     useEffect(() => {
@@ -41,12 +41,12 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
     }, [requestInterceptor, responseInterceptor])
 
     useEffect(() => {
-        if (signedIn && !wishlist) {
+        if (accessToken && !wishlist) {
             getWishlist()
         } else if (!signedIn) {
             setWishlist(null)
         }
-    }, [signedIn])
+    }, [signedIn, accessToken])
 
     const getWishlist = async () => {
         (async () => {
@@ -67,7 +67,7 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
                 productId: item
             })
             if (status === 201 || status === 200) {
-                setWishlist(prev => prev ? [...prev, data.data] : data.data)
+                setWishlist(prev => prev ? [...prev, data.data.addedItem] : [...data.data.addedItem])
                 showToastSuccessMessage(data.message)
             }
         } catch (error) {
@@ -83,7 +83,7 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
             if (status === 200) {
                 setWishlist(prev => (
                     prev
-                        ? prev.filter(cartItem => cartItem._id !== data.removedItem)
+                        ? prev.filter(wishlistItem => wishlistItem._id !== data.data.removedItem)
                         : prev
                 ))
                 showToastSuccessMessage(data.message)

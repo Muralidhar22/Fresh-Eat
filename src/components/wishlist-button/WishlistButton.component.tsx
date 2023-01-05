@@ -3,6 +3,8 @@ import { WishlistContext } from "contexts/wishlist.context";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useAuthContext } from "contexts/auth.context";
 
+import styles from "./WishlistButton.styles.module.css";
+
 type WishlistButtonPropsType = {
     wishlistElementType: "icon" | "button" | "nav-icon"
     productId?: string
@@ -34,8 +36,10 @@ const WishlistButton = ({ wishlistElementType, productId, className }: WishlistB
     } else if (wishlistElementType === 'nav-icon') {
         return (
             <>
-                <FaRegHeart />
-                {signedIn && <span>{wishlistCount}</span>}
+                <div className={styles['wishlist-icon-wrapper']}>
+                    <FaRegHeart size="24" />
+                    {signedIn && <span className="count-icon fw-500">{wishlistCount}</span>}
+                </div>
             </>
         )
     }

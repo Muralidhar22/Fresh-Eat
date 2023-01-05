@@ -29,8 +29,9 @@
     margin-bottom: 0.5rem;
 }
 
-.address-type-radio-label {
+.address-type-input {
     display: flex;
     gap: 0.25rem;
     align-items: center;
+    flex-direction: row-reverse;
 }

@@ -5,7 +5,7 @@ import {
     PaymentElement
 } from "@stripe/react-stripe-js";
 
-import { AddressType } from "contexts/user.context";
+import { AddressType } from "types/AddressType";
 import { useAuthContext } from "contexts/auth.context";
 
 import styles from "./CheckoutForm.styles.module.css";

@@ -124,8 +124,8 @@ const Carousel = () => {
     const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSlideMoving(true);
         moveSlide(Number(e.target.value))
+        setCurrentSlide(Number(e.target.value))
         setTimeout(() => {
-            setCurrentSlide(Number(e.target.value))
             setSlideMoving(false)
         }, 2000)
     }
@@ -135,7 +135,7 @@ const Carousel = () => {
             <ul className={styles.slideshowContainer}>
                 {
                     slides.map((slide, idx) => (
-                        <li key={idx}
+                        <li key={slide.alt + idx}
                             className={`${styles.slide}`}
                             ref={slide._id === 1 ? firstSlideRef : null}>
                             <picture>
@@ -167,12 +167,12 @@ const Carousel = () => {
             <div className={styles.sliderTabGroup} role="tablist">
                 {
                     slides.map((slide) => (
-                        <>
+                        <span key={slide._id}>
                             <label htmlFor={`slide${slide._id}`} className="sr-only">slide{slide._id}</label>
                             <input role="tab" id={`slide${slide._id}`} tabIndex={slide._id === 1 ? 0 : -1}
                                 value={slide._id} type="radio" name="slide" data-index={slide._id} key={slide._id} className={styles.dot} checked={currentSlide === slide._id}
                                 onChange={onValueChange} />
-                        </>
+                        </span>
                     ))
                 }
             </div>

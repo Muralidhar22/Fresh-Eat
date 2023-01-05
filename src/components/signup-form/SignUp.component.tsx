@@ -5,7 +5,7 @@ import axios from "axios";
 import FormInput from "../formInput/FormInput.component";
 import { showToastInfoMessage, showToastSuccessMessage, showToastErrorMessage } from "../../utils/toastMessage";
 import signUpFormValidation from "../../utils/signUpFormValidation";
-import FormValuesType from "../../types/FormValuesType";
+import { SignUpFormValuesType } from "types/FormValuesType";
 
 import { FaInfoCircle } from "react-icons/fa";
 import styles from "./SignUp.styles.module.css";
@@ -51,7 +51,7 @@ const InvalidNote = ({ id, children }: InvalidNotePropsType) => {
 }
 
 const SignUp = () => {
-    const [formState, setFormState] = useState<FormValuesType>(INITIAL_STATE)
+    const [formState, setFormState] = useState<SignUpFormValuesType>(INITIAL_STATE)
     const [formValidValue, setFormValidValue] = useState({} as FormValidValueType)
     const [formInputFocus, setFormInputFocus] = useState({} as FormInputFocusType)
     const navigate = useNavigate();

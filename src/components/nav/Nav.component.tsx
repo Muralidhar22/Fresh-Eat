@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useUserContext } from "../../contexts/user.context";
 import { useAuthContext } from "contexts/auth.context";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
-import CartButton from "components/cart-button/cartButton.component";
+import CartButton from "components/cart-button/CartButton.component";
 
 import styles from "./Nav.styles.module.css";
 import { FaSignOutAlt, FaUserAlt, FaSearch } from "react-icons/fa";

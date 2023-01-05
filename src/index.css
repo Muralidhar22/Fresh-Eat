@@ -111,6 +111,10 @@ body {
   font-size: 1.5rem;
 }
 
+.heading-3 {
+  font-size: 1.15rem;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -255,4 +259,15 @@ input[type="radio"].custom-input:hover {
 input[type="range"] {
   cursor: pointer;
   width: 15rem;
+}
+
+.count-icon {
+  position: absolute;
+  padding-inline: 0.25rem;
+  background-color: var(--clr-cta);
+  color: var(--clr-neutral);
+  font-size: 1rem;
+  top: -50%;
+  left: 90%;
+  border-radius: 0.15rem;
 }

@@ -1,4 +1,4 @@
-type FormValuesType = {
+export type SignUpFormValuesType = {
     firstName: string
     lastName: string
     terms: boolean
@@ -7,4 +7,12 @@ type FormValuesType = {
     confirmPassword: string
 }
 
-export default FormValuesType;
+export type AddressFormValuesType = {
+    name: string | ''
+    addressType: 'home' | 'work' | 'guest' | ''
+    postalCode: string | ''
+    city: string | ''
+    state: string | ''
+    country: string | ''
+    line1: string | ''
+}

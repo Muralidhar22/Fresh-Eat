@@ -1,7 +1,7 @@
 import ProductType from "../../../types/ProductType";
-import AddToCart from "../../cart-button/cartButton.component";
+import AddToCart from "../../cart-button/CartButton.component";
 import WishlistButton from "components/wishlist-button/WishlistButton.component";
-import CartButton from "../../cart-button/cartButton.component";
+import CartButton from "../../cart-button/CartButton.component";
 
 import styles from "./ProductInfo.styles.module.css";
 

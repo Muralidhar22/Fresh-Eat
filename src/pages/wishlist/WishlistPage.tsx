@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 import { WishlistContext } from "contexts/wishlist.context";
 import Navbar from "components/nav/Nav.component";
@@ -8,7 +8,7 @@ import styles from "./WishlistPage.styles.module.css";
 
 const WishlistPage = () => {
     const { wishlist } = useContext(WishlistContext);
-    if (wishlist) {
+    if (wishlist && wishlist.length > 0) {
         return (
             <>
                 <Navbar />
@@ -28,6 +28,7 @@ const WishlistPage = () => {
             <Navbar />
             <div>
                 No Wishlist items
+                <img src="/assets/void.svg" alt="man looking into the void" />
             </div>
         </>
     );

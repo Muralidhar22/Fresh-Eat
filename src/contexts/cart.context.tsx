@@ -4,13 +4,12 @@ import ProviderPropsType from "../types/ProviderPropsType";
 import { useAuthContext } from "./auth.context";
 import { showToastSuccessMessage } from "utils/toastMessage";
 import { handleError } from "utils/displayError";
-import { UserContext } from "./user.context";
 import ProductType from "types/ProductType";
 
-type CartListType = { _id: string, product: ProductType, count: number }[]
+type CartListType = { _id: string, product: ProductType, count: number }
 
 type CartContextValueType = {
-    cartList: CartListType | null
+    cartList: CartListType[] | null
     cartListCount: number | null
     addToCart: (item: any) => void,
     removeFromCart: (item: any) => void,
@@ -18,7 +17,7 @@ type CartContextValueType = {
     decreaseItemQty: (item: any) => void,
     cartLoader: boolean
     getCartTotal: () => number | null
-    setCartList: React.Dispatch<React.SetStateAction<CartListType | null>>
+    setCartList: React.Dispatch<React.SetStateAction<CartListType[] | null>>
     getCartList: () => void
 }
 const INITIAL_CONTEXT_VALUE = {
@@ -37,10 +36,10 @@ const INITIAL_CONTEXT_VALUE = {
 export const CartContext = createContext<CartContextValueType>(INITIAL_CONTEXT_VALUE)
 
 export const CartProvider = ({ children }: ProviderPropsType) => {
-    const [cartList, setCartList] = useState<CartListType | null>(null)
+    const [cartList, setCartList] = useState<CartListType[] | null>(null)
     const cartListCount = cartList ? cartList.length : null
     const [cartLoader, setCartLoader] = useState(false)
-    const { useAxiosPrivate, signedIn } = useAuthContext()
+    const { useAxiosPrivate, signedIn, accessToken } = useAuthContext()
     const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
 
     useEffect(() => {
@@ -51,12 +50,12 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     }, [responseInterceptor, requestInterceptor])
 
     useEffect(() => {
-        if (signedIn && !cartList) {
+        if (accessToken && !cartList) {
             getCartList()
         } else if (!signedIn) {
             setCartList(null)
         }
-    }, [signedIn])
+    }, [signedIn, accessToken])
 
 
     const getCartList = () => {
@@ -92,7 +91,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
             })
             if (status === 200) {
                 showToastSuccessMessage(data.message)
-                setCartList(prev => prev ? prev.filter(cartItem => cartItem._id !== data.data.removedItem) : null)
+                setCartList(prev => prev ? prev.filter(cartItem => cartItem._id !== data.data.removedItem) : prev)
             }
         } catch (error) {
             handleError(error)
@@ -102,7 +101,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     const increaseItemQty = async (item: any) => {
         setCartLoader(true)
         if (cartList) {
-            const itemToUpdate = cartList.find((cartItem) => cartItem.product._id === item)
+            const itemToUpdate = cartList.find((cartItem) => cartItem._id === item)
             try {
                 if (itemToUpdate) {
                     const { data, status } = await axiosPrivate.patch('cart', {
@@ -110,12 +109,11 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                         count: itemToUpdate.count + 1
                     })
                     if (status === 200) {
-                        console.log(data.data)
                         setCartList(prev => (
                             prev ?
-                                prev.map(cartItem => cartItem.product._id === data.data.updatedItem
+                                prev.map(cartItem => cartItem._id === data.data.updatedItem
                                     ? { ...cartItem, count: cartItem.count + 1 }
-                                    : cartItem) : null))
+                                    : cartItem) : prev))
                         showToastSuccessMessage(data.message)
                     }
                 }
@@ -129,9 +127,8 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
 
     const decreaseItemQty = async (item: any) => {
         setCartLoader(true)
-
         if (cartList) {
-            const itemToUpdate = cartList.find((cartItem) => cartItem.product._id === item)
+            const itemToUpdate = cartList.find((cartItem) => cartItem._id === item)
             if (itemToUpdate && itemToUpdate.count === 1) removeFromCart(item)
             else {
                 try {
@@ -143,7 +140,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
                         if (status === 200) {
                             setCartList(prev => (
                                 prev ?
-                                    prev.map(cartItem => cartItem.product._id === data.data.updatedItem
+                                    prev.map(cartItem => cartItem._id === data.data.updatedItem
                                         ? { ...cartItem, count: cartItem.count - 1 }
                                         : cartItem) : null))
                             showToastSuccessMessage(data.message)

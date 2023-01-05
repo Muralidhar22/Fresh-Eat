@@ -5,7 +5,7 @@ import { useCartContext } from "contexts/cart.context";
 import Navbar from "components/nav/Nav.component";
 import AddressModal from "./AddressModal.component";
 import { useUserContext } from "contexts/user.context";
-import NewAddressForm from "components/new-address-form/NewAddressForm.component";
+import AddressForm from "components/address-form/AddressForm.component";
 
 import { FaPlusCircle, FaTrashAlt, FaMinusCircle } from "react-icons/fa";
 import Loader from "components/loader/Loader.component";
@@ -31,15 +31,17 @@ const CartPage = () => {
                 }
                 {
                     isNewAddressModalOpen &&
-                    <NewAddressForm setIsNewAddressModalOpen={setIsNewAddressModalOpen} />
+                    <AddressForm
+                        editMode={false}
+                        setIsAddressModalOpen={setIsNewAddressModalOpen} />
                 }
                 <Navbar />
                 <div className={styles['cart-content-container']}>
                     {
-                        userInfo?.address.map((option) => (
+                        userInfo?.address.map((option, idx) => (
                             option.isDeliveryAddress ?
                                 (
-                                    <div className={styles['address-container']}>
+                                    <div className={styles['address-container']} key={option.name + idx}>
                                         <div className={styles['address-content']}>
 
                                             Deliver To: <span>{userInfo?.firstName}, {option.postalCode}</span> <span className={styles['address-type']}>{option.name}</span>
@@ -62,10 +64,10 @@ const CartPage = () => {
                                 <p><span>Price:</span> {item.product.discountPrice}</p>
                                 <div >
                                     <button
-                                        onClick={() => decreaseItemQty(item.product._id)}><FaMinusCircle /></button>
+                                        onClick={() => decreaseItemQty(item._id)}><FaMinusCircle /></button>
                                     <span>{item.count}</span>
                                     <button
-                                        onClick={() => increaseItemQty(item.product._id)}><FaPlusCircle /></button>
+                                        onClick={() => increaseItemQty(item._id)}><FaPlusCircle /></button>
                                 </div>
                                 <button
                                     onClick={() => removeFromCart(item._id)}

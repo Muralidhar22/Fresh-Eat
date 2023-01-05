@@ -1,8 +1,8 @@
-import FormValuesType from "../types/FormValuesType";
+import { SignUpFormValuesType } from "../types/FormValuesType";
 import { PWD_REGEX, EMAIL_REGEX, USER_REGEX } from "./regex";
 
 const signUpFormValidation = (
-    changedProperty: keyof FormValuesType,
+    changedProperty: keyof SignUpFormValuesType,
     value: string | boolean,
     password?: string): boolean => {
     if (changedProperty === 'email') {

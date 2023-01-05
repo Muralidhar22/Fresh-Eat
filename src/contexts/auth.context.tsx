@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { AxiosInstance } from "axios";
 
@@ -7,6 +7,7 @@ import { axiosPrivate } from "api/axios";
 import usePersist from "hooks/usePersist";
 
 import { showToastErrorMessage, showToastInfoMessage } from "utils/toastMessage";
+import { handleError } from "utils/displayError";
 
 type AuthContextType = {
     useAxiosPrivate: () => {
@@ -26,24 +27,34 @@ const AuthContext = createContext<AuthContextType>(undefined);
 export const AuthProvider = ({ children }: ProviderPropsType) => {
     const [signedIn, setSignedIn, clearPersist] = usePersist()
     const [accessToken, setAccessToken] = useState<string | null>(null)
-    const useAxiosPrivate = () => {
 
-        const refresh = async () => {
-            try {
-                const { data } = await axios.get('refresh', {
-                    withCredentials: true
-                })
-                if (setAccessToken) {
-                    setAccessToken(data.data.accessToken)
+    useEffect(() => {
+        if (signedIn) {
+            (async function getInitialAccessToken() {
+                try {
+                    refresh()
+                } catch (error) {
+                    handleError(error);
                 }
-                return data.data.accessToken;
-            } catch (err) {
-                setSignedIn(false)
-                showToastErrorMessage("Seems like your session expired!")
-                showToastInfoMessage("SignIn again to continue.")
-            }
+            })();
         }
+    }, [])
 
+    const refresh = async () => {
+        try {
+            const { data } = await axios.get('refresh', {
+                withCredentials: true
+            })
+            setAccessToken(data.data.accessToken)
+            return data.data.accessToken;
+        } catch (err) {
+            showToastInfoMessage("SignIn again to continue.")
+            showToastErrorMessage("Seems like your session expired!")
+            setSignedIn(false)
+        }
+    }
+
+    const useAxiosPrivate = () => {
         const requestInterceptor = axiosPrivate.interceptors.request.use(
             config => {
                 if (config.headers && !config.headers['Authorization']) {
@@ -70,7 +81,15 @@ export const AuthProvider = ({ children }: ProviderPropsType) => {
 
         return { axiosPrivate, responseInterceptor, requestInterceptor };
     }
-    const value = { useAxiosPrivate, accessToken, setAccessToken, signedIn, setSignedIn, clearPersist }
+
+    const value = {
+        useAxiosPrivate,
+        accessToken,
+        setAccessToken,
+        signedIn,
+        setSignedIn,
+        clearPersist
+    }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
