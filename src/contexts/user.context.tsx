@@ -9,13 +9,16 @@ import { AddressType } from "types/AddressType";
 
 import { showToastSuccessMessage } from "utils/toastMessage";
 
+type UserInfoType = { firstName: string, lastName: string, address: AddressType[] }
+
 export type UserContextValueType = {
     userSignOutHandler: () => void
     userSignInHandler: (email: string, password: string) => void
-    userInfo: { firstName: string, lastName: string, address: AddressType[] } | null
+    userInfo: UserInfoType | null
     addNewAddress: (newAddress: AddressType) => void
     updateAddress: (updatedAddress: AddressType) => void
     deleteAddress: (addressId: string) => void
+    setUserInfo: React.Dispatch<React.SetStateAction<UserInfoType | null>>
 }
 
 const INITIAL_CONTEXT_VALUE: UserContextValueType = {
@@ -24,16 +27,25 @@ const INITIAL_CONTEXT_VALUE: UserContextValueType = {
     userInfo: null,
     addNewAddress: () => { },
     updateAddress: () => { },
-    deleteAddress: () => { }
+    deleteAddress: () => { },
+    setUserInfo: () => { }
 }
 
 export const UserContext = createContext<UserContextValueType>(INITIAL_CONTEXT_VALUE);
 
 export const UserProvider = ({ children }: ProviderPropsType) => {
     const { useAxiosPrivate, clearPersist, signedIn, accessToken, setSignedIn, setAccessToken } = useAuthContext()
-    const [userInfo, setUserInfo] = useState(null)
+    const [userInfo, setUserInfo] = useState<UserInfoType | null>(null)
     const navigate = useNavigate()
-    const { axiosPrivate } = useAxiosPrivate()
+    const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
+
+
+    useEffect(() => {
+        return () => {
+            axiosPrivate.interceptors.request.eject(requestInterceptor)
+            axiosPrivate.interceptors.response.eject(responseInterceptor)
+        }
+    }, [responseInterceptor, requestInterceptor])
 
     useEffect(() => {
         if (accessToken && !userInfo) {
@@ -94,6 +106,16 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
                 method: 'POST',
                 data: { ...newAddress }
             })
+            if (status === 200) {
+                setUserInfo(prev => (prev
+                    ? ({
+                        ...prev,
+                        address: [...data.data.address]
+                    })
+                    : prev
+                ))
+                showToastSuccessMessage(data.message)
+            }
 
         } catch (error) {
             handleError(error)
@@ -107,6 +129,17 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
                 method: 'PATCH',
                 data: { ...updatedAddress }
             })
+            if (status === 200) {
+                showToastSuccessMessage(data.message)
+                setUserInfo(prev => prev ? ({
+                    ...prev,
+                    address: prev.address.map(option => (
+                        option._id === data.data.updatedItem
+                            ? updatedAddress
+                            : option
+                    ))
+                }) : prev)
+            }
         } catch (error) {
             handleError(error)
         }
@@ -119,6 +152,15 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
                 method: 'DELETE',
                 data: { addressId }
             })
+            if (status === 200) {
+                showToastSuccessMessage(data.message)
+                setUserInfo(prev => prev ? ({
+                    ...prev,
+                    address: prev.address.filter(option => (
+                        option._id !== data.data.removedItem
+                    ))
+                }) : prev)
+            }
         } catch (error) {
             handleError(error)
         }
@@ -130,7 +172,8 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
         userInfo,
         addNewAddress,
         updateAddress,
-        deleteAddress
+        deleteAddress,
+        setUserInfo
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }

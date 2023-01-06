@@ -9,7 +9,7 @@ export type SignUpFormValuesType = {
 
 export type AddressFormValuesType = {
     name: string | ''
-    addressType: 'home' | 'work' | 'guest' | ''
+    addressType: 'Home' | 'Work' | 'Guest' | ''
     postalCode: string | ''
     city: string | ''
     state: string | ''

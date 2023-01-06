@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useCartContext } from "contexts/cart.context";
@@ -18,16 +18,18 @@ const CartPage = () => {
     const { userInfo } = useUserContext();
     const [isAddressesModalOpen, setIsAddressesModalOpen] = useState(false)
     const [isNewAddressModalOpen, setIsNewAddressModalOpen] = useState(false)
+    const deliveryAddressRef = useRef<string | null>(null)
 
     if (cartList && cartList.length > 0) {
         return (
             <>
                 {cartLoader && <Loader />}
                 {
-                    isAddressesModalOpen &&
+                    isAddressesModalOpen && deliveryAddressRef.current &&
                     <AddressModal
                         setIsAddressesModalOpen={setIsAddressesModalOpen}
-                        setIsNewAddressModalOpen={setIsNewAddressModalOpen} />
+                        setIsNewAddressModalOpen={setIsNewAddressModalOpen}
+                        deliveryAddressId={deliveryAddressRef.current} />
                 }
                 {
                     isNewAddressModalOpen &&
@@ -44,10 +46,13 @@ const CartPage = () => {
                                     <div className={styles['address-container']} key={option.name + idx}>
                                         <div className={styles['address-content']}>
 
-                                            Deliver To: <span>{userInfo?.firstName}, {option.postalCode}</span> <span className={styles['address-type']}>{option.name}</span>
+                                            Deliver To: <span>{option.name}, {option.postalCode}</span> <span className={styles['address-type']}>{option.addressType}</span>
                                             <div>{option.line1}, {option.city}, {option.state}</div>
                                         </div>
-                                        <button className={styles['change-address-button']} onClick={() => setIsAddressesModalOpen(prev => !prev)}>Change</button>
+                                        <button className={styles['change-address-button']} onClick={() => {
+                                            deliveryAddressRef.current = option._id
+                                            setIsAddressesModalOpen(prev => !prev)
+                                        }}>Change</button>
                                     </div>
 
                                 )

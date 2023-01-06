@@ -11,6 +11,7 @@ import { FilterProvider } from 'contexts/filter.context';
 import { WishlistProvider } from 'contexts/wishlist.context';
 import { CartProvider } from 'contexts/cart.context';
 import { AuthProvider } from 'contexts/auth.context';
+import { OrdersProvider } from 'contexts/orders.context';
 import "api/axios";
 
 import './index.css';
@@ -29,10 +30,12 @@ root.render(
             <UserProvider>
               <WishlistProvider>
                 <CartProvider>
-                  <ToastContainer />
-                  <TimerProvider>
-                    <App />
-                  </TimerProvider>
+                  <OrdersProvider>
+                    <ToastContainer />
+                    <TimerProvider>
+                      <App />
+                    </TimerProvider>
+                  </OrdersProvider>
                 </CartProvider>
               </WishlistProvider>
             </UserProvider>

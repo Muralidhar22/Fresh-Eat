@@ -35,6 +35,7 @@ const INITIAL_FORM_STATE: AddressFormValuesType = {
 }
 const setInitialState = (editMode: boolean, initialValues: AddressType | undefined) => {
     if (editMode && initialValues) {
+        console.log(initialValues.addressType)
         const {
             addressType,
             city,
@@ -101,11 +102,10 @@ export const FormInput = ({
 
 const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: AddressFormModalType) => {
     const [formState, setFormState] = useState<AddressFormValuesType>(() => setInitialState(editMode, initialValues))
-    const { addNewAddress, updateAddress } = useUserContext()
+    const { addNewAddress, updateAddress, userInfo } = useUserContext()
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const key = event.target.name
         const value = event.target.value
-        console.log(Number.isNaN(parseInt(value)))
         if (key === "postalCode"
             && value.length <= 6) {
             setFormState(prev => ({ ...prev, [key]: value }))
@@ -116,20 +116,24 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
+        setIsAddressModalOpen(prev => !prev)
         if (editMode) {
-            // addNewAddress()
+            initialValues &&
+                updateAddress({ ...formState, isDeliveryAddress: initialValues.isDeliveryAddress, _id: initialValues._id })
 
         } else if (!editMode) {
-            // updateAddress()
+            userInfo?.address.length === 0
+                ?
+                addNewAddress({ ...formState, isDeliveryAddress: true } as AddressType)
+                :
+                addNewAddress({ ...formState, isDeliveryAddress: false } as
+                    AddressType)
         }
     }
 
     return (
         <div className={styles['address-form-wrapper']} onSubmit={handleSubmit} onClick={() => setIsAddressModalOpen(prev => !prev)}>
             <div className={styles['address-form']} onClick={(e) => e.stopPropagation()}>
-                {editMode && <button
-                    onClick={() => setIsAddressModalOpen(prev => !prev)}
-                >Close</button>}
                 <form>
                     <FormInput
                         name="name"
@@ -197,8 +201,8 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
                                 name="addressType"
                                 id="type-home"
                                 type="radio"
-                                value="home"
-                                checked={formState && formState.addressType === 'home'}
+                                value="Home"
+                                checked={formState && formState.addressType === 'Home'}
                                 onChange={handleChange}
                                 labelClassName={'text-uppercase'}
                                 labelContent="home"
@@ -210,8 +214,8 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
                                 name="addressType"
                                 id="type-work"
                                 type="radio"
-                                value="work"
-                                checked={formState && formState.addressType === 'work'}
+                                value="Work"
+                                checked={formState && formState.addressType === 'Work'}
                                 onChange={handleChange}
                                 labelClassName={'text-uppercase'}
                                 labelContent="work"
@@ -223,8 +227,8 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
                                 name="addressType"
                                 id="type-guest"
                                 type="radio"
-                                value="guest"
-                                checked={formState && formState.addressType === 'guest'}
+                                value="Guest"
+                                checked={formState && formState.addressType === 'Guest'}
                                 onChange={handleChange}
                                 labelClassName={'text-uppercase'}
                                 labelContent="guest"
@@ -232,7 +236,10 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
                             />
                         </div>
                     </div>
-                    <button className="cursor-pointer">Save</button>
+                    <button type="submit" className="cursor-pointer">Save</button>
+                    {editMode && <button
+                        onClick={() => setIsAddressModalOpen(prev => !prev)}
+                    >Close</button>}
                 </form>
             </div>
         </div>

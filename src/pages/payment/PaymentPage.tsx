@@ -8,6 +8,7 @@ import { useUserContext } from "contexts/user.context";
 import { useCartContext } from "contexts/cart.context";
 import { formatDate, formatTime } from "utils/dateTimeFormat";
 import { useAuthContext } from "contexts/auth.context";
+import { useOrdersContext } from "contexts/orders.context";
 
 import { showToastInfoMessage } from "utils/toastMessage";
 
@@ -40,8 +41,8 @@ const PaymentPage = () => {
                 const updateOrders = async () => {
                     const { data, status } = await axiosPrivate.post('orders', {
                         items: cartList,
-                        shippingAddress: {},
-                        billingAddress: {},
+                        shippingAddress: { ...deliveryAddress },
+                        billingAddress: { ...deliveryAddress },
                         amount: orderAmount,
                         createdTime: formattedTime,
                         createdDate: formattedDate
