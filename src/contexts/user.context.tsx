@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 import ProviderPropsType from "../types/ProviderPropsType";
 import { handleError } from "utils/displayError";
@@ -36,7 +36,6 @@ export const UserContext = createContext<UserContextValueType>(INITIAL_CONTEXT_V
 export const UserProvider = ({ children }: ProviderPropsType) => {
     const { useAxiosPrivate, clearPersist, signedIn, accessToken, setSignedIn, setAccessToken } = useAuthContext()
     const [userInfo, setUserInfo] = useState<UserInfoType | null>(null)
-    const navigate = useNavigate()
     const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
 
 
@@ -77,7 +76,7 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
         clearPersist()
         setSignedIn(false)
         setUserInfo(null)
-        navigate('/')
+        redirect('/')
     }
 
     const userSignInHandler = async (email: string, password: string) => {
@@ -92,7 +91,7 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
                 setSignedIn(true)
                 showToastSuccessMessage(data.message)
                 setAccessToken(data.data.accessToken)
-                navigate('/')
+                redirect('/')
             }
         } catch (error) {
             handleError(error)

@@ -10,6 +10,7 @@ import { useAuthContext } from "contexts/auth.context";
 
 import styles from "./CheckoutForm.styles.module.css";
 import { showToastSuccessMessage } from "utils/toastMessage";
+import { FaRegClipboard } from "react-icons/fa";
 
 export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: string, deliveryAddress: AddressType }) {
     const [message, setMessage] = useState<string>();
@@ -42,13 +43,25 @@ export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: st
             confirmParams: {
                 payment_method_data: {
                     billing_details: {
-                        address: deliveryAddress,
+                        address: {
+                            city: deliveryAddress.city,
+                            country: deliveryAddress.country,
+                            line1: deliveryAddress.line1,
+                            postal_code: deliveryAddress.postalCode,
+                            state: deliveryAddress.state
+                        },
                         name: deliveryAddress ? deliveryAddress?.name : "Guest",
                     }
                 },
                 shipping: {
                     name: deliveryAddress ? deliveryAddress?.name : "Guest",
-                    address: deliveryAddress,
+                    address: {
+                        city: deliveryAddress.city,
+                        country: deliveryAddress.country,
+                        line1: deliveryAddress.line1,
+                        postal_code: deliveryAddress.postalCode,
+                        state: deliveryAddress.state
+                    },
                 },
                 return_url: `${window.location.origin}/orders`,
             },
@@ -79,7 +92,13 @@ export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: st
                 {/* Show any error or success messages */}
                 {message && <div id="payment-message">{message}</div>}
             </form>
-            <p className="cursor-pointer">copy test card details</p>
+            <button title="Copy to clipboard" type="button">
+                <span>4242</span>
+                <span>4242</span>
+                <span>4242</span>
+                <span>4242</span>
+                <FaRegClipboard />
+            </button>
         </div>
     );
 }

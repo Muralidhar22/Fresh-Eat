@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 import { useCartContext } from "contexts/cart.context";
 import Navbar from "components/nav/Nav.component";
@@ -13,7 +13,6 @@ import styles from "./CartPage.styles.module.css";
 
 const CartPage = () => {
     const { cartList, increaseItemQty, decreaseItemQty, removeFromCart, cartLoader, getCartTotal } = useCartContext()
-    const navigate = useNavigate()
     const cartTotal = getCartTotal();
     const { userInfo } = useUserContext();
     const [isAddressesModalOpen, setIsAddressesModalOpen] = useState(false)
@@ -88,7 +87,7 @@ const CartPage = () => {
                         </ul>
                         <p className="text-uppercase">total price</p>
                         <span>{cartTotal}</span>
-                        <button onClick={() => navigate('/checkout')}>Checkout</button>
+                        <button onClick={() => redirect('/checkout')}>Checkout</button>
                     </div>
                 </div>
             </>

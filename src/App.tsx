@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import HomePage from './pages/homepage/HomePage';
 import WishlistPage from './pages/wishlist/WishlistPage';
@@ -30,8 +30,8 @@ function App() {
       <Route path="/address" element={<AddressPage />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/feedback" element={<Feedback />} />
-      <Route path="/signin" element={signedIn ? <HomePage /> : <SignIn />} />
-      <Route path="/signup" element={signedIn ? <HomePage /> : <SignUp />} />
+      <Route path="/signin" element={signedIn ? <Navigate replace to={"/"} /> : <SignIn />} />
+      <Route path="/signup" element={signedIn ? <Navigate replace to={"/"} /> : <SignUp />} />
       <Route path="/checkout" element={<PaymentPage />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>

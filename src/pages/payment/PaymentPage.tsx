@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 import CheckoutForm from "components/checkout-form/CheckoutForm.component";
 import { useUserContext } from "contexts/user.context";
-import { useCartContext } from "contexts/cart.context";
-import { formatDate, formatTime } from "utils/dateTimeFormat";
-import { useAuthContext } from "contexts/auth.context";
+import { useCartContext } from "contexts/cart.context"; import { useAuthContext } from "contexts/auth.context";
 import { useOrdersContext } from "contexts/orders.context";
 
 import { showToastInfoMessage } from "utils/toastMessage";
@@ -17,10 +15,8 @@ const PaymentPage = () => {
     const [clientSecret, setClientSecret] = useState<string>();
     const { userInfo, } = useUserContext();
     const { cartList } = useCartContext();
-    const formattedDate = formatDate()
-    const formattedTime = formatTime()
+    const { addNewOrder } = useOrdersContext();
     const [orderId, setOrderId] = useState<string>();
-    const navigate = useNavigate()
     const deliveryAddress = userInfo?.address.find(userAddress => userAddress.isDeliveryAddress)
     const isCheckoutFormDisplayed = stripePromise && clientSecret && orderId && deliveryAddress
     let orderAmount = 0;
@@ -37,20 +33,7 @@ const PaymentPage = () => {
     useEffect(() => {
         if (signedIn) {
             if (deliveryAddress) {
-                setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`))
-                const updateOrders = async () => {
-                    const { data, status } = await axiosPrivate.post('orders', {
-                        items: cartList,
-                        shippingAddress: { ...deliveryAddress },
-                        billingAddress: { ...deliveryAddress },
-                        amount: orderAmount,
-                        createdTime: formattedTime,
-                        createdDate: formattedDate
-                    })
-                    if (status === 201) {
-                        setOrderId(data.id)
-                    }
-                }
+                setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`));
                 (async () => {
                     const { data, status } = await axiosPrivate.post('create-payment-intent', {
                         items: cartList
@@ -58,12 +41,13 @@ const PaymentPage = () => {
                     if (status === 200) {
                         setClientSecret(data.clientSecret);
                         orderAmount = data.amount
-                        updateOrders()
+                        const newOrderId = addNewOrder(orderAmount);
+                        setOrderId(newOrderId)
                     }
                 })();
             } else {
                 showToastInfoMessage("Set a delivery address");
-                navigate('/addresses')
+                redirect('/address')
             }
 
         }

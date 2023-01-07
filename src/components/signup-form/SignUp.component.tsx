@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import axios from "axios";
 
 import FormInput from "../formInput/FormInput.component";
@@ -54,7 +54,6 @@ const SignUp = () => {
     const [formState, setFormState] = useState<SignUpFormValuesType>(INITIAL_STATE)
     const [formValidValue, setFormValidValue] = useState({} as FormValidValueType)
     const [formInputFocus, setFormInputFocus] = useState({} as FormInputFocusType)
-    const navigate = useNavigate();
     const inputLabelStyle = {
         display: "grid",
         gridTemplateColumns: "1em auto",
@@ -116,7 +115,7 @@ const SignUp = () => {
             showToastInfoMessage(`Redirecting to SignIn page`)
             showToastSuccessMessage(data.message)
             setTimeout(() => {
-                navigate('/signin')
+                redirect('/signin')
             }, 4000)
         }
     }

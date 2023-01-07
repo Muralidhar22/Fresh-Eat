@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 import { useAuthContext } from "contexts/auth.context";
 import { useCartContext } from "contexts/cart.context";
@@ -16,7 +16,6 @@ const CartButton = ({ productId, wishlistElementType, className }: CartButtonPro
     const { signedIn } = useAuthContext()
     const { cartList, cartListCount, addToCart } = useCartContext()
     const isCartItem = cartList?.find((cartProduct) => cartProduct.product._id === productId)
-    const navigate = useNavigate()
 
     if (wishlistElementType === 'nav-icon') {
         return (
@@ -33,7 +32,7 @@ const CartButton = ({ productId, wishlistElementType, className }: CartButtonPro
                         ? (
                             <button
                                 className={className}
-                                onClick={() => navigate('/cart')}
+                                onClick={() => redirect('/cart')}
                             >
                                 Go To Cart
                             </button>

@@ -1,19 +1,26 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useAuthContext } from "contexts/auth.context";
+import { useOrdersContext } from "contexts/orders.context";
 import Navbar from "components/nav/Nav.component";
 
 const OrdersPage = () => {
     const { signedIn } = useAuthContext()
-    // useEffect(() => {
-    //     (async () => {
-    //         const { data, status } = await axios.get('orders')
-    //     })();
-    // }, [])
+    const { getOrders, orders } = useOrdersContext()
+
+    useEffect(() => {
+        getOrders()
+    }, [])
     return (
         <>
             <Navbar />
-            <div>Your Orders...</div>
+            {
+                orders
+                    ?
+                    <div>Your Orders...</div>
+                    :
+                    null
+            }
         </>
     )
 }
