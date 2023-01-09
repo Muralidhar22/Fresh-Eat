@@ -1,0 +1,37 @@
+.address-form-wrapper {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: calc(var(--z-modal));
+}
+
+.address-form {
+    background-color: var(--clr-neutral);
+    border-radius: 0.5rem;
+    width: max(17.5rem, 60%);
+    padding: 1rem;
+}
+
+.address-form input {
+    display: block;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.address-type {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.address-type-input {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    flex-direction: row-reverse;
+}

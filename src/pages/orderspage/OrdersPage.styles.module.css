@@ -1,0 +1,31 @@
+.order-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--clr-neutral);
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.order-status {
+    border-bottom: 2px solid gray;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.product-image {
+    width: 6.25rem;
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(2rem, 1fr));
+    grid-auto-flow: column;
+}
+
+.product-price,
+.product-count {
+    justify-self: center;
+}

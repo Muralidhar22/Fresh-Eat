@@ -1,0 +1,27 @@
+.address-page-content {
+    padding: 1rem;
+}
+
+.add-new-address-button {
+    display: block;
+    color: var(--clr-cta);
+    background: var(--clr-neutral);
+    padding: 1rem;
+}
+
+.address-container {
+    background-color: var(--clr-neutral);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.address-options {
+    background: none;
+    padding: 0.25rem;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    font-size: 1rem;
+}

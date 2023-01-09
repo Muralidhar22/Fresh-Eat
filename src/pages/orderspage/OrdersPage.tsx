@@ -1,0 +1,79 @@
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+
+import { useAuthContext } from "contexts/auth.context";
+import { useOrdersContext } from "contexts/orders.context";
+import Navbar from "components/nav/Nav.component";
+import styles from "./OrdersPage.styles.module.css";
+
+import { FcSynchronize, FcOk } from "react-icons/fc";
+
+const OrdersPage = () => {
+    const { signedIn, accessToken } = useAuthContext()
+    const { getOrders, orders, setOrders } = useOrdersContext()
+
+    useEffect(() => {
+        if (accessToken && !orders) {
+            getOrders()
+        } else if (!signedIn) {
+            setOrders(null)
+        }
+    }, [signedIn, accessToken])
+
+    return (
+        <>
+            <Navbar />
+            {
+                orders
+                    ?
+                    <>
+                        <h1>My Orders</h1>
+                        {
+                            orders.map(order => {
+                                return (
+                                    <Link to={`/orders/${order._id}`}>
+                                        <div key={order._id} className={styles['order-container']}>
+                                            <div className={styles['order-status']}>
+                                                <div>
+                                                    {order.orderStatus === "pending" && <FcSynchronize />}
+                                                    {order.orderStatus === "placed" && <FcOk />}
+                                                    &nbsp;
+                                                    Your order is {order.orderStatus}
+
+                                                    <div className={styles['order-date']}>{
+                                                        order.createdAt.date
+                                                    }</div>
+                                                </div>
+                                                <div>
+                                                    <span className="fw-500">Order id :</span> {order._id}
+                                                </div>
+                                            </div>
+                                            {order.items.map(item => (
+                                                <div key={item._id} className={styles['order-item']}>
+                                                    <div className={styles['product-image']}>
+                                                        <img src={item.product.media[0].source} alt={item.product.name} />
+                                                    </div>
+                                                    <div className={styles['product-name']}>
+                                                        {item.product.name}
+                                                    </div>
+                                                    <div className={styles['product-count']}>
+                                                        {item.count}
+                                                    </div>
+                                                    <div className={styles['product-price']}>
+                                                        &#8377;{item.product.discountPrice}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Link>)
+                            })
+                        }
+                    </>
+                    :
+                    <div>No orders, <Link to="/products">Visit Shop!</Link></div>
+            }
+        </>
+    )
+}
+
+export default OrdersPage;
