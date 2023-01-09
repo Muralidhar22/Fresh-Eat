@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -12,18 +12,25 @@ import { showToastErrorMessage } from "utils/toastMessage";
 const ProductPage = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState<ProductType | null>(null)
+    const onMountRef = useRef(false)
 
     useEffect(() => {
-        const getProduct = async () => {
-            try {
-                const { data, status } = await axios.get(`products/${productId}`)
-                setProduct(data.data)
-            } catch (error) {
-                console.log(error)
-                showToastErrorMessage(`Sorry! couldn't load product details`)
-            }
+        if (!onMountRef.current) {
+            (async function getProduct() {
+                try {
+                    const { data, status } = await axios.get(`products/${productId}`)
+                    if (status === 200) {
+                        setProduct(data.data)
+                    }
+                } catch (error) {
+                    console.log(error)
+                    showToastErrorMessage(`Sorry! couldn't load product details`)
+                }
+            })();
         }
-        getProduct()
+        return () => {
+            onMountRef.current = true
+        }
     }, [])
 
     return (

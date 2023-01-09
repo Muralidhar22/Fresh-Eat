@@ -1,4 +1,4 @@
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useAuthContext } from "contexts/auth.context";
 import { useCartContext } from "contexts/cart.context";
@@ -15,13 +15,14 @@ type CartButtonPropsType = {
 const CartButton = ({ productId, wishlistElementType, className }: CartButtonPropsType) => {
     const { signedIn } = useAuthContext()
     const { cartList, cartListCount, addToCart } = useCartContext()
+    const navigate = useNavigate()
     const isCartItem = cartList?.find((cartProduct) => cartProduct.product._id === productId)
 
     if (wishlistElementType === 'nav-icon') {
         return (
             <div className={styles['cart-icon-wrapper']}>
                 <FaShoppingCart size="24" />
-                {signedIn && <span className="count-icon fw-500">{cartListCount}</span>}
+                {signedIn && cartListCount ? <span className="count-icon fw-500">{cartListCount}</span> : null}
             </div>
         )
     } else if (wishlistElementType === 'button') {
@@ -32,7 +33,7 @@ const CartButton = ({ productId, wishlistElementType, className }: CartButtonPro
                         ? (
                             <button
                                 className={className}
-                                onClick={() => redirect('/cart')}
+                                onClick={() => navigate('/cart')}
                             >
                                 Go To Cart
                             </button>

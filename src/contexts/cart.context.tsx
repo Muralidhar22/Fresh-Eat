@@ -6,7 +6,7 @@ import { showToastSuccessMessage } from "utils/toastMessage";
 import { handleError } from "utils/displayError";
 import ProductType from "types/ProductType";
 
-type CartListType = { _id: string, product: ProductType, count: number }
+export type CartListType = { _id: string, product: ProductType, count: number }
 
 type CartContextValueType = {
     cartList: CartListType[] | null
@@ -19,6 +19,7 @@ type CartContextValueType = {
     getCartTotal: () => number | null
     setCartList: React.Dispatch<React.SetStateAction<CartListType[] | null>>
     getCartList: () => void
+    clearCartList: () => void
 }
 const INITIAL_CONTEXT_VALUE = {
     cartList: null,
@@ -31,6 +32,7 @@ const INITIAL_CONTEXT_VALUE = {
     setCartList: () => { },
     getCartTotal: () => { return null },
     getCartList: () => { },
+    clearCartList: () => { }
 }
 
 export const CartContext = createContext<CartContextValueType>(INITIAL_CONTEXT_VALUE)
@@ -63,7 +65,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
             try {
                 const { data, status } = await axiosPrivate.get('cart')
                 if (status === 200) {
-                    setCartList(data.data.items)
+                    data.data && setCartList(data.data.items)
                 }
             } catch (error) {
                 handleError(error)
@@ -165,6 +167,20 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
         return null
     }
 
+    const clearCartList = async () => {
+        try {
+            const { data, status } = await axiosPrivate({
+                method: 'DELETE',
+                url: 'cart/list'
+            })
+            if (status === 200) {
+                setCartList(null)
+            }
+        } catch (error) {
+            handleError(error)
+        }
+    }
+
     const value = {
         cartList,
         cartListCount,
@@ -176,6 +192,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
         getCartTotal,
         setCartList,
         getCartList,
+        clearCartList
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>

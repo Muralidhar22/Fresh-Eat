@@ -53,12 +53,12 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
             try {
                 const { data, status } = await axiosPrivate.get('wishlist')
                 if (status === 200) {
-                    setWishlist(data.data)
+                    data.data && setWishlist(data.data)
                 }
             } catch (error) {
                 handleError(error)
             }
-        })()
+        })();
     }
 
     const addToWishlist = async (item: string) => {

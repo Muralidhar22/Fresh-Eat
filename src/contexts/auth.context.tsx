@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { AxiosInstance } from "axios";
 
@@ -27,9 +27,10 @@ const AuthContext = createContext<AuthContextType>(undefined);
 export const AuthProvider = ({ children }: ProviderPropsType) => {
     const [signedIn, setSignedIn, clearPersist] = usePersist()
     const [accessToken, setAccessToken] = useState<string | null>(null)
+    const onMountRef = useRef(false)
 
     useEffect(() => {
-        if (signedIn) {
+        if (signedIn && !onMountRef.current) {
             (async function getInitialAccessToken() {
                 try {
                     refresh()
@@ -37,6 +38,9 @@ export const AuthProvider = ({ children }: ProviderPropsType) => {
                     handleError(error);
                 }
             })();
+        }
+        return () => {
+            onMountRef.current = true
         }
     }, [])
 

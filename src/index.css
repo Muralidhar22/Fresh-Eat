@@ -59,7 +59,7 @@ select {
   --clr-bg-100: #e2e8f0;
 
   --error: red;
-
+  --success: green;
   /* z - index */
   --z-modal: 999;
   --z-loader: 9999;

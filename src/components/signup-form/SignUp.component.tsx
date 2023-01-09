@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import FormInput from "../formInput/FormInput.component";
@@ -61,7 +61,7 @@ const SignUp = () => {
         alignItems: "center",
         justifyContent: "center"
     }
-
+    const navigate = useNavigate()
     let allValidValues = Object.entries(formValidValue).reduce((prev, curr) => prev && curr[1], true)
 
     const handleInputFocus = (changedProperty: keyof FormInputFocusType, isFocus: boolean) => {
@@ -115,7 +115,7 @@ const SignUp = () => {
             showToastInfoMessage(`Redirecting to SignIn page`)
             showToastSuccessMessage(data.message)
             setTimeout(() => {
-                redirect('/signin')
+                navigate('/signin')
             }, 4000)
         }
     }

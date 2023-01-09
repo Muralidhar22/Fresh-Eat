@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import CheckoutForm from "components/checkout-form/CheckoutForm.component";
 import { useUserContext } from "contexts/user.context";
@@ -19,9 +19,10 @@ const PaymentPage = () => {
     const [orderId, setOrderId] = useState<string>();
     const deliveryAddress = userInfo?.address.find(userAddress => userAddress.isDeliveryAddress)
     const isCheckoutFormDisplayed = stripePromise && clientSecret && orderId && deliveryAddress
-    let orderAmount = 0;
     const { useAxiosPrivate, signedIn } = useAuthContext()
     const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
+    const onMountRef = useRef(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         return () => {
@@ -31,7 +32,7 @@ const PaymentPage = () => {
     }, [requestInterceptor, responseInterceptor])
 
     useEffect(() => {
-        if (signedIn) {
+        if (signedIn && !onMountRef.current) {
             if (deliveryAddress) {
                 setStripePromise(loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`));
                 (async () => {
@@ -40,18 +41,20 @@ const PaymentPage = () => {
                     })
                     if (status === 200) {
                         setClientSecret(data.clientSecret);
-                        orderAmount = data.amount
-                        const newOrderId = addNewOrder(orderAmount);
+                        const newOrderId = await addNewOrder(data.amount);
                         setOrderId(newOrderId)
                     }
                 })();
             } else {
                 showToastInfoMessage("Set a delivery address");
-                redirect('/address')
+                navigate('/address')
             }
-
         }
-    }, [signedIn])
+
+        return () => {
+            onMountRef.current = true
+        }
+    }, [])
 
 
     return (

@@ -1,35 +1,41 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import ProviderPropsType from "../types/ProviderPropsType";
+import { OrderType } from "types/OrderType";
 import { useUserContext } from "./user.context";
 import { useAuthContext } from "./auth.context";
 import { useCartContext } from "./cart.context";
 import { formatDate, formatTime } from "utils/dateTimeFormat";
 import { handleError } from "utils/displayError";
-import { redirect } from "react-router-dom";
 
 type OrderContextType = {
-    orders: any
+    orders: OrderType[] | null
     addNewOrder: (orderAmount: number) => any
     getOrders: () => any
+    updateOrderStatus: (orderStatus: string, orderId: string) => any
+    setOrders: React.Dispatch<React.SetStateAction<any>>
 }
 
 const INITIAL_CONTEXT_VALUE = {
     addNewOrder: () => { return },
     orders: null,
-    getOrders: () => { }
+    getOrders: () => { },
+    updateOrderStatus: () => { },
+    setOrders: () => { }
 }
 
 const OrdersContext = createContext<OrderContextType>(INITIAL_CONTEXT_VALUE)
 
 export const OrdersProvider = ({ children }: ProviderPropsType) => {
-    const [orders, setOrders] = useState()
-    const { cartList } = useCartContext()
+    const [orders, setOrders] = useState<OrderType[] | null>(null)
+    const { cartList, clearCartList } = useCartContext()
     const { userInfo } = useUserContext()
     const { useAxiosPrivate } = useAuthContext()
     const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
     const formattedDate = formatDate()
     const formattedTime = formatTime()
+    const navigate = useNavigate()
     const deliveryAddress = userInfo?.address.find(userAddress => userAddress.isDeliveryAddress)
 
     useEffect(() => {
@@ -43,8 +49,7 @@ export const OrdersProvider = ({ children }: ProviderPropsType) => {
         try {
             const { data, status } = await axiosPrivate.get('orders')
             if (status === 200) {
-                console.log("orders", data)
-                // setOrders(data.data.)
+                setOrders(data.data.orders)
             }
 
         } catch (error) {
@@ -61,20 +66,37 @@ export const OrdersProvider = ({ children }: ProviderPropsType) => {
                 createdTime: formattedTime,
                 createdDate: formattedDate
             })
-            if (status === 201) {
-                console.log(data)
+            if (status === 200) {
+                console.log("new order", data)
+                await clearCartList()
+                return data.data.addedItem
             }
         } catch (error) {
+            navigate('/cart');
             handleError(error)
-            redirect('/cart')
-            return null
         }
+    }
+
+    const updateOrderStatus = async (orderStatus: string, orderId: string) => {
+        try {
+            await axiosPrivate({
+                url: 'orders',
+                method: 'PATCH',
+                params: { status: orderStatus },
+                data: { orderId }
+            })
+        } catch (error) {
+            handleError(error);
+        }
+
     }
 
     const value = {
         orders,
+        setOrders,
         getOrders,
-        addNewOrder
+        addNewOrder,
+        updateOrderStatus
     }
     return <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>
 }

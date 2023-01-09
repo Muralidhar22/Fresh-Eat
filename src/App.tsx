@@ -13,6 +13,7 @@ import ProductPage from './pages/product-page/ProductPage.component';
 import OrdersPage from 'pages/orderspage/OrdersPage';
 import PaymentPage from 'pages/payment/PaymentPage';
 import AddressPage from 'pages/address-page/Addresspage';
+import OrderPage from 'pages/order-page/OrderPage';
 
 import { useAuthContext } from 'contexts/auth.context';
 
@@ -27,12 +28,13 @@ function App() {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/wishlist" element={<WishlistPage />} />
       <Route path="/orders" element={<OrdersPage />} />
+      <Route path="/orders/:orderId" element={signedIn ? <OrderPage /> : <Navigate replace to={"/signin"} />} />
       <Route path="/address" element={<AddressPage />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/feedback" element={<Feedback />} />
       <Route path="/signin" element={signedIn ? <Navigate replace to={"/"} /> : <SignIn />} />
       <Route path="/signup" element={signedIn ? <Navigate replace to={"/"} /> : <SignUp />} />
-      <Route path="/checkout" element={<PaymentPage />} />
+      <Route path="/checkout" element={signedIn ? <PaymentPage /> : <Navigate replace to={"/signin"} />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
   );

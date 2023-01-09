@@ -38,7 +38,7 @@ const WishlistButton = ({ wishlistElementType, productId, className }: WishlistB
             <>
                 <div className={styles['wishlist-icon-wrapper']}>
                     <FaRegHeart size="24" />
-                    {signedIn && <span className="count-icon fw-500">{wishlistCount}</span>}
+                    {signedIn && wishlistCount ? <span className="count-icon fw-500">{wishlistCount}</span> : null}
                 </div>
             </>
         )

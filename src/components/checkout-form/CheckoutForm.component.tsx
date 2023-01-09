@@ -4,12 +4,14 @@ import {
     useElements,
     PaymentElement
 } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
 
 import { AddressType } from "types/AddressType";
 import { useAuthContext } from "contexts/auth.context";
+import { useOrdersContext } from "contexts/orders.context";
 
 import styles from "./CheckoutForm.styles.module.css";
-import { showToastSuccessMessage } from "utils/toastMessage";
+import { showToastErrorMessage, showToastSuccessMessage } from "utils/toastMessage";
 import { FaRegClipboard } from "react-icons/fa";
 
 export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: string, deliveryAddress: AddressType }) {
@@ -19,6 +21,8 @@ export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: st
     const elements = useElements();
     const { useAxiosPrivate } = useAuthContext()
     const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate()
+    const { updateOrderStatus } = useOrdersContext()
+    const navigate = useNavigate()
 
     useEffect(() => {
         return () => {
@@ -27,8 +31,8 @@ export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: st
         }
     }, [requestInterceptor, responseInterceptor])
 
-    const updateOrderStatus = async () => {
-        const { data, status } = await axiosPrivate.patch('orders')
+    const copyToClipboard = async () => {
+        navigator.clipboard.writeText("4242424242424242")
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -68,16 +72,18 @@ export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: st
             redirect: "if_required"
         });
 
+        setIsProcessing(false);
         if (error) {
             setMessage(error.message);
         } else if (paymentIntent?.status === "succeeded") {
-            showToastSuccessMessage(`Payment completed`)
-            updateOrderStatus()
-
+            showToastSuccessMessage('Payment completed')
+            await updateOrderStatus(paymentIntent?.status, orderId)
+            console.log("this")
+            navigate(`/orders/${orderId}`)
         } else if (paymentIntent?.status === "canceled") {
-
+            showToastErrorMessage('Payment Failed, retry again!')
+            navigate('/cart')
         }
-        setIsProcessing(false);
     }
 
     return (
@@ -92,7 +98,7 @@ export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: st
                 {/* Show any error or success messages */}
                 {message && <div id="payment-message">{message}</div>}
             </form>
-            <button title="Copy to clipboard" type="button">
+            <button title="Copy to clipboard" type="button" onClick={copyToClipboard}>
                 <span>4242</span>
                 <span>4242</span>
                 <span>4242</span>
