@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
-import axios from "axios";
-import { AxiosInstance } from "axios";
+import axios, { AxiosHeaders, AxiosInstance } from "axios";
 
 import ProviderPropsType from "types/ProviderPropsType";
 import { axiosPrivate } from "api/axios";
@@ -61,8 +60,8 @@ export const AuthProvider = ({ children }: ProviderPropsType) => {
     const useAxiosPrivate = () => {
         const requestInterceptor = axiosPrivate.interceptors.request.use(
             config => {
-                if (config.headers && !config.headers['Authorization']) {
-                    config.headers['Authorization'] = `Bearer ${accessToken}`;
+                if (config.headers && !(config.headers as AxiosHeaders).has('Authorization')) {
+                    (config.headers as AxiosHeaders).set("Authorization", `Bearer ${accessToken}`);
                 }
                 return config;
             }, (error) => Promise.reject(error)
