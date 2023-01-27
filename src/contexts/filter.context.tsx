@@ -23,14 +23,14 @@ const INITIAL_FILTERS_STATE = {
     search: null,
 }
 
-const INITAL_CONTEXT_VALUE = {
+const INITIAL_CONTEXT_VALUE = {
     filtersState: INITIAL_FILTERS_STATE,
     dispatch: () => { },
     INITIAL_FILTERS_STATE
 }
 
 
-export const FilterContext = createContext<FilterContextValueType>(INITAL_CONTEXT_VALUE)
+export const FilterContext = createContext<FilterContextValueType>(INITIAL_CONTEXT_VALUE)
 
 export const FilterProvider = ({ children }: ProviderPropsType) => {
     const [filtersState, dispatch] = useReducer(productFilterReducer, INITIAL_FILTERS_STATE)
