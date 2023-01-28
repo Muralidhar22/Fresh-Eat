@@ -1,46 +1,46 @@
 .filter-header p {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }
 
 .filter-header button {
-    background-color: inherit;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .filter-header button:hover {
-    color: var(--clr-cta);
+  color: var(--clr-cta);
 }
 
 .product-filters-container {
-    background-color: var(--clr-neutral);
-    border-radius: 0.85rem;
-    max-width: 18rem;
+  background-color: var(--clr-neutral);
+  border-radius: 0.85rem;
+  max-width: 18rem;
 }
 
 .product-filters-container div {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .product-filters-container div:first-child {
-    padding-bottom: 0;
+  padding-bottom: 0;
 }
 
 .filter-header {
-    display: flex;
-    justify-content: space-between;
-    border-radius: inherit;
+  display: flex;
+  justify-content: space-between;
+  border-radius: inherit;
 }
 
 .product-filter {
-    border-bottom: 3px solid rgba(128, 128, 128, 0.2);
+  border-bottom: 3px solid rgba(128, 128, 128, 0.2);
 }
 
 .product-filter:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .filter-heading {
-    margin-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
 }

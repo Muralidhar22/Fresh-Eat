@@ -1,26 +1,26 @@
 .footer {
-    background-image: var(--clr-linear-gradient);
-    color: var(--clr-text-neutral);
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    flex-wrap: wrap;
+  background-image: var(--clr-linear-gradient);
+  color: var(--clr-text-neutral);
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  flex-wrap: wrap;
 }
 
 .footerNav,
 .footerContact {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .footerContactIcons {
-    display: flex;
-    gap: 0.25rem;
+  display: flex;
+  gap: 0.25rem;
 }
 
 .footer-note {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
 }

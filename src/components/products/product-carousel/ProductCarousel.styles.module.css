@@ -1,36 +1,36 @@
 .productCarouselContainer {
-    position: relative;
-    overflow: hidden;
-    /* width: 30rem; */
+  position: relative;
+  overflow: hidden;
+  /* width: 30rem; */
 }
 
 .slideshowContainer {
-    display: flex;
-    max-width: 100%;
+  display: flex;
+  max-width: 100%;
 }
 
 .slide {
-    min-width: 100%;
-    transition: 2s;
+  min-width: 100%;
+  transition: 2s;
 }
 
 .slideContent {
-    width: 100%;
-    display: block;
-    pointer-events: none;
+  width: 100%;
+  display: block;
+  pointer-events: none;
 }
 
 .slideButtonContainer {
-    padding: .5rem;
+  padding: 0.5rem;
 }
 
 .slideButtonContainer button {
-    width: 70px;
-    height: 70px;
-    padding: .125rem;
-    background: none;
-    outline: none;
-    border: 1px solid black;
+  width: 70px;
+  height: 70px;
+  padding: 0.125rem;
+  background: none;
+  outline: none;
+  border: 1px solid black;
 }
 
 /* .slideButton img,

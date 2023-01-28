@@ -1,9 +1,9 @@
 .order-container {
-    background-color: var(--clr-neutral);
-    margin: 1rem;
-    padding: 1.125rem;
+  background-color: var(--clr-neutral);
+  margin: 1rem;
+  padding: 1.125rem;
 }
 
 .product-image {
-    width: 6.25rem;
+  width: 6.25rem;
 }
