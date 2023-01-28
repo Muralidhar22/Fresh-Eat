@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { WishlistContext } from 'contexts/wishlist.context';
+import { useWishlistContext } from 'contexts/wishlist.context';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { useAuthContext } from 'contexts/auth.context';
 
@@ -12,7 +11,7 @@ type WishlistButtonPropsType = {
 };
 
 const WishlistButton = ({ wishlistElementType, productId, className }: WishlistButtonPropsType) => {
-  const { wishlist, addToWishlist, removeFromWishlist, wishlistCount } = useContext(WishlistContext);
+  const { wishlist, addToWishlist, removeFromWishlist, wishlistCount } = useWishlistContext();
   const { signedIn } = useAuthContext();
   const isWishlistItem = wishlist?.find((item) => item._id === productId);
 
