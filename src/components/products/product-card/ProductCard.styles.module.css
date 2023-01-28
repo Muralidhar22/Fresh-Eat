@@ -1,52 +1,52 @@
 .product-container {
-    border-radius: 0.85rem;
-    background-color: var(--clr-neutral);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    max-width: 350px;
-    position: relative;
-    transition: 10s;
+  border-radius: 0.85rem;
+  background-color: var(--clr-neutral);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 350px;
+  position: relative;
+  transition: 10s;
 }
 
 .product-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
 }
 
 .product-image-container {
-    width: 100%;
+  width: 100%;
 }
 
 .product-container-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 7rem;
-    padding: 0.5rem;
-    margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 7rem;
+  padding: 0.5rem;
+  margin-top: auto;
 }
 
 .price-container {
-    display: flex;
-    font-weight: 500;
-    gap: 0.25rem;
+  display: flex;
+  font-weight: 500;
+  gap: 0.25rem;
 }
 
 .price-container del {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .discount-percent {
-    background-color: rgb(101, 183, 101);
-    position: absolute;
-    color: var(--clr-text-neutral);
-    padding: 0.25rem;
-    padding-inline: 0.5rem;
-    border-bottom-right-radius: inherit;
-    font-size: 0.9rem;
-    font-weight: 500;
+  background-color: rgb(101, 183, 101);
+  position: absolute;
+  color: var(--clr-text-neutral);
+  padding: 0.25rem;
+  padding-inline: 0.5rem;
+  border-bottom-right-radius: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
 }

@@ -1,44 +1,47 @@
-import { createContext, useReducer } from "react";
+import { createContext, useContext, useReducer } from 'react';
 
-import ProviderPropsType from "../types/ProviderPropsType";
-import FiltersStateType from "types/FiltersStateType";
-import productFilterReducer from "reducers/product-filter/productFilter.reducer";
-
-type FilterContextValueType = {
-    filtersState: FiltersStateType
-    dispatch: React.Dispatch<any>
-    INITIAL_FILTERS_STATE: any
-}
+import ProviderPropsType from '../types/ProviderPropsType';
+import FiltersStateType from 'types/FiltersStateType';
+import productFilterReducer from 'reducers/product-filter/productFilter.reducer';
 
 const INITIAL_FILTERS_STATE = {
-    priceRange: 20000,
-    outOfStock: false,
-    fastDelivery: false,
-    brands: [],
-    categories: [],
-    platforms: [],
-    esrbRatings: [],
-    rating: null,
-    sortBy: null,
-    search: null,
-}
+  priceRange: 20000,
+  outOfStock: false,
+  fastDelivery: false,
+  brands: [],
+  categories: [],
+  platforms: [],
+  esrbRatings: [],
+  rating: null,
+  sortBy: null,
+  search: null,
+};
 
-const INITIAL_CONTEXT_VALUE = {
-    filtersState: INITIAL_FILTERS_STATE,
-    dispatch: () => { },
-    INITIAL_FILTERS_STATE
-}
+type FilterContextValueType =
+  | {
+      filtersState: FiltersStateType;
+      dispatch: React.Dispatch<any>;
+      INITIAL_FILTERS_STATE: any;
+    }
+  | undefined;
 
-
-export const FilterContext = createContext<FilterContextValueType>(INITIAL_CONTEXT_VALUE)
+const FilterContext = createContext<FilterContextValueType>(undefined);
 
 export const FilterProvider = ({ children }: ProviderPropsType) => {
-    const [filtersState, dispatch] = useReducer(productFilterReducer, INITIAL_FILTERS_STATE)
+  const [filtersState, dispatch] = useReducer(productFilterReducer, INITIAL_FILTERS_STATE);
 
-    const value = {
-        filtersState,
-        dispatch,
-        INITIAL_FILTERS_STATE
-    }
-    return <FilterContext.Provider value={value}>{children}</FilterContext.Provider>
-}
+  const value = {
+    filtersState,
+    dispatch,
+    INITIAL_FILTERS_STATE,
+  };
+  return <FilterContext.Provider value={value}>{children}</FilterContext.Provider>;
+};
+
+export const useFilterContext = () => {
+  const context = useContext(FilterContext);
+  if (context === undefined) {
+    throw new Error('useFilterContext must be used within a FilterProvider');
+  }
+  return context;
+};

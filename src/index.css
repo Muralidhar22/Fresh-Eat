@@ -47,8 +47,8 @@ select {
 :root {
   --nav-height: 3.5rem;
   /* colors */
-  --clr-primary-100: #0083FD;
-  --clr-primary-200: #0858CF;
+  --clr-primary-100: #0083fd;
+  --clr-primary-200: #0858cf;
   --clr-black: #000000;
   --black-accent: #404040;
   --clr-text-neutral: #ffffff;
@@ -128,11 +128,11 @@ body {
   border: 0;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   color: #fff;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   color: #000;
 }
 
@@ -195,7 +195,7 @@ h4 {
 }
 
 /* custom input styles */
-input[type="checkbox"].custom-input {
+input[type='checkbox'].custom-input {
   appearance: none;
   background-color: #fff;
   margin: 0;
@@ -208,8 +208,8 @@ input[type="checkbox"].custom-input {
   place-content: center;
 }
 
-input[type="checkbox"].custom-input::before {
-  content: "";
+input[type='checkbox'].custom-input::before {
+  content: '';
   width: 0.65em;
   height: 0.65em;
   transform: scale(0);
@@ -219,11 +219,11 @@ input[type="checkbox"].custom-input::before {
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
 
-input[type="checkbox"].custom-input:checked::before {
+input[type='checkbox'].custom-input:checked::before {
   transform: scale(1);
 }
 
-input[type="radio"].custom-input {
+input[type='radio'].custom-input {
   appearance: none;
   background-color: #fff;
   margin: 0;
@@ -236,8 +236,8 @@ input[type="radio"].custom-input {
   place-content: center;
 }
 
-input[type="radio"].custom-input::before {
-  content: "";
+input[type='radio'].custom-input::before {
+  content: '';
   width: 0.65em;
   height: 0.65em;
   border-radius: 50%;
@@ -246,17 +246,17 @@ input[type="radio"].custom-input::before {
   box-shadow: inset 1em 1em var(--clr-cta);
 }
 
-input[type="radio"].custom-input:checked::before {
+input[type='radio'].custom-input:checked::before {
   transform: scale(1);
 }
 
-input[type="checkbox"].custom-input:hover,
-input[type="radio"].custom-input:hover {
+input[type='checkbox'].custom-input:hover,
+input[type='radio'].custom-input:hover {
   cursor: pointer;
   border: 0.15em solid var(--clr-cta);
 }
 
-input[type="range"] {
+input[type='range'] {
   cursor: pointer;
   width: 15rem;
 }

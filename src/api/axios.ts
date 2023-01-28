@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+axios.defaults.withCredentials = true;
 
 export const axiosPrivate = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL,
-    withCredentials: true,
-})
+  baseURL: import.meta.env.VITE_BACKEND_URL,
+  withCredentials: true,
+});

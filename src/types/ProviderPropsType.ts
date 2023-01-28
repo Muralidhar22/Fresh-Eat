@@ -1,5 +1,5 @@
 type ProviderPropsType = {
-    children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 export default ProviderPropsType;
