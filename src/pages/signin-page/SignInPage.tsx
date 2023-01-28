@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import FormInput from 'components/formInput/FormInput.component';
-import { UserContext } from 'contexts/user.context';
+import { useUserContext } from 'contexts/user.context';
 
 import styles from './SignIn.styles.module.css';
 
@@ -23,7 +23,7 @@ const TEST_LOGIN = {
 
 const SignIn = () => {
   const [formState, setFormState] = useState<SignInFormValuesType>(INITIAL_STATE);
-  const { userSignInHandler } = useContext(UserContext);
+  const { userSignInHandler } = useUserContext();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -22,7 +22,7 @@ export type UserContextValueType =
     }
   | undefined;
 
-export const UserContext = createContext<UserContextValueType>(undefined);
+const UserContext = createContext<UserContextValueType>(undefined);
 
 export const UserProvider = ({ children }: ProviderPropsType) => {
   const { useAxiosPrivate, clearPersist, signedIn, accessToken, setSignedIn, setAccessToken, clearAxiosInterceptors } =

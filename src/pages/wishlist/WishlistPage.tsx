@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 
-import { WishlistContext } from 'contexts/wishlist.context';
+import { useWishlistContext } from 'contexts/wishlist.context';
 import Navbar from 'components/nav/Nav.component';
 import ProductCard from 'components/products/product-card/ProductCard';
 
 import styles from './WishlistPage.styles.module.css';
 
 const WishlistPage = () => {
-  const { wishlist } = useContext(WishlistContext);
+  const { wishlist } = useWishlistContext();
   if (wishlist && wishlist.length > 0) {
     return (
       <>
