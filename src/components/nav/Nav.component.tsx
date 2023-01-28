@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
-import { useUserContext } from '../../contexts/user.context';
+import { useUserContext } from 'contexts/user.context';
 import { useAuthContext } from 'contexts/auth.context';
 import WishlistButton from 'components/wishlist-button/WishlistButton.component';
 import CartButton from 'components/cart-button/CartButton.component';

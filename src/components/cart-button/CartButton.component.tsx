@@ -36,7 +36,7 @@ const CartButton = ({ productId, wishlistElementType, className }: CartButtonPro
           <button
             className={className}
             onClick={() => {
-              addToCart(productId);
+              productId && addToCart(productId);
             }}
           >
             Add to Cart

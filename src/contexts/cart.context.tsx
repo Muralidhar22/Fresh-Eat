@@ -53,7 +53,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
     } else if (accessToken && !signedIn) {
       setCartList(null);
     }
-  }, [signedIn, accessToken, cartList]);
+  }, [signedIn, accessToken, cartList, axiosPrivate]);
 
   const addToCart = async (item: any) => {
     try {
