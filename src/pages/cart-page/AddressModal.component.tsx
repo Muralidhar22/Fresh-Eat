@@ -10,14 +10,14 @@ import { showToastErrorMessage } from 'utils/toastMessage';
 type AddressModalType = {
   setIsAddressesModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsNewAddressModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  deliveryAddressId: string;
+  deliveryAddressId: string | null;
 };
 
 const AddressModal = ({ setIsAddressesModalOpen, setIsNewAddressModalOpen, deliveryAddressId }: AddressModalType) => {
   const { userInfo, setUserInfo } = useUserContext();
   const { useAxiosPrivate, clearAxiosInterceptors } = useAuthContext();
   const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate();
-  const [deliveryAddress, setDeliveryAddress] = useState<string>(deliveryAddressId);
+  const [deliveryAddress, setDeliveryAddress] = useState<string | null>(deliveryAddressId);
 
   useEffect(() => {
     return () => {
