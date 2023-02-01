@@ -1,19 +1,18 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 
 import { useUserContext } from 'contexts/user.context';
 import { useAuthContext } from 'contexts/auth.context';
 import WishlistButton from 'components/wishlist-button/WishlistButton.component';
 import CartButton from 'components/cart-button/CartButton.component';
+import SearchBar from './search-bar/SearchBar.component';
 
 import styles from './Nav.styles.module.css';
-import { FaSignOutAlt, FaUserAlt, FaSearch } from 'react-icons/fa';
+import { FaSignOutAlt, FaUserAlt } from 'react-icons/fa';
 
 const Navbar = () => {
   const location = useLocation();
   const { userInfo } = useUserContext();
   const { signedIn, setSignedIn } = useAuthContext();
-  const [searchBarFocus, setSearchBarFocus] = useState(false);
 
   const handleDropdown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, state: boolean) => {
     if (state) {
@@ -37,24 +36,7 @@ const Navbar = () => {
             <span className="logo-x"></span>
           </span>
         </Link>
-        {location.pathname === '/products' && (
-          <form className={`${styles['search-wrapper']} ${searchBarFocus && styles['active']}`}>
-            <input
-              className={styles['search-input']}
-              type="search"
-              placeholder="Search games, consoles & more"
-              onFocus={() => setSearchBarFocus(true)}
-              onBlur={() => setSearchBarFocus(false)}
-            />
-            <button className={styles['search-submit-button']} type="submit">
-              <span className="sr-only">search</span>
-              <span>
-                {' '}
-                <FaSearch />{' '}
-              </span>
-            </button>
-          </form>
-        )}
+        {location.pathname === '/products' && <SearchBar />}
         <div className={styles['nav-menu']}>
           <Link to="/products">Shop</Link>
           {signedIn ? (

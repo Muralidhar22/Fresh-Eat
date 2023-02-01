@@ -63,7 +63,7 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
         navigate('/');
       }
     })();
-  }, [signedIn, accessToken, axiosPrivate, userInfo]);
+  }, [signedIn, accessToken, axiosPrivate, userInfo, clearPersist, navigate, setSignedIn]);
 
   const userSignInHandler = async (email: string, password: string) => {
     try {

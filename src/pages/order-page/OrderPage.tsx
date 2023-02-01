@@ -37,7 +37,7 @@ const OrderPage = () => {
     } else if (!signedIn) {
       navigate('/signin');
     }
-  }, [signedIn, navigate, orderId]);
+  }, [signedIn, navigate, orderId, axiosPrivate]);
 
   return (
     <>
@@ -67,7 +67,7 @@ const OrderPage = () => {
               {order.items.map((item) => (
                 <div key={item._id} className={styles['product-container']}>
                   <div className={styles['product-image']}>
-                    <img src={item.product.media[0].source} alt={item.product.name} />
+                    <img src={item.product.media.imageSrc[0]} alt={item.product.name} />
                   </div>
                   <div className={styles['product-info']}>
                     <span className="fw-500">{item.product.name}</span>

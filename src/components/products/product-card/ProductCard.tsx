@@ -15,7 +15,12 @@ const ProductCard = ({ product }: ProductCardType) => {
       <div className={styles['product-container']} key={product._id}>
         <div className={styles['product-image-container']}>
           <Link to={`/products/${product._id}`}>
-            <img loading="lazy" className={styles['product-image']} src={product.media[0].source} alt={product.name} />
+            <img
+              loading="lazy"
+              className={styles['product-image']}
+              src={product.media.imageSrc[0]}
+              alt={product.name}
+            />
           </Link>
         </div>
         <div className={styles['product-container-info']}>

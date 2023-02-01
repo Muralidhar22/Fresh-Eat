@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-
 import { useWishlistContext } from 'contexts/wishlist.context';
 import Navbar from 'components/nav/Nav.component';
 import ProductCard from 'components/products/product-card/ProductCard';

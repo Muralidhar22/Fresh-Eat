@@ -15,10 +15,10 @@ const Footer = () => {
       <section className={styles.footerContact}>
         <p className="text-uppercase">connect with us</p>
         <div className={styles.footerContactIcons}>
-          <a href="https://www.linkedin.com/in/muralidhar-akkireddy-91b673158/" target="_blank">
+          <a href="https://www.linkedin.com/in/muralidhar-akkireddy-91b673158/" target="_blank" rel="noreferrer">
             <FaLinkedin />
           </a>
-          <a href="https://github.com/Muralidhar22" target="_blank">
+          <a href="https://github.com/Muralidhar22" target="_blank" rel="noreferrer">
             <FaGithub />
           </a>
         </div>
