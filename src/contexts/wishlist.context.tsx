@@ -46,7 +46,7 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
     } else if (accessToken && !signedIn) {
       setWishlist(null);
     }
-  }, [signedIn, accessToken, wishlist, setWishlist]);
+  }, [signedIn, accessToken, wishlist, setWishlist, axiosPrivate]);
 
   const addToWishlist = async (item: string) => {
     try {

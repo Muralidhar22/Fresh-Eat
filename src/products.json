@@ -2,16 +2,14 @@
     {
         "name": "Last of Us 2",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/last-of-us-2.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/vhII1qlcZ4E?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/last-of-us-2.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/vhII1qlcZ4E?modestbranding=1"
+          ]  
+        },
         "price": 3000,
         "discountPrice": 2600,
         "discount": 10,
@@ -31,16 +29,14 @@
     {
         "name": "Uncharted 4: A Thief's End",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/uncharted-4.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/y1Rx-Bbht5E?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/uncharted-4.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/y1Rx-Bbht5E?modestbranding=1"
+          ]  
+        },
         "price": 3100,
         "discountPrice": 2500,
         "discount": 12,
@@ -60,16 +56,14 @@
     {
         "name": "Dead Space 3",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/dead-space-3.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/u5f5tOmMkLk?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/dead-space-3.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/u5f5tOmMkLk?modestbranding=1"
+          ]  
+        },
         "price": 2500,
         "discountPrice": 2000,
         "discount": 7,
@@ -89,16 +83,14 @@
     {
         "name": "Guardians of the Galaxy",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/goftg.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/VdMiY9MEeMk?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/goftg.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/VdMiY9MEeMk?modestbranding=1"
+          ]  
+        },
         "price": 3600,
         "discountPrice": 2800,
         "discount": 9,
@@ -117,16 +109,14 @@
     {
         "name": "InFamous Second Son",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/infamous-SS.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/tHSeyPl--Fw?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/infamous-SS.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/tHSeyPl--Fw?modestbranding=1"
+          ]  
+        },
         "price": 2900,
         "discountPrice": 2500,
         "discount": 6,
@@ -147,16 +137,14 @@
     {
         "name": "Last of Us 1",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/last-of-us-1.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/R2Ebc_OFeug?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/last-of-us-1.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/R2Ebc_OFeug?modestbranding=1"
+          ]  
+        },
         "price": 4000,
         "discountPrice": 3100,
         "discount": 9,
@@ -176,16 +164,14 @@
     {
         "name": "Spider Man",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/spider-man.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/q4GdJVvdxss?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/spider-man.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/q4GdJVvdxss?modestbranding=1"
+          ]  
+        },
         "price": 2500,
         "discountPrice": 2100,
         "discount": 7,
@@ -205,16 +191,14 @@
     {
         "name": "Resident Evil 8: Village",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/re-8-village.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/QKocYiRHYlI?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/re-8-village.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/QKocYiRHYlI?modestbranding=1"
+          ]  
+        },
         "price": 3800,
         "discountPrice": 3200,
         "discount": 7,
@@ -235,16 +219,14 @@
     {
         "name": "The Walking Dead S1",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/the-walking-dead-s1.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/N40uY51s5Z0?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/the-walking-dead-s1.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/N40uY51s5Z0?modestbranding=1"
+          ]  
+        },
         "price": 5000,
         "discountPrice": 4500,
         "discount": 5,
@@ -266,16 +248,14 @@
     {
         "name": "The Last Guardian",
         "category": "game",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/the-last-guardian.webp"
-            },
-            {
-                "type": "video",
-                "source": "https://www.youtube.com/embed/4cDuKShhQOA?modestbranding=1"
-            }
-        ],
+        "media": {
+          "imageSrc": [
+              "/assets/product-images/the-last-guardian.webp"
+          ],
+          "videoSrc": [
+              "https://www.youtube.com/embed/4cDuKShhQOA?modestbranding=1"
+          ]  
+        },
         "price": 3800,
         "discountPrice": 3200,
         "discount": 8,
@@ -295,12 +275,10 @@
     {
         "name": "Ant Esports 510 AIR Mid Tower Gaming Cabinet",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/pc-cabinet.jpg"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/pc-cabinet.jpg"],
+            "videoSrc": []
+        },
         "price": 20000,
         "discountPrice": 18000,
         "discount": 10,
@@ -312,12 +290,10 @@
     {
         "name": "Vg240 23.8 Inch LCD Fhd Gaming PC",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/gaming-pc.jpg"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/gaming-pc.jpg"],
+            "videoSrc": []
+        },
         "price": 14000,
         "discountPrice": 12699,
         "discount": 14,
@@ -329,12 +305,10 @@
     {
         "name": "Green Soul Monster Ultimate Ergonomic, LeatherFabric",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/gaming-chair.jpg"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/gaming-chair.jpg"],
+            "videoSrc": []
+        },
         "price": 15000,
         "discountPrice": 14900,
         "discount": 1,
@@ -346,12 +320,10 @@
     {
         "name": "DualSense Wireless Controller | PS5",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/ps5-controller.jpg"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/ps5-controller.jpg"],
+            "videoSrc": []
+        },
         "price": 13440,
         "discountPrice": 10099,
         "discount": 3,
@@ -363,12 +335,10 @@
     {
         "name": "Refurbished PS5 console",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/ps5-console.webp"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/ps5-console.webp"],
+            "videoSrc": []
+        },
         "price": 15000,
         "discountPrice": 14900,
         "discount": 1,
@@ -380,12 +350,10 @@
     {
         "name": "Ergonomic Gaming Desk 44.5''",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/gaming-desk.jpg"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/gaming-desk.jpg"],
+            "videoSrc": []
+        },
         "price": 15000,
         "discountPrice": 13999,
         "discount": 12,
@@ -397,12 +365,10 @@
     {
         "name": "Razer Wired Gaming Mouse",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/gaming-mouse.jpg"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/gaming-mouse.jpg"],
+            "videoSrc": []
+        },
         "price": 10000,
         "discountPrice": 9500,
         "discount": 6,
@@ -414,12 +380,10 @@
     {
         "name": "Redclutch Shadow Blade Mechanical Keyboard",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/gaming-keyboard.jpg"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/gaming-keyboard.jpg"],
+            "videoSrc": []
+        },
         "price": 3500,
         "discountPrice": 3300,
         "discount": 4,
@@ -431,12 +395,10 @@
     {
         "name": "Qbik 65 watts M20 Bluetooth Speaker",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/speakers.jpg"
-            }
-        ],
+        "media":{
+            "imageSrc": ["/assets/product-images/speakers.jpg"],
+            "videoSrc": []
+        },
         "price": 12000,
         "discountPrice": 10500,
         "discount": 16,
@@ -448,12 +410,10 @@
     {
         "name": "Sony Playstation Gaming Wireless Over Ear Headset",
         "category": "accessories",
-        "media": [
-            {
-                "type": "image",
-                "source": "/assets/product-images/sony-headphones.jpg"
-            }
-        ],
+        "media": {
+            "imageSrc": ["/assets/product-images/sony-headphones.jpg"],
+            "videoSrc": []
+        },
         "price": 8000,
         "discountPrice": 7100,
         "discount": 9,

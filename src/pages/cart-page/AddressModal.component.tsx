@@ -6,6 +6,7 @@ import { useUserContext } from 'contexts/user.context';
 import { useAuthContext } from 'contexts/auth.context';
 import { handleError } from 'utils/displayError';
 import { showToastErrorMessage } from 'utils/toastMessage';
+import { IoClose } from 'react-icons/io5';
 
 type AddressModalType = {
   setIsAddressesModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,8 +58,13 @@ const AddressModal = ({ setIsAddressesModalOpen, setIsNewAddressModalOpen, deliv
   };
 
   return (
-    <dialog className={styles['addresses-modal-container']} onClick={() => setIsAddressesModalOpen((prev) => !prev)}>
-      <div className={styles['addresses-modal']} onClick={(e) => e.stopPropagation()}>
+    <div className={styles['addresses-modal-container']} onClick={() => setIsAddressesModalOpen((prev) => !prev)}>
+      <dialog className={styles['addresses-modal']} onClick={(e) => e.stopPropagation()} open aria-modal="true">
+        <button type="button" onClick={() => setIsAddressesModalOpen((prev) => !prev)} aria-label="close">
+          <span>
+            <IoClose />
+          </span>
+        </button>
         <span className={styles['addresses-modal-heading']}>Select Delivery Address</span>
         <FaMapMarkerAlt />
         <button onClick={() => setIsAddressesModalOpen((prev) => !prev)}>close</button>
@@ -88,8 +94,8 @@ const AddressModal = ({ setIsAddressesModalOpen, setIsNewAddressModalOpen, deliv
             </div>
           ))}
         </form>
-      </div>
-    </dialog>
+      </dialog>
+    </div>
   );
 };
 

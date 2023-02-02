@@ -1,6 +1,6 @@
 import CheckboxInput from 'components/checkboxInput/CheckboxInput.component';
-import { createAction } from 'utils/reducer/createAction';
 import { useFilterContext } from 'contexts/filter.context';
+import { createAction } from 'utils/reducer/createAction';
 import PRODUCT_FILTER_ACTION_TYPE from 'reducers/product-filter/productFilterActionType';
 
 import styles from './ProductFilter.styles.module.css';

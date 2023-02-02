@@ -2,7 +2,7 @@ type ProductType = {
   _id: string;
   name: string;
   category: 'game' | 'accessories';
-  media: { type: string; source: string }[];
+  media: { imageSrc: string[]; videoSrc: string[] };
   price: number;
   discountPrice: number;
   discount: number;

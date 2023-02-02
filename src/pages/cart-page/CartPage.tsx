@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useCartContext } from 'contexts/cart.context';
@@ -96,7 +96,7 @@ const CartPage = () => {
           {cartList.map((item) => (
             <div className={styles['cart-list-item']} key={item.product._id}>
               <div className={styles['cart-list-item-image-container']}>
-                <img className={styles['product-image']} src={item.product.media[0].source} alt={item.product.name} />
+                <img className={styles['product-image']} src={item.product.media.imageSrc[0]} alt={item.product.name} />
               </div>
               <p>{item.product.name}</p>
               <p>

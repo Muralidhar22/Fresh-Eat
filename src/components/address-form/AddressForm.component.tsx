@@ -5,6 +5,7 @@ import { useUserContext } from 'contexts/user.context';
 import { AddressType } from 'types/AddressType';
 
 import styles from './AddressForm.styles.module.css';
+import { IoClose } from 'react-icons/io5';
 
 type AddressFormModalType = {
   editMode: boolean;
@@ -126,7 +127,12 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
       onSubmit={handleSubmit}
       onClick={() => setIsAddressModalOpen((prev) => !prev)}
     >
-      <div className={styles['address-form']} onClick={(e) => e.stopPropagation()}>
+      <dialog className={styles['address-form']} onClick={(e) => e.stopPropagation()} open aria-modal="true">
+        <button type="button" onClick={() => setIsAddressModalOpen((prev) => !prev)} aria-label="close">
+          <span>
+            <IoClose />
+          </span>
+        </button>
         <form>
           <FormInput
             name="name"
@@ -234,7 +240,7 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
           </button>
           {editMode && <button onClick={() => setIsAddressModalOpen((prev) => !prev)}>Close</button>}
         </form>
-      </div>
+      </dialog>
     </div>
   );
 };

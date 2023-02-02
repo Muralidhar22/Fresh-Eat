@@ -30,6 +30,9 @@ export const getFilteredProducts = (
     const esrbRatingMatch = esrbRatings.some((esrbRating) => product.esrbRating === esrbRating);
     const platformMatch = platforms.some((platform) => product.platform?.includes(platform));
 
+    if (search && !product.name.toLowerCase().includes(search.toLowerCase())) {
+      return false;
+    }
     if (!(product.discountPrice <= priceRange)) {
       return false;
     }

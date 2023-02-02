@@ -32,7 +32,7 @@ const ProductPage = () => {
       <Navbar />
       <div className={styles['product-container']}>
         <div className={styles['product-media-info']}>
-          <img src={product.media[0].source} className={styles['product-img']} alt={product.name} />
+          <img src={product.media.imageSrc[0]} className={styles['product-img']} alt={product.name} />
           <ul className={styles['product-detail-list']}>
             <li>
               <span className={styles['detail-heading']}>Brand:</span>
@@ -50,21 +50,18 @@ const ProductPage = () => {
               <span className={styles['detail-heading']}>Release Date:</span>14th April 2023
             </li>
 
-            {product.media.map(
-              (media) =>
-                media.type === 'video' && (
-                  <div key={media.source} className={styles['additional-media']}>
-                    <h3>Trailer</h3>
-                    <iframe
-                      title={product.name}
-                      className={styles['product-video']}
-                      width="100%"
-                      src={media.source}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                ),
+            {product.media.videoSrc.length > 0 && (
+              <div className={styles['additional-media']}>
+                <h3>Trailer</h3>
+                <iframe
+                  title={product.name}
+                  className={styles['product-video']}
+                  width="100%"
+                  src={product.media.videoSrc[0]}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
             )}
           </ul>
         </div>
