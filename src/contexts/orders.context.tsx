@@ -8,8 +8,7 @@ import { useAuthContext } from './auth.context';
 import { useCartContext } from './cart.context';
 import { handleError } from 'utils/displayError';
 
-type OrderContextType =
-  | {
+type OrderContextType = {
       orders: OrderType[] | null;
       addNewOrder: (orderAmount: number) => any;
       getOrders: () => any;

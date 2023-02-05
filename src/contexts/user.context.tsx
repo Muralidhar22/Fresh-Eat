@@ -11,8 +11,7 @@ import { showToastSuccessMessage } from 'utils/toastMessage';
 
 type UserInfoType = { firstName: string; lastName: string; address: AddressType[] };
 
-export type UserContextValueType =
-  | {
+export type UserContextValueType = {
       userSignInHandler: (email: string, password: string) => void;
       userInfo: UserInfoType | null;
       addNewAddress: (newAddress: AddressType) => void;

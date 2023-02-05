@@ -8,8 +8,7 @@ import ProductType from 'types/ProductType';
 
 export type CartListType = { _id: string; product: ProductType; count: number };
 
-type CartContextValueType =
-  | {
+type CartContextValueType = {
       cartList: CartListType[] | null;
       cartListCount: number | null;
       addToCart: (item: string) => void;

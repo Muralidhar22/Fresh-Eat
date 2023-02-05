@@ -17,8 +17,7 @@ const INITIAL_FILTERS_STATE = {
   search: null,
 };
 
-type FilterContextValueType =
-  | {
+type FilterContextValueType = {
       filtersState: FiltersStateType;
       dispatch: React.Dispatch<any>;
       INITIAL_FILTERS_STATE: any;

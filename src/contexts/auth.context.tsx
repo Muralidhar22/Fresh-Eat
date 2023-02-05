@@ -8,8 +8,7 @@ import usePersist from 'hooks/usePersist';
 
 import { showToastErrorMessage, showToastInfoMessage } from 'utils/toastMessage';
 
-type AuthContextType =
-  | {
+type AuthContextType = {
       useAxiosPrivate: () => {
         axiosPrivate: AxiosInstance;
         responseInterceptor: number;

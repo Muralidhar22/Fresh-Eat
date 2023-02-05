@@ -7,8 +7,7 @@ import { getFilteredProducts, getSortedProducts } from 'utils/filterProducts';
 import { useFilterContext } from 'contexts/filter.context';
 import { handleError } from 'utils/displayError';
 
-type ProductContextValueType =
-  | {
+type ProductContextValueType = {
       products: ProductType[] | null;
       sortedProducts: ProductType[] | null;
       filteredProducts: ProductType[] | null;
