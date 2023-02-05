@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useUserContext } from 'contexts/user.context';
-import { AddressType } from '~/types/AddressType';
+import { AddressType } from 'types/AddressType';
 
 import styles from './AddressPage.styles.module.css';
 

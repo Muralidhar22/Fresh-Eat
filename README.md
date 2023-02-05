@@ -12,9 +12,8 @@ React with TypeScript, Vanilla CSS, React Router V6, jsonwebtoken and bcrypt.
 * Add products to cart or wishlist.
 * Dynamic Single Product page.
 * Orders Page.
+* Persist user session with JWT Token.
+* Products search and filter option.
 * Address list - Manage address to select for placing order.
 * A payment gateway using [Stripe PaymentElement](https://stripe.com/docs/payments/payment-element).
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

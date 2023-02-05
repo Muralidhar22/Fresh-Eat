@@ -11,7 +11,7 @@ type ProductInfoPropsType = {
 const ProductInfo = ({ product }: ProductInfoPropsType) => {
   return (
     <>
-      <h1>{product.name}</h1>
+      <h1 style={{ textAlign: 'center' }}>{product.name}</h1>
       <p>
         <span>Description: </span>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus amet at dolorem sit magni earum quidem

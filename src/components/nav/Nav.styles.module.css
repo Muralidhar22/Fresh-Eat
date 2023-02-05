@@ -17,6 +17,10 @@
   gap: 1rem;
 }
 
+.nav.not-sticky {
+  position: static;
+}
+
 .nav-menu {
   display: flex;
   gap: 1rem;
@@ -87,6 +91,7 @@
 
 .sign-in-component {
   position: relative;
+  z-index: var(--z-nav);
 }
 
 .drop-down-arrow {

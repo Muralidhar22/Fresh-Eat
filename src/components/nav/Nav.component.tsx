@@ -11,7 +11,7 @@ import styles from './Nav.styles.module.css';
 import { FaSignOutAlt, FaUserAlt } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
 
-const Navbar = () => {
+const Navbar = ({ posSticky }: { posSticky?: boolean }) => {
   const location = useLocation();
   const { userInfo, userSignOutHandler } = useUserContext();
   const { signedIn } = useAuthContext();
@@ -46,7 +46,7 @@ const Navbar = () => {
           <Link to="">Free 1-3 Day Shipping Over &#8377;5000</Link>
         </header>
       )}
-      <nav className={styles.nav}>
+      <nav className={`${styles.nav} ${!posSticky && styles['not-sticky']}`}>
         <Link to="/">
           <span className="logo-container">
             <span className="text-uppercase logo-text">Game</span>

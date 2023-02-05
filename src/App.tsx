@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import HomePage from 'pages/home-page/HomePage';
-import WishlistPage from '~/pages/wishlist-page/WishlistPage';
+import WishlistPage from 'pages/wishlist-page/WishlistPage';
 import CartPage from 'pages/cart-page/CartPage';
 import ShopPage from 'pages/shop-page/ShopPage';
 import PageNotFound from 'components/404.component';
