@@ -11,7 +11,7 @@
   background-color: var(--clr-neutral);
   padding: 2rem;
   border-radius: 1rem;
-  width: min(450px, 80vw);
+  width: min(450px, 90vw);
 }
 
 .signUpContainer form input {

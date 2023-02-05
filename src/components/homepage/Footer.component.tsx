@@ -1,20 +1,21 @@
 import { Link } from 'react-router-dom';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import styles from './Footer.styles.module.css';
+import React from 'react';
 
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <section className={styles.footerNav}>
-        <p className="text-uppercase">get help</p>
+      <section className={styles['footer-nav']}>
+        <p className={`text-uppercase ${styles['footer-side-heading']}`}>get help</p>
         <Link to="#">Frequently Asked Questions</Link>
         <Link to="orders">Orders Status</Link>
         <Link to="#">Returns</Link>
         <Link to="#">Feedback</Link>
       </section>
-      <section className={styles.footerContact}>
-        <p className="text-uppercase">connect with us</p>
-        <div className={styles.footerContactIcons}>
+      <section className={styles['footer-contact']}>
+        <p className={`text-uppercase ${styles['footer-side-heading']}`}>connect with us</p>
+        <div className={styles['footer-contact-icons']}>
           <a href="https://www.linkedin.com/in/muralidhar-akkireddy-91b673158/" target="_blank" rel="noreferrer">
             <FaLinkedin />
           </a>
@@ -26,8 +27,27 @@ const Footer = () => {
       <div className={styles['footer-note']}>
         &#169;
         <div className="logo-container">
-          <span className={`text-uppercase logo-text`}>Game</span>
-          <span className="logo-x"></span>
+          <span
+            className={`text-uppercase logo-text`}
+            style={
+              {
+                '--fs-logo-text': '1rem',
+              } as React.CSSProperties
+            }
+          >
+            Game
+          </span>
+          <span
+            className={`logo-x ${styles['footer-logo-x-mark']}`}
+            style={
+              {
+                '--logo-x-mark-width': '1rem',
+                '--logo-x-mark-height': '1rem',
+                '--logo-strike-width': '2px',
+                '--logo-strike-height': '12px',
+              } as React.CSSProperties
+            }
+          ></span>
         </div>
         2000 - 2022
         <span>Online store of digital goods. All rights reserved.</span>

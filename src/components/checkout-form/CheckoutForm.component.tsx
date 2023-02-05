@@ -81,22 +81,29 @@ export default function CheckoutForm({ orderId, deliveryAddress }: { orderId: st
   };
 
   return (
-    <div className={styles.paymentFormContainer}>
-      <form id="payment-form" onSubmit={handleSubmit}>
+    <div className={styles['payment-wrapper']}>
+      <form id={styles['payment-form']} onSubmit={handleSubmit}>
         <PaymentElement id="payment-element" />
-        <button disabled={isProcessing} id="submit">
+        <button disabled={isProcessing} id="submit" className={styles['pay-button']}>
           <span id="button-text">{isProcessing ? `...processing` : 'Pay now'}</span>
         </button>
         {/* Show any error or success messages */}
         {message && <div id="payment-message">{message}</div>}
       </form>
-      <button title="Copy to clipboard" type="button" onClick={copyToClipboard}>
-        <span>4242</span>
-        <span>4242</span>
-        <span>4242</span>
-        <span>4242</span>
-        <FaRegClipboard />
-      </button>
+      <div className={styles['test-card-details']}>
+        <span className="heading-3">Test Card details</span>
+        <span>Expiration date: any future date</span>
+        <span>CVC/CVV: any three digit number</span>
+        <button title="Copy to clipboard" className={styles['clipboard']} type="button" onClick={copyToClipboard}>
+          <span>
+            <span>4242</span>
+            <span>4242</span>
+            <span>4242</span>
+            <span>4242</span>
+          </span>
+          <FaRegClipboard />
+        </button>
+      </div>
     </div>
   );
 }

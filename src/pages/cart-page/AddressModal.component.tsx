@@ -71,7 +71,7 @@ const AddressModal = ({ setIsAddressesModalOpen, setIsNewAddressModalOpen, deliv
         <button onClick={() => setIsNewAddressModalOpen((prev) => !prev)}>+ Add new Address</button>
         <form>
           {userInfo?.address.map((option, idx) => (
-            <div className={styles['address-container']} key={option.name + idx}>
+            <div className={styles['address-container']} key={option._id}>
               <input
                 type="radio"
                 checked={option._id === deliveryAddress}

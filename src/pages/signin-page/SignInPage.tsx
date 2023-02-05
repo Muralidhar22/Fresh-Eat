@@ -23,7 +23,7 @@ const TEST_LOGIN = {
 
 const SignIn = () => {
   const [formState, setFormState] = useState<SignInFormValuesType>(INITIAL_STATE);
-  const { userSignInHandler } = useUserContext();
+  const { userSignInHandler, loading } = useUserContext();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,9 +48,9 @@ const SignIn = () => {
   };
 
   return (
-    <div className={styles.signInWrapper}>
+    <div className={styles['sign-in-wrapper']}>
       <h1 className="text-uppercase">sign in</h1>
-      <section className={styles.signInFormContainer}>
+      <section className={styles['sign-in-form-container']}>
         <form onSubmit={handleSubmit}>
           <FormInput
             label="Email"
@@ -70,11 +70,11 @@ const SignIn = () => {
             onChange={(event) => handleChange(event, 'password')}
             required={true}
           />
-          <button className={styles.signInBtn} type="submit">
-            Sign In
+          <button className={styles['sign-in-btn']} disabled={loading} type="submit">
+            {loading ? `signing in...` : `Sign In`}
           </button>
         </form>
-        <button className={styles.testLoginBtn} onClick={handleTestLogin}>
+        <button className={styles['test-login-btn']} onClick={handleTestLogin}>
           Fill Test Login
         </button>
         <div>

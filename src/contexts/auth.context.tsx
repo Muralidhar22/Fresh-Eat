@@ -7,7 +7,6 @@ import { axiosPrivate } from 'api/axios';
 import usePersist from 'hooks/usePersist';
 
 import { showToastErrorMessage, showToastInfoMessage } from 'utils/toastMessage';
-import { handleError } from 'utils/displayError';
 
 type AuthContextType =
   | {
@@ -26,15 +25,10 @@ type AuthContextType =
   | undefined;
 
 const refresh = async () => {
-  try {
-    const { data } = await axios.get('refresh', {
-      withCredentials: true,
-    });
-    return data.data.accessToken;
-  } catch {
-    showToastInfoMessage('SignIn again to continue.');
-    showToastErrorMessage('Seems like your session expired!');
-  }
+  const { data } = await axios.get('refresh', {
+    withCredentials: true,
+  });
+  return data.data.accessToken;
 };
 
 const AuthContext = createContext<AuthContextType>(undefined);
@@ -51,7 +45,9 @@ export const AuthProvider = ({ children }: ProviderPropsType) => {
           const newAccessToken = await refresh();
           setAccessToken(newAccessToken);
         } catch (error) {
-          handleError(error);
+          setSignedIn(false);
+          showToastInfoMessage('SignIn again to continue.');
+          showToastErrorMessage('Seems like your session expired!');
         }
       })();
     }

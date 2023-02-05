@@ -19,6 +19,8 @@ export type UserContextValueType =
       updateAddress: (updatedAddress: AddressType) => void;
       deleteAddress: (addressId: string) => void;
       setUserInfo: React.Dispatch<React.SetStateAction<UserInfoType | null>>;
+      userSignOutHandler: () => void;
+      loading: boolean;
     }
   | undefined;
 
@@ -28,6 +30,7 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
   const { useAxiosPrivate, clearPersist, signedIn, accessToken, setSignedIn, setAccessToken, clearAxiosInterceptors } =
     useAuthContext();
   const [userInfo, setUserInfo] = useState<UserInfoType | null>(null);
+  const [loading, setLoading] = useState(false);
   const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate();
   const navigate = useNavigate();
 
@@ -48,24 +51,12 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
         } catch (error) {
           handleError(error);
         }
-      } else if (accessToken && !signedIn) {
-        try {
-          const { data, status } = await axiosPrivate.get('logout');
-          if (status === 200) {
-            showToastSuccessMessage(data.message);
-          }
-        } catch (error) {
-          handleError(error);
-        }
-        clearPersist();
-        setSignedIn(false);
-        setUserInfo(null);
-        navigate('/');
       }
     })();
   }, [signedIn, accessToken, axiosPrivate, userInfo, clearPersist, navigate, setSignedIn]);
 
   const userSignInHandler = async (email: string, password: string) => {
+    setLoading(true);
     try {
       const { data, status } = await axios({
         method: 'POST',
@@ -82,6 +73,7 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
     } catch (error) {
       handleError(error);
     }
+    setLoading(false);
   };
 
   const addNewAddress = async (newAddress: AddressType) => {
@@ -153,6 +145,22 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
     }
   };
 
+  const userSignOutHandler = async () => {
+    try {
+      const { data, status } = await axiosPrivate.get('logout');
+      if (status === 200) {
+        showToastSuccessMessage(data.message);
+        clearPersist();
+        setSignedIn(false);
+        setUserInfo(null);
+        setAccessToken(null);
+        navigate('/');
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   const value = {
     userSignInHandler,
     userInfo,
@@ -160,6 +168,8 @@ export const UserProvider = ({ children }: ProviderPropsType) => {
     updateAddress,
     deleteAddress,
     setUserInfo,
+    userSignOutHandler,
+    loading,
   };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

@@ -5,12 +5,12 @@ import Navbar from 'components/nav/Nav.component';
 
 const HomePage = () => {
   return (
-    <>
+    <div style={{ backgroundColor: 'var(--clr-neutral)' }}>
       <Navbar />
       <Carousel />
       <HomepageBody />
       <Footer />
-    </>
+    </div>
   );
 };
 

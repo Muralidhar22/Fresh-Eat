@@ -28,7 +28,7 @@ const OrdersPage = () => {
           <h1>My Orders</h1>
           {orders.map((order) => {
             return (
-              <Link key={order._id} to={`/orders/${order._id}`}>
+              <Link className={styles['order-link-wrapper']} key={order._id} to={`/orders/${order._id}`}>
                 <div className={styles['order-container']}>
                   <div className={styles['order-status']}>
                     <div>
@@ -44,11 +44,13 @@ const OrdersPage = () => {
                   {order.items.map((item) => (
                     <div key={item._id} className={styles['order-item']}>
                       <div className={styles['product-image']}>
-                        <img src={item.product.media[0].source} alt={item.product.name} />
+                        <img src={item.product.media.imageSrc[0]} alt={item.product.name} />
                       </div>
-                      <div className={styles['product-name']}>{item.product.name}</div>
-                      <div className={styles['product-count']}>{item.count}</div>
-                      <div className={styles['product-price']}>&#8377;{item.product.discountPrice}</div>
+                      <div>
+                        <div className={styles['product-name']}>{item.product.name}</div>
+                        <div className={styles['product-count']}>Quantity: {item.count}</div>
+                        <div className={styles['product-price']}>&#8377;{item.product.discountPrice}</div>
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -34,7 +34,7 @@ const AddressPage = () => {
           + Add new address
         </button>
         {userInfo?.address.map((option, idx) => (
-          <div className={styles['address-container']} key={option.name + idx}>
+          <div className={styles['address-container']} key={option._id}>
             <div className={styles['address-content']}>
               Deliver To:{' '}
               <span>

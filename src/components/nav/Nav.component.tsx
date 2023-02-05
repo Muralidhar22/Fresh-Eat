@@ -1,3 +1,4 @@
+import React, { useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { useUserContext } from 'contexts/user.context';
@@ -8,19 +9,38 @@ import SearchBar from './search-bar/SearchBar.component';
 
 import styles from './Nav.styles.module.css';
 import { FaSignOutAlt, FaUserAlt } from 'react-icons/fa';
+import { IoIosArrowDown } from 'react-icons/io';
 
 const Navbar = () => {
   const location = useLocation();
-  const { userInfo } = useUserContext();
-  const { signedIn, setSignedIn } = useAuthContext();
+  const { userInfo, userSignOutHandler } = useUserContext();
+  const { signedIn } = useAuthContext();
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const arrowRef = useRef<HTMLSpanElement>(null);
 
   const handleDropdown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, state: boolean) => {
     if (state) {
+      setIsDropDownOpen(state);
       event.currentTarget.setAttribute('aria-expanded', `${state}`);
     } else if (!state) {
+      setIsDropDownOpen(state);
       event.currentTarget.setAttribute('aria-expanded', `${state}`);
     }
   };
+
+  const dropDownMenuStyle = isDropDownOpen
+    ? ({
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        gap: '1rem',
+        position: 'absolute',
+        color: 'var(--clr-black)',
+        backgroundColor: 'var(--clr-neutral)',
+        padding: '1rem',
+        borderRadius: '0.5rem',
+      } as React.CSSProperties)
+    : ({ display: 'none' } as React.CSSProperties);
 
   return (
     <>
@@ -38,7 +58,9 @@ const Navbar = () => {
         </Link>
         {location.pathname === '/products' && <SearchBar />}
         <div className={styles['nav-menu']}>
-          <Link to="/products">Shop</Link>
+          <Link to="/products" className="fw-500">
+            Shop
+          </Link>
           {signedIn ? (
             <div
               className={styles['sign-in-component']}
@@ -46,19 +68,35 @@ const Navbar = () => {
               onMouseEnter={(e) => handleDropdown(e, true)}
               onMouseLeave={(e) => handleDropdown(e, false)}
             >
-              <span className={`fw-500 ${styles['username']}`}>{userInfo?.firstName}</span>
-              <FaUserAlt className={styles['user-icon']} />
-              <div className={styles['drop-down-menu']}>
-                <Link to="/orders">Orders</Link>
-                <Link to="/address">Addresses</Link>
-                <button className={styles['logout-button']} onClick={() => setSignedIn(false)}>
+              <span className={styles['user-wrapper']}>
+                <span className={`fw-500 ${styles['username']}`}>
+                  <span>{userInfo?.firstName}</span>
+                  <FaUserAlt className={styles['user-icon']} onClick={() => setIsDropDownOpen(true)} />
+                </span>
+                <span ref={arrowRef}>
+                  <IoIosArrowDown size="20" />
+                </span>
+              </span>
+              <div className={styles['drop-down-menu']} style={dropDownMenuStyle}>
+                <Link to="/orders" className={styles['drop-down-menu-item']}>
+                  Orders
+                </Link>
+                <Link to="/address" className={styles['drop-down-menu-item']}>
+                  Addresses
+                </Link>
+                <button
+                  className={`${styles['logout-button']} ${styles['drop-down-menu-item']}`}
+                  onClick={userSignOutHandler}
+                >
                   Signout
                   <FaSignOutAlt />
                 </button>
               </div>
             </div>
           ) : (
-            <Link to="/signin">Sign In</Link>
+            <Link to="/signin" className="fw-500">
+              Sign In
+            </Link>
           )}
 
           <Link to={signedIn ? '/wishlist' : '/signin'}>

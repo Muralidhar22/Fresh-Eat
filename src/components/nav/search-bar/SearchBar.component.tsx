@@ -12,6 +12,8 @@ const SearchBar = () => {
   const [searchBarFocus, setSearchBarFocus] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
+  const handleClick = () => {};
+
   return (
     <form className={`${styles['search-wrapper']} ${searchBarFocus && styles['active']}`}>
       <input
@@ -26,7 +28,12 @@ const SearchBar = () => {
           setSearchValue(e.target.value);
         }}
       />
-      <button className={styles['search-submit-button']} type="submit">
+      <button
+        className={styles['search-submit-button']}
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      >
         <span className="sr-only">search</span>
         <span>
           {' '}

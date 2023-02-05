@@ -50,7 +50,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
           handleError(error);
         }
       })();
-    } else if (accessToken && !signedIn) {
+    } else if (!signedIn) {
       setCartList(null);
     }
   }, [signedIn, accessToken, cartList, axiosPrivate]);
@@ -60,7 +60,7 @@ export const CartProvider = ({ children }: ProviderPropsType) => {
       const { data, status } = await axiosPrivate.post('cart', { productId: item });
       if (status === 201 || status === 200) {
         showToastSuccessMessage(data.message);
-        setCartList((prev) => (prev ? [...prev, data.data.addedItem] : [...data.data.addedItem]));
+        setCartList((prev) => (prev ? [...prev, data.data.addedItem] : [data.data.addedItem]));
       }
     } catch (error) {
       handleError(error);
