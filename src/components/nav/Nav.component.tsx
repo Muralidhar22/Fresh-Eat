@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { useUserContext } from 'contexts/user.context';
@@ -16,7 +16,6 @@ const Navbar = () => {
   const { userInfo, userSignOutHandler } = useUserContext();
   const { signedIn } = useAuthContext();
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const arrowRef = useRef<HTMLSpanElement>(null);
 
   const handleDropdown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, state: boolean) => {
     if (state) {
@@ -30,10 +29,7 @@ const Navbar = () => {
 
   const dropDownMenuStyle = isDropDownOpen
     ? ({
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        gap: '1rem',
+        display: 'block',
         position: 'absolute',
         color: 'var(--clr-black)',
         backgroundColor: 'var(--clr-neutral)',
@@ -67,30 +63,42 @@ const Navbar = () => {
               aria-expanded={false}
               onMouseEnter={(e) => handleDropdown(e, true)}
               onMouseLeave={(e) => handleDropdown(e, false)}
+              onClick={() => setIsDropDownOpen(true)}
             >
               <span className={styles['user-wrapper']}>
                 <span className={`fw-500 ${styles['username']}`}>
                   <span>{userInfo?.firstName}</span>
-                  <FaUserAlt className={styles['user-icon']} onClick={() => setIsDropDownOpen(true)} />
+                  <FaUserAlt className={styles['user-icon']} />
                 </span>
-                <span ref={arrowRef}>
-                  <IoIosArrowDown size="20" />
+                <span role="button" aria-label="user menu toggle">
+                  <IoIosArrowDown
+                    size="20"
+                    className={`${styles['drop-down-arrow']} ${isDropDownOpen ? styles['transform'] : ''}`}
+                  />
                 </span>
               </span>
               <div className={styles['drop-down-menu']} style={dropDownMenuStyle}>
-                <Link to="/orders" className={styles['drop-down-menu-item']}>
-                  Orders
-                </Link>
-                <Link to="/address" className={styles['drop-down-menu-item']}>
-                  Addresses
-                </Link>
-                <button
-                  className={`${styles['logout-button']} ${styles['drop-down-menu-item']}`}
-                  onClick={userSignOutHandler}
-                >
-                  Signout
-                  <FaSignOutAlt />
-                </button>
+                <ul style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1rem' }}>
+                  <li>
+                    <Link to="/orders" className={styles['drop-down-menu-item']}>
+                      Orders
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/address" className={styles['drop-down-menu-item']}>
+                      Addresses
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      className={`${styles['logout-button']} ${styles['drop-down-menu-item']}`}
+                      onClick={userSignOutHandler}
+                    >
+                      Signout
+                      <FaSignOutAlt />
+                    </button>
+                  </li>
+                </ul>
               </div>
             </div>
           ) : (

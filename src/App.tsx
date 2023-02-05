@@ -26,7 +26,7 @@ function App() {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/wishlist" element={<WishlistPage />} />
       <Route path="/orders" element={signedIn ? <OrdersPage /> : <Navigate replace to={'/signin'} />} />
-      <Route path="/orders/:orderId" element={<OrderPage />} />
+      <Route path="/orders/:orderId" element={signedIn ? <OrderPage /> : <Navigate replace to={'/signin'} />} />
       <Route path="/address" element={<AddressPage />} />
       <Route path="/signin" element={signedIn ? <Navigate replace to={'/'} /> : <SignIn />} />
       <Route path="/signup" element={signedIn ? <Navigate replace to={'/'} /> : <SignUp />} />

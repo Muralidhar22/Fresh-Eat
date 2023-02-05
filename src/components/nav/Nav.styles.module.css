@@ -89,40 +89,20 @@
   position: relative;
 }
 
+.drop-down-arrow {
+  transition: all 0.3s ease;
+}
+
+.drop-down-arrow.transform {
+  transform: rotate(-180deg);
+}
+
 .user-wrapper {
   display: flex;
   align-items: flex-end;
 }
 
-.arrow-down {
-  animation: 0.3s linear arrowDown;
-}
-
-@keyframes arrowDown {
-  from {
-    transform: rotate(-180deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-.arrow-up {
-  animation: 0.3s linear arrowUp;
-}
-
-@keyframes arrowUp {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-90deg);
-  }
-}
-
 .username {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-bottom: 2px solid var(--clr-cta);
   cursor: pointer;
   display: flex;
   gap: 0.25rem;
