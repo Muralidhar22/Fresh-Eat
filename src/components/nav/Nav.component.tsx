@@ -35,6 +35,7 @@ const Navbar = () => {
         backgroundColor: 'var(--clr-neutral)',
         padding: '1rem',
         borderRadius: '0.5rem',
+        border: '1px solid #878787',
       } as React.CSSProperties)
     : ({ display: 'none' } as React.CSSProperties);
 

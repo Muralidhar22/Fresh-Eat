@@ -60,22 +60,31 @@ const AddressModal = ({ setIsAddressesModalOpen, setIsNewAddressModalOpen, deliv
   return (
     <div className={styles['addresses-modal-container']} onClick={() => setIsAddressesModalOpen((prev) => !prev)}>
       <dialog className={styles['addresses-modal']} onClick={(e) => e.stopPropagation()} open aria-modal="true">
-        <button type="button" onClick={() => setIsAddressesModalOpen((prev) => !prev)} aria-label="close">
-          <span>
-            <IoClose />
+        <div className={styles['dialog-top-row']}>
+          <span className={styles['addresses-modal-heading']}>
+            Select Delivery Address <FaMapMarkerAlt />
           </span>
+          <button
+            type="button"
+            className={styles['close-button']}
+            onClick={() => setIsAddressesModalOpen((prev) => !prev)}
+            aria-label="close"
+          >
+            <span>
+              <IoClose />
+            </span>
+          </button>
+        </div>
+        <button onClick={() => setIsNewAddressModalOpen((prev) => !prev)} className={styles['add-new-address-button']}>
+          + Add new Address
         </button>
-        <span className={styles['addresses-modal-heading']}>Select Delivery Address</span>
-        <FaMapMarkerAlt />
-        <button onClick={() => setIsAddressesModalOpen((prev) => !prev)}>close</button>
-        <button onClick={() => setIsNewAddressModalOpen((prev) => !prev)}>+ Add new Address</button>
         <form>
           {userInfo?.address.map((option, idx) => (
             <div className={styles['address-container']} key={option._id}>
               <input
                 type="radio"
                 checked={option._id === deliveryAddress}
-                className="custom-input"
+                className={`custom-input ${styles['address-selector-button']}`}
                 onChange={() => handleChange(option._id)}
                 name="address"
                 id={option.name + idx}
@@ -84,11 +93,11 @@ const AddressModal = ({ setIsAddressesModalOpen, setIsNewAddressModalOpen, deliv
                 <div className={styles['address-details']}>
                   <span className="fw-500 heading-3">
                     {option.name}, {option.postalCode}
-                    <span className={styles['address-type']}>{option.addressType}</span>
-                  </span>
+                  </span>{' '}
                   <span>
                     {option.line1}, {option.city}
-                  </span>
+                  </span>{' '}
+                  <span className={styles['address-type']}>{option.addressType}</span>
                 </div>
               </label>
             </div>

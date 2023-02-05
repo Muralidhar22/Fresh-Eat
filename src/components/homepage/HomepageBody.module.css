@@ -97,7 +97,7 @@
 .subscribe-button {
   color: inherit;
   background-color: var(--clr-cta);
-  padding-inline: 1rem;
+  padding-inline: 0.5rem;
   padding-block: 0.5rem;
   cursor: pointer;
   border: none;

@@ -70,7 +70,7 @@ const slides: SlidesType[] = [
     actionItem: {
       content: {
         heading: 'Overwatch 2',
-        para: 'Play Season1 now featuring epic 5v5 combat and 35 unique heroes',
+        para: 'Play Season 1 now featuring epic 5v5 combat and 35 unique heroes',
         actionButtonText: 'get it now',
         tag: 'play free now',
       },

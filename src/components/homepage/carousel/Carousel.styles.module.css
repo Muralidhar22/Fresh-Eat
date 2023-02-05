@@ -20,13 +20,13 @@
 
 .actionItem {
   position: absolute;
-  top: 60%;
+  top: 50%;
   text-align: center;
   transition: 2s;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 @media screen and (max-width: 1084px) {
@@ -39,8 +39,7 @@
 
 @media screen and (min-width: 1084px) {
   .actionItem {
-    top: 50%;
-    transform: translateY(-50%);
+    top: 40%;
     margin: auto 0;
   }
 
@@ -119,7 +118,7 @@
 
 .sliderTabGroup {
   position: absolute;
-  top: 95%;
+  top: 90%;
   left: 0;
   right: 0;
   padding: 0.25rem;

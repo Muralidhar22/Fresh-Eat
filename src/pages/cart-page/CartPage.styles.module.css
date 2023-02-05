@@ -200,3 +200,10 @@
   margin: auto;
   display: block;
 }
+
+.address-type {
+  background-color: rgba(135, 135, 135, 0.15);
+  color: var(--clr-cta);
+  padding: 0.15rem;
+  border-radius: 0.25rem;
+}

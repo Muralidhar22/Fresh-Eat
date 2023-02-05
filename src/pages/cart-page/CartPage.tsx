@@ -30,7 +30,7 @@ const CartPage = () => {
           {userInfo?.address.map((option, idx) =>
             option._id === deliveryAddress._id ? (
               <div key={option.name + idx} className={styles['address-content']}>
-                Deliver To:{' '}
+                <span className="fw-500">Deliver To:</span>{' '}
                 <span>
                   {option.name}, {option.postalCode}
                 </span>{' '}

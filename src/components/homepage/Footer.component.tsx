@@ -25,8 +25,8 @@ const Footer = () => {
         </div>
       </section>
       <div className={styles['footer-note']}>
-        &#169;
         <div className="logo-container">
+          &#169;
           <span
             className={`text-uppercase logo-text`}
             style={
@@ -49,8 +49,7 @@ const Footer = () => {
             }
           ></span>
         </div>
-        2000 - 2022
-        <span>Online store of digital goods. All rights reserved.</span>
+        <span>2000 - 2022 Online store of digital goods. All rights reserved.</span>
       </div>
     </footer>
   );
