@@ -22,8 +22,5 @@ export type OrderType = {
     postalCode: string;
   };
   orderStatus: 'pending' | 'placed';
-  createdAt: {
-    time: string;
-    date: string;
-  };
+  createdAt: { timestamp: number };
 };

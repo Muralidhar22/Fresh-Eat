@@ -10,7 +10,7 @@ const WishlistPage = () => {
     return (
       <>
         <Navbar />
-        <h1 className={styles['page-heading']}>Wish List</h1>
+        <h1 style={{ textAlign: 'center' }}>My Wishlist</h1>
         <div className={styles['wishlist-container']}>
           {wishlist.map((item) => (item ? <ProductCard key={item._id} product={item} /> : null))}
         </div>
@@ -20,9 +20,9 @@ const WishlistPage = () => {
   return (
     <>
       <Navbar />
-      <div>
-        No Wishlist items
-        <img src="/assets/void.svg" alt="man looking into the void" />
+      <div className={styles['empty-page-wrapper']}>
+        <img className={styles['empty-wishlist-img']} src="/assets/void.svg" alt="man looking into the void" />
+        <p>No Wishlist items</p>
       </div>
     </>
   );

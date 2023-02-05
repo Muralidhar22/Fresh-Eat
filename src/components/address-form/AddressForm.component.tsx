@@ -128,7 +128,12 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
       onClick={() => setIsAddressModalOpen((prev) => !prev)}
     >
       <dialog className={styles['address-form']} onClick={(e) => e.stopPropagation()} open aria-modal="true">
-        <button type="button" onClick={() => setIsAddressModalOpen((prev) => !prev)} aria-label="close">
+        <button
+          className={styles['close-button']}
+          type="button"
+          onClick={() => setIsAddressModalOpen((prev) => !prev)}
+          aria-label="close"
+        >
           <span>
             <IoClose />
           </span>
@@ -235,10 +240,9 @@ const AddressForm = ({ setIsAddressModalOpen, editMode, initialValues }: Address
               />
             </div>
           </div>
-          <button type="submit" className="cursor-pointer">
+          <button type="submit" className={styles['save-button']}>
             Save
           </button>
-          {editMode && <button onClick={() => setIsAddressModalOpen((prev) => !prev)}>Close</button>}
         </form>
       </dialog>
     </div>

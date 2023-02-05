@@ -7,10 +7,8 @@ import { axiosPrivate } from 'api/axios';
 import usePersist from 'hooks/usePersist';
 
 import { showToastErrorMessage, showToastInfoMessage } from 'utils/toastMessage';
-import { handleError } from 'utils/displayError';
 
-type AuthContextType =
-  | {
+type AuthContextType = {
       useAxiosPrivate: () => {
         axiosPrivate: AxiosInstance;
         responseInterceptor: number;
@@ -25,18 +23,6 @@ type AuthContextType =
     }
   | undefined;
 
-const refresh = async () => {
-  try {
-    const { data } = await axios.get('refresh', {
-      withCredentials: true,
-    });
-    return data.data.accessToken;
-  } catch {
-    showToastInfoMessage('SignIn again to continue.');
-    showToastErrorMessage('Seems like your session expired!');
-  }
-};
-
 const AuthContext = createContext<AuthContextType>(undefined);
 
 export const AuthProvider = ({ children }: ProviderPropsType) => {
@@ -44,21 +30,31 @@ export const AuthProvider = ({ children }: ProviderPropsType) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const onMountRef = useRef(false);
 
+  const refresh = async () => {
+    try {
+      const { data } = await axios.get('refresh', {
+        withCredentials: true,
+      });
+      setAccessToken(data.data.accessToken);
+      return data.data.accessToken;
+    } catch (error) {
+      setSignedIn(false);
+      showToastInfoMessage('SignIn again to continue.');
+      showToastErrorMessage('Seems like your session expired!');
+    }
+  };
+
   useEffect(() => {
     if (signedIn && !onMountRef.current) {
       (async function getInitialAccessToken() {
-        try {
-          const newAccessToken = await refresh();
-          setAccessToken(newAccessToken);
-        } catch (error) {
-          handleError(error);
-        }
+        const newAccessToken = await refresh();
+        setAccessToken(newAccessToken);
       })();
     }
     return () => {
       onMountRef.current = true;
     };
-  }, [signedIn]);
+  }, [signedIn, refresh]);
 
   const useAxiosPrivate = () => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(
@@ -76,8 +72,8 @@ export const AuthProvider = ({ children }: ProviderPropsType) => {
       async (error) => {
         const prevRequest = error?.config;
         if (error?.response?.status === 403 && !prevRequest?.sent) {
-          const newAccessToken = await refresh();
           prevRequest.sent = true;
+          const newAccessToken = await refresh();
           prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
           setAccessToken(newAccessToken);
           return axiosPrivate(prevRequest);

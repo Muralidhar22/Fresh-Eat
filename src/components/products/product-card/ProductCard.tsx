@@ -15,6 +15,7 @@ const ProductCard = ({ product }: ProductCardType) => {
       <div className={styles['product-container']} key={product._id}>
         <div className={styles['product-image-container']}>
           <Link to={`/products/${product._id}`}>
+            <div className={styles['overlay']}></div>
             <img
               loading="lazy"
               className={styles['product-image']}

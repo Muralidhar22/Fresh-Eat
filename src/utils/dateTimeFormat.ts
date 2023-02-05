@@ -1,24 +1,9 @@
-const date = new Date();
-export const formatDate = () => {
-  const currentDate =
-    date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' : '') + (date.getMonth() + 1) + '-' + date.getDate();
-  return currentDate;
-};
+const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export const formatTime = () => {
-  const date = new Date();
-  let hours = date.getHours();
-  let minutes: string | number = date.getMinutes();
-
-  // Check whether AM or PM
-  const newformat = hours >= 12 ? 'PM' : 'AM';
-
-  // Find current hour in AM-PM Format
-  hours = hours % 12;
-
-  // To display "0" as "12"
-  hours = hours ? hours : 12;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-
-  return hours + ':' + minutes + ' ' + newformat;
+export const formatTimestamp = (timestamp: number) => {
+  const event = new Date(timestamp);
+  return `${days[event.getDay()]} ${months[event.getMonth()]} ${
+    event.getDate() < 10 ? '0' + event.getDate() : event.getDate()
+  } ${event.getFullYear()}`;
 };

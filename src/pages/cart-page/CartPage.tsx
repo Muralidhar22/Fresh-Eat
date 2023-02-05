@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useCartContext } from 'contexts/cart.context';
 import { useUserContext } from 'contexts/user.context';
@@ -7,7 +7,7 @@ import Navbar from 'components/nav/Nav.component';
 import AddressModal from './AddressModal.component';
 import AddressForm from 'components/address-form/AddressForm.component';
 
-import { FaPlusCircle, FaTrashAlt, FaMinusCircle } from 'react-icons/fa';
+import { FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
 import Loader from 'components/loader/Loader.component';
 import styles from './CartPage.styles.module.css';
 
@@ -19,6 +19,8 @@ const CartPage = () => {
   const [isAddressesModalOpen, setIsAddressesModalOpen] = useState(false);
   const [isNewAddressModalOpen, setIsNewAddressModalOpen] = useState(false);
   const deliveryAddress = userInfo?.address.find((el) => el.isDeliveryAddress);
+  const actualPrice = cartList?.reduce((prev, curr) => curr.product.price * curr.count + prev, 0);
+  const discountPrice = cartTotal && actualPrice && <span>&#8377;{Math.abs(cartTotal - actualPrice)}</span>;
   let deliveryAddressContent = null;
 
   if (cartList && cartList.length > 0) {
@@ -28,14 +30,14 @@ const CartPage = () => {
           {userInfo?.address.map((option, idx) =>
             option._id === deliveryAddress._id ? (
               <div key={option.name + idx} className={styles['address-content']}>
-                Deliver To:{' '}
+                <span className="fw-500">Deliver To:</span>{' '}
                 <span>
                   {option.name}, {option.postalCode}
                 </span>{' '}
                 <span className={styles['address-type']}>{option.addressType}</span>
-                <div>
-                  {option.line1}, {option.city}, {option.state}
-                </div>
+                <p>
+                  {option.line1} {option.city} {option.state}
+                </p>
               </div>
             ) : null,
           )}
@@ -81,7 +83,6 @@ const CartPage = () => {
 
     return (
       <>
-        {cartLoader && <Loader />}
         {isAddressesModalOpen && (
           <AddressModal
             setIsAddressesModalOpen={setIsAddressesModalOpen}
@@ -91,44 +92,82 @@ const CartPage = () => {
         )}
         {isNewAddressModalOpen && <AddressForm editMode={false} setIsAddressModalOpen={setIsNewAddressModalOpen} />}
         <Navbar />
-        <div className={styles['cart-list-container']}>
-          {deliveryAddressContent}
-          {cartList.map((item) => (
-            <div className={styles['cart-list-item']} key={item.product._id}>
-              <div className={styles['cart-list-item-image-container']}>
-                <img className={styles['product-image']} src={item.product.media.imageSrc[0]} alt={item.product.name} />
-              </div>
-              <p>{item.product.name}</p>
-              <p>
-                <span>Price:</span> {item.product.discountPrice}
-              </p>
-              <div>
-                <button onClick={() => decreaseItemQty(item._id)}>
-                  <FaMinusCircle />
-                </button>
-                <span>{item.count}</span>
-                <button onClick={() => increaseItemQty(item._id)}>
-                  <FaPlusCircle />
-                </button>
-              </div>
-              <button onClick={() => removeFromCart(item._id)}>
-                <FaTrashAlt />
-              </button>
+        <div className={styles['cart-wrapper']}>
+          {cartLoader && <Loader />}
+          <div>
+            {deliveryAddressContent}
+            <div className={styles['cart-list-container']}>
+              {cartList.map((item) => (
+                <div className={styles['cart-list-item']} key={item.product._id}>
+                  <div className={styles['cart-list-item-image-container']}>
+                    <img
+                      className={styles['product-image']}
+                      src={item.product.media.imageSrc[0]}
+                      alt={item.product.name}
+                    />
+                  </div>
+                  <div className={styles['cart-item-info']}>
+                    <h3 className={styles['product-name']}>{item.product.name}</h3>
+                    <div className={styles['seller-name']}>Seller: Game-X smart</div>
+                    <div className={styles['item-price-container']}>
+                      <span className={styles['discount-price']}>&#8377;{item.product.discountPrice}</span>
+                      <del className={styles['old-price']}>
+                        <span className="sr-only" aria-label="old price"></span>
+                        &#8377;{item.product.price}
+                      </del>
+                      <span className={styles['discount-percent']}>({item.product.discount}% Off)</span>
+                    </div>
+                    <span className={styles['quantity-container']}>
+                      Quantity:
+                      <button
+                        className={styles['quantity-button']}
+                        aria-label="decrease item quantity by one"
+                        onClick={() => decreaseItemQty(item._id)}
+                      >
+                        <FaMinusCircle />
+                      </button>
+                      <span className={styles['item-count']}>{item.count}</span>
+                      <button
+                        className={styles['quantity-button']}
+                        aria-label="increase item quantity by one"
+                        onClick={() => increaseItemQty(item._id)}
+                      >
+                        <FaPlusCircle />
+                      </button>
+                    </span>
+                    <button className={styles['remove-item-button']} onClick={() => removeFromCart(item._id)}>
+                      Remove from cart
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
           <div className={styles['price-container']}>
-            <h2 className="text-uppercase">price details</h2>
-            <ul>
-              <li>
-                Price items: <span>{cartTotal}</span>
+            <div className="text-uppercase fw-500 heading-3">price details</div>
+            <ul className={styles['price-details-list']}>
+              <li className={styles['price-container-row']}>
+                <span>Items Price:</span> <span className="fw-500">{actualPrice}</span>
               </li>
-              <li>
-                Delivery Charges: <span style={{ color: 'rgb(101, 183, 101)', fontWeight: '500' }}>FREE</span>
+              <li className={styles['price-container-row']}>
+                Discount:{' '}
+                <span style={{ color: '#388e3c', fontWeight: '500' }}>&minus; {discountPrice && discountPrice}</span>
+              </li>
+              <li className={styles['price-container-row']}>
+                <span>Delivery Charges:</span>
+                <span style={{ color: '#388e3c', fontWeight: '500' }}>FREE</span>
               </li>
             </ul>
-            <p className="text-uppercase">total price</p>
-            <span>{cartTotal}</span>
-            <button onClick={() => navigate('/checkout')}>Checkout</button>
+            <div className={`${styles['price-container-row']} ${styles['total-amount']}`}>
+              <span className={styles['sub-heading']}>Total Amount</span>
+              <span>{cartTotal}</span>
+            </div>
+            <button className={styles['checkout-button']} onClick={() => navigate('/checkout')}>
+              Checkout
+            </button>
+            <div style={{ color: '#388e3c', fontWeight: '500', textAlign: 'center' }}>
+              You will save {discountPrice && discountPrice} on this order
+            </div>
           </div>
         </div>
       </>
@@ -136,11 +175,23 @@ const CartPage = () => {
   }
 
   return (
-    <div>
+    <>
       <Navbar />
-      <span>Cartlist is empty!</span>
-      <img src="/assets/empty_cart.svg" alt="A Man with an empty cart holding a list" />
-    </div>
+      <div className={styles['cart-wrapper']}>
+        <img
+          className={styles['empty-cart-img']}
+          src="/assets/empty_cart.svg"
+          alt="A Man with an empty cart holding a list"
+        />
+        <div className={styles['empty-cart-container']}>
+          <span>Cartlist is empty!</span>
+          <p>Add Items to it now.</p>
+          <Link to="/products" className={styles['shop-now']}>
+            Shop now
+          </Link>
+        </div>
+      </div>
+    </>
   );
 };
 

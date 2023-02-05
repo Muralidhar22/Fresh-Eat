@@ -70,7 +70,7 @@ const slides: SlidesType[] = [
     actionItem: {
       content: {
         heading: 'Overwatch 2',
-        para: 'Play Season1 now featuring epic 5v5 combat and 35 unique heroes',
+        para: 'Play Season 1 now featuring epic 5v5 combat and 35 unique heroes',
         actionButtonText: 'get it now',
         tag: 'play free now',
       },
@@ -132,13 +132,13 @@ const Carousel = () => {
   return (
     <section className={styles.carouselContainer} role="tabpanel" tabIndex={-1}>
       <ul className={styles.slideshowContainer}>
-        {slides.map((slide, idx) => (
-          <li key={slide.alt + idx} className={`${styles.slide}`} ref={slide._id === 1 ? firstSlideRef : null}>
+        {slides.map((slide) => (
+          <li key={slide._id} className={`${styles.slide}`} ref={slide._id === 1 ? firstSlideRef : null}>
             <picture>
               <source className={styles.slideImg} media="(min-width:1084px)" srcSet={slide.desktop} />
               <source className={styles.slideImg} media="(min-width: 768px)" srcSet={slide.tablet} />
               <source className={styles.slideImg} media="(min-width: 0px)" srcSet={slide.mobile} />
-              <img className={styles.slideImg} src={slide.desktop} alt={slide.alt} />
+              <img loading="lazy" className={styles.slideImg} src={slide.desktop} alt={slide.alt} />
             </picture>
           </li>
         ))}

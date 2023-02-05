@@ -7,8 +7,7 @@ import ProductType from 'types/ProductType';
 
 import { showToastSuccessMessage } from 'utils/toastMessage';
 
-type WishlistContextValueType =
-  | {
+type WishlistContextValueType = {
       wishlist: ProductType[] | null;
       addToWishlist: (item: any) => any;
       removeFromWishlist: (item: any) => any;

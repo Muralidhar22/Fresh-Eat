@@ -29,7 +29,7 @@ const ProductPage = () => {
 
   return product ? (
     <>
-      <Navbar />
+      <Navbar posSticky={false} />
       <div className={styles['product-container']}>
         <div className={styles['product-media-info']}>
           <img src={product.media.imageSrc[0]} className={styles['product-img']} alt={product.name} />

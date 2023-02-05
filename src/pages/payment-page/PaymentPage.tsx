@@ -10,6 +10,7 @@ import { useAuthContext } from 'contexts/auth.context';
 import { useOrdersContext } from 'contexts/orders.context';
 
 import { showToastInfoMessage } from 'utils/toastMessage';
+import styles from './PaymentPage.styles.module.css';
 
 const PaymentPage = () => {
   const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
@@ -57,15 +58,22 @@ const PaymentPage = () => {
   }, [addNewOrder, axiosPrivate, cartList, deliveryAddress, navigate, signedIn]);
 
   return (
-    <>
-      <h1>Payment Gateway</h1>
-      <p>please do not refresh</p>
+    <div className={styles['payment-page']}>
+      <h1 style={{ textAlign: 'center' }} className={styles['main-heading']}>
+        Payment Gateway
+      </h1>
+      <p style={{ textAlign: 'center' }} className={styles['disclaimer']}>
+        please do not refresh
+      </p>
       {isCheckoutFormDisplayed && (
         <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'flat' } }}>
           <CheckoutForm orderId={orderId} deliveryAddress={deliveryAddress} />
         </Elements>
       )}
-    </>
+      <div className={styles['payment-logo']}>
+        <img src="/assets/Powered-by-Stripe-Logo.svg" alt="powered by stripe" />
+      </div>
+    </div>
   );
 };
 

@@ -14,12 +14,17 @@
   color: var(--clr-text-neutral);
   background-image: var(--clr-linear-gradient);
   flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.nav.not-sticky {
+  position: static;
 }
 
 .nav-menu {
   display: flex;
   gap: 1rem;
-  align-items: baseline;
+  align-items: center;
 }
 
 .nav input[type='search'] {
@@ -40,11 +45,13 @@
   background: rgba(255, 255, 255, 0.5);
   padding: 0.5rem;
   border-radius: 0.5rem;
+  width: 18rem;
+  display: flex;
 }
 
-@media screen and (max-width: 600px) {
-  .search-wrapper {
-    order: 1;
+@media screen and (max-width: 710px) {
+  .nav {
+    justify-content: center;
   }
 }
 
@@ -53,6 +60,15 @@
   background: none;
   border: none;
   outline: none;
+  color: var(--clr-neutral);
+}
+
+.search-input {
+  max-width: 100px;
+}
+
+.search-input::placeholder {
+  color: var(--clr-black);
 }
 
 .search-submit-button {
@@ -65,34 +81,48 @@
 
 .drop-down-menu {
   display: none;
+  padding-top: 0.5rem;
+}
+
+.drop-down-menu-item:hover {
+  opacity: 0.5;
+  cursor: pointer;
 }
 
 .sign-in-component {
   position: relative;
-  cursor: pointer;
+  z-index: var(--z-nav);
 }
 
-.sign-in-component:hover .drop-down-menu {
+.drop-down-arrow {
+  transition: all 0.3s ease;
+}
+
+.drop-down-arrow.transform {
+  transform: rotate(-180deg);
+}
+
+.user-wrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
-  position: absolute;
-  color: black;
-  background-color: var(--clr-neutral);
-  padding: 1rem;
+  align-items: flex-end;
 }
 
 .username {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-bottom: 2px solid var(--clr-cta);
+  cursor: pointer;
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 0.125rem;
 }
 
 .logout-button {
   background: none;
-  padding: 0;
-  padding-inline: 0.5rem;
   border: none;
   cursor: pointer;
   border-bottom: 3px solid var(--clr-cta);
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: flex-start;
 }

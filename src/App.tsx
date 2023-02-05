@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import HomePage from 'pages/home-page/HomePage';
-import WishlistPage from 'pages/wishlist/WishlistPage';
+import WishlistPage from 'pages/wishlist-page/WishlistPage';
 import CartPage from 'pages/cart-page/CartPage';
 import ShopPage from 'pages/shop-page/ShopPage';
 import PageNotFound from 'components/404.component';
@@ -25,8 +25,8 @@ function App() {
       <Route path="/products/:productId" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/wishlist" element={<WishlistPage />} />
-      <Route path="/orders" element={signedIn ? <OrdersPage /> : <SignIn />} />
-      <Route path="/orders/:orderId" element={<OrderPage />} />
+      <Route path="/orders" element={signedIn ? <OrdersPage /> : <Navigate replace to={'/signin'} />} />
+      <Route path="/orders/:orderId" element={signedIn ? <OrderPage /> : <Navigate replace to={'/signin'} />} />
       <Route path="/address" element={<AddressPage />} />
       <Route path="/signin" element={signedIn ? <Navigate replace to={'/'} /> : <SignIn />} />
       <Route path="/signup" element={signedIn ? <Navigate replace to={'/'} /> : <SignUp />} />

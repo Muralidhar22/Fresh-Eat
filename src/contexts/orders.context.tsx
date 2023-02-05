@@ -6,11 +6,9 @@ import { OrderType } from 'types/OrderType';
 import { useUserContext } from './user.context';
 import { useAuthContext } from './auth.context';
 import { useCartContext } from './cart.context';
-import { formatDate, formatTime } from 'utils/dateTimeFormat';
 import { handleError } from 'utils/displayError';
 
-type OrderContextType =
-  | {
+type OrderContextType = {
       orders: OrderType[] | null;
       addNewOrder: (orderAmount: number) => any;
       getOrders: () => any;
@@ -27,8 +25,6 @@ export const OrdersProvider = ({ children }: ProviderPropsType) => {
   const { userInfo } = useUserContext();
   const { useAxiosPrivate, clearAxiosInterceptors } = useAuthContext();
   const { axiosPrivate, requestInterceptor, responseInterceptor } = useAxiosPrivate();
-  const formattedDate = formatDate();
-  const formattedTime = formatTime();
   const navigate = useNavigate();
   const deliveryAddress = userInfo?.address.find((userAddress) => userAddress.isDeliveryAddress);
 
@@ -41,7 +37,7 @@ export const OrdersProvider = ({ children }: ProviderPropsType) => {
   const getOrders = async () => {
     try {
       const { data, status } = await axiosPrivate.get('orders');
-      if (status === 200) {
+      if (status === 200 && data.data) {
         setOrders(data.data.orders);
       }
     } catch (error) {
@@ -56,8 +52,7 @@ export const OrdersProvider = ({ children }: ProviderPropsType) => {
         shippingAddress: { ...deliveryAddress },
         billingAddress: { ...deliveryAddress },
         amount: orderAmount,
-        createdTime: formattedTime,
-        createdDate: formattedDate,
+        timestamp: Date.now(),
       });
       if (status === 200) {
         await clearCartList();

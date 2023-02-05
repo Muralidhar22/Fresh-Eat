@@ -62,8 +62,15 @@ select {
   --success: green;
   /* z - index */
   --z-modal: 999;
-  --z-loader: 9999;
+  --z-loader: 9;
   --z-nav: 99;
+
+  /* logo */
+  --fs-logo-text: 1.8rem;
+  --logo-x-mark-width: 30px;
+  --logo-x-mark-height: 30px;
+  --logo-strike-width: 5px;
+  --logo-strike-height: 22px;
 }
 
 a {
@@ -75,6 +82,10 @@ body {
   font-family: 'Barlow', sans-serif;
   line-height: 1.5;
   background-color: var(--clr-bg-100);
+}
+
+#root {
+  min-height: 100vh;
 }
 
 /* utilities */
@@ -140,7 +151,6 @@ body {
   cursor: pointer;
 }
 
-/* brand logo styling */
 .logo-container {
   display: flex;
   gap: 0.25rem;
@@ -148,14 +158,15 @@ body {
 }
 
 .logo-text {
-  font-size: 1.8rem;
+  font-size: var(--fs-logo-text);
+  font-weight: 500;
 }
 
 .logo-x {
   border-radius: 50%;
   display: inline-block;
-  width: 30px;
-  height: 30px;
+  width: var(--logo-x-mark-width);
+  height: var(--logo-x-mark-height);
   position: relative;
   background-color: var(--black-accent);
 }
@@ -164,8 +175,8 @@ body {
 .logo-x::before {
   content: '';
   position: absolute;
-  width: 5px;
-  height: 22px;
+  width: var(--logo-strike-width);
+  height: var(--logo-strike-height);
   border-radius: 2.5px;
   background-color: var(--clr-logo-x);
   top: 10%;
