@@ -42,7 +42,7 @@ export const WishlistProvider = ({ children }: ProviderPropsType) => {
           handleError(error);
         }
       })();
-    } else if (accessToken && !signedIn) {
+    } else if (!signedIn) {
       setWishlist(null);
     }
   }, [signedIn, accessToken, wishlist, setWishlist, axiosPrivate]);

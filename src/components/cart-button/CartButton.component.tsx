@@ -29,14 +29,21 @@ const CartButton = ({ productId, wishlistElementType, className }: CartButtonPro
     return (
       <>
         {isCartItem ? (
-          <button className={className} onClick={() => navigate('/cart')}>
+          <button className={className} onClick={() => {
+            signedIn
+            ? navigate('/cart')
+            : navigate('/signin')
+            }
+          }>
             Go To Cart
           </button>
         ) : (
           <button
             className={className}
             onClick={() => {
-              productId && addToCart(productId);
+              signedIn
+              ? productId && addToCart(productId)
+              : navigate('/signin')
             }}
           >
             Add to Cart
