@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import { useWishlistContext } from 'contexts/wishlist.context';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { useAuthContext } from 'contexts/auth.context';
@@ -14,14 +16,20 @@ const WishlistButton = ({ wishlistElementType, productId, className }: WishlistB
   const { wishlist, addToWishlist, removeFromWishlist, wishlistCount } = useWishlistContext();
   const { signedIn } = useAuthContext();
   const isWishlistItem = wishlist?.find((item) => item._id === productId);
-
+  const navigate = useNavigate();
+  
   if (wishlistElementType === 'icon') {
     return (
       <>
         {isWishlistItem ? (
           <FaHeart className={className} color="red" onClick={() => removeFromWishlist(productId)} />
         ) : (
-          <FaRegHeart className={className} onClick={() => addToWishlist(productId)} />
+          <FaRegHeart className={className} onClick={() => {
+            signedIn
+            ? addToWishlist(productId)
+            : navigate('/signin')
+          } 
+        }/>
         )}
       </>
     );
