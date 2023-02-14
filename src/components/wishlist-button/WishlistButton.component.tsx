@@ -27,7 +27,7 @@ const WishlistButton = ({ wishlistElementType, productId, className }: WishlistB
           <FaRegHeart className={className} onClick={() => {
             signedIn
             ? addToWishlist(productId)
-            : navigate('/wishlist')
+            : navigate('/signin')
           } 
         }/>
         )}
